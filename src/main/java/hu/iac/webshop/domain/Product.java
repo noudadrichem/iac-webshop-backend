@@ -2,28 +2,28 @@ package hu.iac.webshop.domain;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name="Product")
 public class Product {
 
     @Id
-    @SequenceGenerator(name = "prodcut_id_generator", sequenceName = "prodcut_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "prodcut_id_generator")
-    private int id;
+    @SequenceGenerator(name = "product_id_generator", sequenceName = "product_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_id_generator")
+    private Long id;
     private String name;
     private double price;
 
     public Product() {}
 
-    public Product(int id, String name, double price) {
+    public Product(Long id, String name, double price) {
         this.name = name;
         this.price = price;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
