@@ -18,5 +18,5 @@ Start docker
 PGAdmin op localhost:80
 <br/>
 #### Login met 
-username: adming@root.com <br/>
+username: admin@root.com <br/>
 password: SuperSecret
