@@ -4,11 +4,11 @@ import java.util.*;
 import org.springframework.web.bind.annotation.*;
 
 import hu.iac.webshop.domain.Product;
+import hu.iac.webshop.dto.product.ProductRequest;
 import hu.iac.webshop.services.ProductService;
 
 @RestController
 public class ProductController {
-
     private final ProductService productService;
 
     public ProductController(ProductService productService) {
@@ -16,26 +16,20 @@ public class ProductController {
     }
 
     @GetMapping("/producten")
-    @ResponseBody
     public List<Product> getProducten() {
         List<Product> producten = this.productService.list();
 
         return producten;
     }
 
-    // @GetMapping("/producten/{eventId}")
-    // public Response getProductenenByEventId(@PathVariable Long eventId) {
-    //     List<Producten> Productenen = ProductenService.getProductenenByEventId(eventId);
+    @PostMapping("/producten/new")
+    public Product addProducten(@RequestBody ProductRequest productRequest) {
 
-    //     return new Response(Productenen, null);
-    // }
+        Product newProduct = new Product(
+            productRequest.getName(),
+            productRequest.getPrice()
+        );
 
-    // @PostMapping("/producten")
-    // public Response addProducten(@RequestBody InschrijfRequest inschrijfRequest) {
-
-    //     Producten Producten = ProductenService.addProducten(inschrijfRequest);
-
-    //     return new Response(Producten, null);
-
-    // }
+        return this.productService.createProduct(newProduct);
+    }
 }
