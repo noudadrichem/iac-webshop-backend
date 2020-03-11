@@ -4,26 +4,21 @@ import java.util.*;
 import org.springframework.web.bind.annotation.*;
 
 import hu.iac.webshop.domain.Product;
+import hu.iac.webshop.services.ProductService;
 
 @RestController
 public class ProductController {
 
-    // private final ProductenService ProductenService;
+    private final ProductService productService;
 
-    public ProductController() {
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping("/producten")
     @ResponseBody
     public List<Product> getProducten() {
-        List<Product> producten = new ArrayList<>();
-
-        producten.add(
-            new Product(1, "TV",100.5)
-        );
-        producten.add(
-            new Product(2, "Sicke Computer", 1200.5)
-        );
+        List<Product> producten = this.productService.list();
 
         return producten;
     }
