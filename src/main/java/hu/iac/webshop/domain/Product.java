@@ -1,10 +1,13 @@
 package hu.iac.webshop.domain;
 
-/**
- * Product
- */
+import javax.persistence.*;
+
+@Entity
 public class Product {
 
+    @Id
+    @SequenceGenerator(name = "prodcut_id_generator", sequenceName = "prodcut_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "prodcut_id_generator")
     private int id;
     private String name;
     private double price;
