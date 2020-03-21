@@ -10,14 +10,13 @@ Run application
 mvn spring-boot:run
 ```
 
-
-## Postgres 
+## Postgres
 Start docker
 ```docker-compose up```
 
 PGAdmin op localhost:80
 <br/>
-#### Login met 
+#### Login met
 username: admin@root.com <br/>
 password: SuperSecret
 
