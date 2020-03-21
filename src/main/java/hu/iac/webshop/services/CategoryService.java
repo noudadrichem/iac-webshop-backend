@@ -1,6 +1,7 @@
 package hu.iac.webshop.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +16,26 @@ public class CategoryService {
     private CategoryRepository categoryRepository;
 
     public List<Category> list() {
-        return categoryRepository.findAll();
+        return this.categoryRepository.findAll();
     }
 
-    public Category createCategory(Category category) {
-        return categoryRepository.save(category);
+    public Category create(Category category) {
+        return this.categoryRepository.save(category);
+    }
+
+    public Category update() {
+        // TODO Update
+        return new Category();
+    }
+
+    public boolean delete(Long id) {
+        Optional<Category> category = this.categoryRepository.findById(id);
+
+        if (category.isPresent()) {
+            this.categoryRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

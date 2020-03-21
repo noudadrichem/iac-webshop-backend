@@ -1,6 +1,7 @@
 package hu.iac.webshop.domain;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity(name="Category")
 public class Category {
@@ -12,6 +13,10 @@ public class Category {
     private String image;
     private String name;
     private String description;
+
+// TODO
+//    @ManyToMany
+//    private List<Product> products;
 
     public Category() {}
 
