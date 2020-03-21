@@ -24,5 +24,4 @@ jobs:
     - name: Run a multi-line script
       run: |
         echo Testing,
-        mvn clean install,
         mvn test
