@@ -1,6 +1,5 @@
 package hu.iac.webshop.controllers;
 
-
 import hu.iac.webshop.domain.Customer;
 import hu.iac.webshop.services.CustomerService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +13,5 @@ public class CustomerController {
 
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
-    }
-
-    @GetMapping("/customers")
-    public List<Customer> getCustomers() {
-        return this.customerService.list();
     }
 }

@@ -3,13 +3,17 @@ package hu.iac.webshop.domain;
 import javax.persistence.*;
 import java.util.List;
 
-public class Customer extends Account {
+@Entity(name="Customer")
+public class Customer {
 
+    @Id
+    @SequenceGenerator(name = "customer_id_generator", sequenceName = "customer_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_id_generator")
     private Long id;
     private String name;
     private String phone;
     private String email;
-    private Address address;
+//    private Address address;
     //private List<Order> orders;
 
 
@@ -45,11 +49,11 @@ public class Customer extends Account {
         this.email = email;
     }
 
-    public Address getAddress() {
-        return address;
-    }
+//    public Address getAddress() {
+//        return address;
+//    }
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }
+//    public void setAddress(Address address) {
+//        this.address = address;
+//    }
 }
