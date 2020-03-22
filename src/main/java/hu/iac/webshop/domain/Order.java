@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity(name="Orderx")
 public class Order {
@@ -14,7 +15,14 @@ public class Order {
     private Long id;
     private Date date;
     private double totalPrice;
-//    private List<Product> products;
+
+//    @ManyToOne
+//    @JoinColumn(name="customer_id", nullable=false)
+//    private Customer customer;
+
+    @OneToMany
+    @JoinColumn(name = "order_id")
+    private List<Product> products;
 
     public Order() {
     }
