@@ -1,10 +1,121 @@
 {
 	"info": {
-		"_postman_id": "878f42b3-e4ad-42dc-81bb-81f7cac40825",
+		"_postman_id": "54be1926-f799-4fb3-80a2-671c13fb129f",
 		"name": "iac-webshop-backend",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "addresses",
+			"item": [
+				{
+					"name": "new address",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"street\": \"Vosmaerstraat 91\",\n    \"city\": \"Delft\",\n    \"state\": \"Zuid-Holland\",\n    \"postalCode\": \"2222DB\",\n    \"country\": \"The Netherlands\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9091/address",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"address"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "fetch addresses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9091/addresses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"addresses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update address",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"street\": \"Steffenskamp 18\",\n    \"city\": \"Laren\",\n    \"state\": \"Utrecht\",\n    \"postalCode\": \"1251 ZT\",\n    \"country\": \"The Netherlands\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9091/address/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"address",
+								"2"
+							]
+						},
+						"description": "Updates address with ID 2"
+					},
+					"response": []
+				},
+				{
+					"name": "delete address",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9091/address/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"address",
+								"3"
+							]
+						},
+						"description": "Deletes address with ID 3"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
 		{
 			"name": "fetch products",
 			"request": {
