@@ -1,15 +1,16 @@
 package hu.iac.webshop.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import hu.iac.webshop.domain.Address;
 import hu.iac.webshop.dto.product.AddressRequest;
 import hu.iac.webshop.services.AddressService;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class AddressController {
@@ -35,5 +36,34 @@ public class AddressController {
         );
 
         return this.addressService.createAddress(address);
+    }
+
+    @PutMapping("/address/{id}")
+    public ResponseEntity<Address> update(@Valid @RequestBody AddressRequest addressRequest, @PathVariable Long id) {
+        Optional<Address> optionalAddress = this.addressService.find(id);
+
+        if (optionalAddress.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Address address = optionalAddress.get();
+        address.setStreet(addressRequest.getStreet());
+        address.setCity(addressRequest.getCity());
+        address.setState(addressRequest.getState());
+        address.setPostalCode(addressRequest.getPostalCode());
+        address.setCountry(addressRequest.getCountry());
+
+        return new ResponseEntity<Address>(this.addressService.update(address), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/address/{id}")
+    public ResponseEntity<Long> delete(@PathVariable Long id) {
+        boolean isRemoved = this.addressService.delete(id);
+
+        if (!isRemoved) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
 }

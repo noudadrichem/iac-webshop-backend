@@ -1,10 +1,24 @@
 package hu.iac.webshop.dto.product;
 
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotNull;
+
 public class AddressRequest {
+    @NotNull
+    @Length(max = 255)
     private String street;
+    @NotNull
+    @Length(max = 255)
     private String city;
+    @NotNull
+    @Length(max = 255)
     private String state;
+    @NotNull
+    @Length(max = 255)
     private String postalCode;
+    @NotNull
+    @Length(max = 255)
     private String country;
 
     public AddressRequest() {}
