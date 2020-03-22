@@ -25,7 +25,7 @@ public class AddressController {
         return this.addressService.list();
     }
 
-    @PostMapping("/address")
+    @PostMapping("/addresses")
     public Address create(@Valid @RequestBody AddressRequest addressRequest) {
         Address address = new Address(
                 addressRequest.getStreet(),
@@ -38,7 +38,7 @@ public class AddressController {
         return this.addressService.create(address);
     }
 
-    @PutMapping("/address/{id}")
+    @PutMapping("/addresses/{id}")
     public ResponseEntity<Address> update(@Valid @RequestBody AddressRequest addressRequest, @PathVariable Long id) {
         Optional<Address> optionalAddress = this.addressService.find(id);
 
@@ -56,7 +56,7 @@ public class AddressController {
         return new ResponseEntity<Address>(this.addressService.update(address), HttpStatus.OK);
     }
 
-    @DeleteMapping("/address/{id}")
+    @DeleteMapping("/addresses/{id}")
     public ResponseEntity<Long> delete(@PathVariable Long id) {
         boolean isRemoved = this.addressService.delete(id);
 

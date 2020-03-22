@@ -30,14 +30,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:9091/address",
+							"raw": "http://localhost:9091/addresses",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "9091",
 							"path": [
-								"address"
+								"addresses"
 							]
 						}
 					},
@@ -77,14 +77,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:9091/address/2",
+							"raw": "http://localhost:9091/addresses/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "9091",
 							"path": [
-								"address",
+								"addresses",
 								"2"
 							]
 						},
@@ -98,14 +98,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:9091/address/3",
+							"raw": "http://localhost:9091/addresses/3",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "9091",
 							"path": [
-								"address",
+								"addresses",
 								"3"
 							]
 						},
