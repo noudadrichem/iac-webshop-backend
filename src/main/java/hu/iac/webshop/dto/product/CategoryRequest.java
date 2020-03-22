@@ -1,9 +1,16 @@
 package hu.iac.webshop.dto.product;
 
-public class CategoryRequest {
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotNull;
+
+public class CategoryRequest {
+    @NotNull
     private String image;
+    @NotNull
+    @Length(max = 255)
     private String name;
+    @NotNull
     private String description;
 
     public CategoryRequest() {}
