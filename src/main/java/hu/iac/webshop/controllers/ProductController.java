@@ -1,6 +1,11 @@
 package hu.iac.webshop.controllers;
 
 import java.util.*;
+
+import javax.validation.Valid;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import hu.iac.webshop.domain.Product;
@@ -31,5 +36,32 @@ public class ProductController {
         );
 
         return this.productService.createProduct(newProduct);
+    }
+
+    @PutMapping("/producten/{id}/update")
+    public ResponseEntity<Product> update(@Valid @RequestBody ProductRequest productRequest, @PathVariable Long id) {
+        Optional<Product> optionalProduct = this.productService.find(id);
+
+        if (optionalProduct.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Product product = optionalProduct.get();
+        product.setName(productRequest.getName());
+        product.setPrice(productRequest.getPrice());
+
+        Product updatedProduct = this.productService.update(product);
+        return new ResponseEntity<Product>(updatedProduct, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/producten/{id}/delete")
+    public ResponseEntity<Long> delete(@PathVariable Long id) {
+        boolean isProductRemoved = this.productService.delete(id);
+
+        if (!isProductRemoved) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
 }
