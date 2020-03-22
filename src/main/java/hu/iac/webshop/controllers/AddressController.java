@@ -21,12 +21,12 @@ public class AddressController {
     }
 
     @GetMapping("/addresses")
-    public List<Address> getAddresses() {
+    public List<Address> get() {
         return this.addressService.list();
     }
 
     @PostMapping("/address")
-    public Address addAddress(@RequestBody AddressRequest addressRequest) {
+    public Address create(@Valid @RequestBody AddressRequest addressRequest) {
         Address address = new Address(
                 addressRequest.getStreet(),
                 addressRequest.getCity(),
@@ -35,7 +35,7 @@ public class AddressController {
                 addressRequest.getCountry()
         );
 
-        return this.addressService.createAddress(address);
+        return this.addressService.create(address);
     }
 
     @PutMapping("/address/{id}")

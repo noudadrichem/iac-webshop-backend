@@ -16,11 +16,11 @@ public class AddressService {
     private AddressRepository addressRepository;
 
     public List<Address> list() {
-        return addressRepository.findAll();
+        return this.addressRepository.findAll();
     }
 
-    public Address createAddress(Address address) {
-        return addressRepository.save(address);
+    public Address create(Address address) {
+        return this.addressRepository.save(address);
     }
 
     public Optional<Address> find(Long id) {
