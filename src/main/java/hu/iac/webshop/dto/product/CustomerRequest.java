@@ -1,25 +1,11 @@
-package hu.iac.webshop.domain;
+package hu.iac.webshop.dto.product;
 
-import javax.persistence.*;
-import java.util.List;
-
-public class Customer extends Account {
-
-    private Long id;
+public class CustomerRequest {
     private String name;
     private String phone;
     private String email;
-    private Address address;
-    //private List<Order> orders;
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public CustomerRequest(){}
 
     public String getName() {
         return name;
@@ -43,13 +29,5 @@ public class Customer extends Account {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
     }
 }
