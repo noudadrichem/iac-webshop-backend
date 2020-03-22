@@ -23,9 +23,12 @@ public class OrderService {
         return this.orderRepository.save(order);
     }
 
-    public Order update() {
-        // TODO Update
-        return new Order();
+    public Optional<Order> find(Long id) {
+        return this.orderRepository.findById(id);
+    }
+
+    public Order update(Order order) {
+        return this.orderRepository.save(order);
     }
 
     public boolean delete(Long id) {

@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class OrderController {
@@ -23,7 +25,7 @@ public class OrderController {
     }
 
     @PostMapping("/order")
-    public Order create(@RequestBody OrderRequest orderRequest) {
+    public Order create(@Valid @RequestBody OrderRequest orderRequest) {
         Order order = new Order(
                 orderRequest.getDate(),
                 orderRequest.getTotalPrice()
@@ -33,9 +35,18 @@ public class OrderController {
     }
 
     @PutMapping("/order/{id}")
-    public Order update() {
-        // TODO
-        return new Order();
+    public ResponseEntity<Order> update(@Valid @RequestBody OrderRequest orderRequest, @PathVariable Long id) {
+        Optional<Order> optionalOrder = this.orderService.find(id);
+
+        if (optionalOrder.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Order order = optionalOrder.get();
+        order.setDate(orderRequest.getDate());
+        order.setTotalPrice(orderRequest.getTotalPrice());
+
+        return new ResponseEntity<Order>(this.orderService.update(order), HttpStatus.OK);
     }
 
     @DeleteMapping("/order/{id}")

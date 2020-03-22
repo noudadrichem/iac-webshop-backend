@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class CategoryController {
@@ -23,7 +25,7 @@ public class CategoryController {
     }
 
     @PostMapping("/category")
-    public Category create(@RequestBody CategoryRequest categoryRequest) {
+    public Category create(@Valid @RequestBody CategoryRequest categoryRequest) {
         Category category = new Category(
                 categoryRequest.getImage(),
                 categoryRequest.getName(),
@@ -34,9 +36,19 @@ public class CategoryController {
     }
 
     @PutMapping("/category/{id}")
-    public Category update() {
-        // TODO
-        return new Category();
+    public ResponseEntity<Category> update(@Valid @RequestBody CategoryRequest categoryRequest, @PathVariable Long id) {
+        Optional<Category> optionalCategory = this.categoryService.find(id);
+
+        if (optionalCategory.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Category category = optionalCategory.get();
+        category.setImage(categoryRequest.getImage());
+        category.setName(categoryRequest.getName());
+        category.setDescription(categoryRequest.getDescription());
+
+        return new ResponseEntity<Category>(this.categoryService.update(category), HttpStatus.OK);
     }
 
     @DeleteMapping("/category/{id}")

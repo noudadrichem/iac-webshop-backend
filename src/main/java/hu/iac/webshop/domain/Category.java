@@ -14,9 +14,13 @@ public class Category {
     private String name;
     private String description;
 
-// TODO
-//    @ManyToMany
-//    private List<Product> products;
+    @ManyToMany
+    @JoinTable(
+        name = "product_category",
+        joinColumns = @JoinColumn(name = "product_id"),
+        inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<Product> products;
 
     public Category() {}
 

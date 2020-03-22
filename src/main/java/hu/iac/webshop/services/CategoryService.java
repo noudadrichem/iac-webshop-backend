@@ -23,9 +23,12 @@ public class CategoryService {
         return this.categoryRepository.save(category);
     }
 
-    public Category update() {
-        // TODO Update
-        return new Category();
+    public Optional<Category> find(Long id) {
+        return this.categoryRepository.findById(id);
+    }
+
+    public Category update(Category category) {
+        return this.categoryRepository.save(category);
     }
 
     public boolean delete(Long id) {
