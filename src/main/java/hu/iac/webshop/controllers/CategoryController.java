@@ -3,12 +3,13 @@ package hu.iac.webshop.controllers;
 import hu.iac.webshop.domain.Category;
 import hu.iac.webshop.dto.product.CategoryRequest;
 import hu.iac.webshop.services.CategoryService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class CategoryController {
@@ -24,13 +25,40 @@ public class CategoryController {
     }
 
     @PostMapping("/category")
-    public Category addCatagory(@RequestBody CategoryRequest categoryRequest) {
+    public Category create(@Valid @RequestBody CategoryRequest categoryRequest) {
         Category category = new Category(
                 categoryRequest.getImage(),
                 categoryRequest.getName(),
                 categoryRequest.getDescription()
         );
 
-        return this.categoryService.createCategory(category);
+        return this.categoryService.create(category);
+    }
+
+    @PutMapping("/category/{id}")
+    public ResponseEntity<Category> update(@Valid @RequestBody CategoryRequest categoryRequest, @PathVariable Long id) {
+        Optional<Category> optionalCategory = this.categoryService.find(id);
+
+        if (optionalCategory.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Category category = optionalCategory.get();
+        category.setImage(categoryRequest.getImage());
+        category.setName(categoryRequest.getName());
+        category.setDescription(categoryRequest.getDescription());
+
+        return new ResponseEntity<Category>(this.categoryService.update(category), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/category/{id}")
+    public ResponseEntity<Long> delete(@PathVariable Long id) {
+        boolean isRemoved = this.categoryService.delete(id);
+
+        if (!isRemoved) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
 }
