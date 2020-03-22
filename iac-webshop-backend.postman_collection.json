@@ -1,316 +1,176 @@
 {
-	"id": "8e369ca0-644a-b2d7-b456-a74b8d57a1a3",
-	"name": "iac-webshop-backend",
-	"description": "",
-	"order": [
-		"9bccb42d-1ba4-ea8e-0039-7dc5914c4789",
-		"e0aa479b-3f1c-e27e-7d1d-1adea51174ab"
-	],
-	"folders": [
+	"info": {
+		"_postman_id": "54be1926-f799-4fb3-80a2-671c13fb129f",
+		"name": "iac-webshop-backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
 		{
-			"name": "categories",
-			"description": "",
-			"collectionId": "8e369ca0-644a-b2d7-b456-a74b8d57a1a3",
-			"order": [
-				"1a5fd891-c335-f7a1-0a88-ec5edf28ff7e",
-				"8551e3b7-7765-940e-29e3-b516b22320d1",
-				"aaa2607a-f6bf-dea8-de3d-5351b847142d",
-				"f0a769eb-3a80-3017-3828-42f451fa75bc"
-			],
-			"owner": "3954288",
-			"folders_order": [],
-			"id": "7d68d961-5433-6432-f47d-234021f2b495"
-		},
-		{
-			"name": "orders",
-			"description": "",
-			"collectionId": "8e369ca0-644a-b2d7-b456-a74b8d57a1a3",
-			"order": [
-				"6469b0d9-d9ea-5477-8a0d-d7f01d94724f",
-				"03cefd4f-401a-3921-84e1-82f9343853eb",
-				"18f69977-0f03-ea1c-5029-49c12db16270",
-				"f58e6078-305b-bc48-7a4c-22d0bbf1206f"
-			],
-			"owner": "3954288",
-			"folders_order": [],
-			"id": "3cafa34d-cdcb-bf0c-00fd-67279c35f4a5"
-		}
-	],
-	"folders_order": [
-		"3cafa34d-cdcb-bf0c-00fd-67279c35f4a5",
-		"7d68d961-5433-6432-f47d-234021f2b495"
-	],
-	"timestamp": 0,
-	"owner": "3954288",
-	"public": false,
-	"requests": [
-		{
-			"id": "03cefd4f-401a-3921-84e1-82f9343853eb",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
+			"name": "addresses",
+			"item": [
 				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
+					"name": "new address",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"street\": \"Vosmaerstraat 91\",\n    \"city\": \"Delft\",\n    \"state\": \"Zuid-Holland\",\n    \"postalCode\": \"2222DB\",\n    \"country\": \"The Netherlands\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9091/addresses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"addresses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "fetch addresses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9091/addresses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"addresses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update address",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"street\": \"Steffenskamp 18\",\n    \"city\": \"Laren\",\n    \"state\": \"Utrecht\",\n    \"postalCode\": \"1251 ZT\",\n    \"country\": \"The Netherlands\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9091/addresses/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"addresses",
+								"2"
+							]
+						},
+						"description": "Updates address with ID 2"
+					},
+					"response": []
+				},
+				{
+					"name": "delete address",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9091/addresses/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"addresses",
+								"3"
+							]
+						},
+						"description": "Deletes address with ID 3"
+					},
+					"response": []
 				}
 			],
-			"url": "http://localhost:9091/orders",
-			"queryParams": [],
-			"pathVariables": {},
-			"pathVariableData": [],
-			"preRequestScript": null,
-			"method": "POST",
-			"collectionId": "8e369ca0-644a-b2d7-b456-a74b8d57a1a3",
-			"data": [],
-			"dataMode": "raw",
-			"name": "New Order",
-			"description": "",
-			"descriptionFormat": "html",
-			"time": 1584900589803,
-			"version": 2,
-			"responses": [],
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"folder": "3cafa34d-cdcb-bf0c-00fd-67279c35f4a5",
-			"rawModeData": "{\n\t\"date\": \"2020-03-21\",\n\t\"totalPrice\": 12\n}"
+			"protocolProfileBehavior": {}
 		},
 		{
-			"id": "18f69977-0f03-ea1c-5029-49c12db16270",
-			"headers": "",
-			"headerData": [],
-			"url": "http://localhost:9091/orders/1",
-			"queryParams": [],
-			"pathVariables": {},
-			"pathVariableData": [],
-			"preRequestScript": null,
-			"method": "DELETE",
-			"collectionId": "8e369ca0-644a-b2d7-b456-a74b8d57a1a3",
-			"data": null,
-			"dataMode": "params",
-			"name": "Delete order",
-			"description": "",
-			"descriptionFormat": "html",
-			"time": 1584900620884,
-			"version": 2,
-			"responses": [],
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"folder": "3cafa34d-cdcb-bf0c-00fd-67279c35f4a5"
-		},
-		{
-			"id": "1a5fd891-c335-f7a1-0a88-ec5edf28ff7e",
-			"headers": "",
-			"headerData": [],
-			"url": "http://localhost:9091/categories",
-			"queryParams": [],
-			"pathVariables": {},
-			"pathVariableData": [],
-			"preRequestScript": null,
-			"method": "GET",
-			"collectionId": "8e369ca0-644a-b2d7-b456-a74b8d57a1a3",
-			"data": null,
-			"dataMode": "params",
-			"name": "All categories",
-			"description": "",
-			"descriptionFormat": "html",
-			"time": 1584900848271,
-			"version": 2,
-			"responses": [],
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"folder": "7d68d961-5433-6432-f47d-234021f2b495"
-		},
-		{
-			"id": "6469b0d9-d9ea-5477-8a0d-d7f01d94724f",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "http://localhost:9091/orders",
-			"queryParams": [],
-			"pathVariables": {},
-			"pathVariableData": [],
-			"preRequestScript": null,
-			"method": "GET",
-			"collectionId": "8e369ca0-644a-b2d7-b456-a74b8d57a1a3",
-			"data": [],
-			"dataMode": "raw",
-			"name": "All orders",
-			"description": "",
-			"descriptionFormat": "html",
-			"time": 1584900504926,
-			"version": 2,
-			"responses": [],
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"folder": "3cafa34d-cdcb-bf0c-00fd-67279c35f4a5",
-			"rawModeData": ""
-		},
-		{
-			"id": "8551e3b7-7765-940e-29e3-b516b22320d1",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "http://localhost:9091/categories",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1584900826014,
-			"name": "New category",
-			"description": "",
-			"collectionId": "8e369ca0-644a-b2d7-b456-a74b8d57a1a3",
-			"responses": [],
-			"rawModeData": "{\n\t\"image\": \"image path\",\n\t\"name\": \"name\",\n\t\"description\": \"beschrijving\"\n}"
-		},
-		{
-			"id": "9bccb42d-1ba4-ea8e-0039-7dc5914c4789",
 			"name": "fetch products",
-			"description": "",
-			"collectionId": "8e369ca0-644a-b2d7-b456-a74b8d57a1a3",
-			"method": "GET",
-			"headers": "",
-			"data": [],
-			"rawModeData": "",
-			"url": "http://localhost:9091/producten",
-			"responses": [],
-			"pathVariableData": [],
-			"queryParams": [],
-			"headerData": [],
-			"collection_id": "8e369ca0-644a-b2d7-b456-a74b8d57a1a3"
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9091/producten",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9091",
+					"path": [
+						"producten"
+					]
+				}
+			},
+			"response": []
 		},
 		{
-			"id": "aaa2607a-f6bf-dea8-de3d-5351b847142d",
-			"headers": "",
-			"headerData": [],
-			"url": "http://localhost:9091/categories/1",
-			"queryParams": [],
-			"pathVariables": {},
-			"pathVariableData": [],
-			"preRequestScript": null,
-			"method": "DELETE",
-			"collectionId": "8e369ca0-644a-b2d7-b456-a74b8d57a1a3",
-			"data": null,
-			"dataMode": "params",
-			"name": "Delete category",
-			"description": "",
-			"descriptionFormat": "html",
-			"time": 1584900920674,
-			"version": 2,
-			"responses": [],
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"folder": "7d68d961-5433-6432-f47d-234021f2b495"
-		},
-		{
-			"id": "e0aa479b-3f1c-e27e-7d1d-1adea51174ab",
 			"name": "new product",
-			"description": "",
-			"collectionId": "8e369ca0-644a-b2d7-b456-a74b8d57a1a3",
-			"method": "POST",
-			"headers": "Content-Type: application/json",
-			"dataMode": "raw",
-			"data": [],
-			"rawModeData": "{\n\t\"name\": \"post test twee\",\n\t\"price\": 50.55\n}",
-			"url": "http://localhost:9091/producten/new",
-			"responses": [],
-			"pathVariableData": [],
-			"queryParams": [],
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"name": "Content-Type",
-					"value": "application/json",
-					"type": "text"
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"post test twee\",\n\t\"price\": 50.55\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9091/producten/new",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9091",
+					"path": [
+						"producten",
+						"new"
+					]
 				}
-			],
-			"collection_id": "8e369ca0-644a-b2d7-b456-a74b8d57a1a3"
-		},
-		{
-			"id": "f0a769eb-3a80-3017-3828-42f451fa75bc",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "http://localhost:9091/categories/1",
-			"queryParams": [],
-			"pathVariables": {},
-			"pathVariableData": [],
-			"preRequestScript": null,
-			"method": "PUT",
-			"collectionId": "8e369ca0-644a-b2d7-b456-a74b8d57a1a3",
-			"data": [],
-			"dataMode": "raw",
-			"name": "Update category",
-			"description": "",
-			"descriptionFormat": "html",
-			"time": 1584900893472,
-			"version": 2,
-			"responses": [],
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"folder": "7d68d961-5433-6432-f47d-234021f2b495",
-			"rawModeData": "{\n\t\"image\": \"image path2\",\n\t\"name\": \"name\",\n\t\"description\": \"beschrijving\"\n}"
-		},
-		{
-			"id": "f58e6078-305b-bc48-7a4c-22d0bbf1206f",
-			"headers": "Content-Type: application/json\n",
-			"headerData": [
-				{
-					"key": "Content-Type",
-					"value": "application/json",
-					"description": "",
-					"enabled": true
-				}
-			],
-			"url": "http://localhost:9091/orders/1",
-			"folder": "3cafa34d-cdcb-bf0c-00fd-67279c35f4a5",
-			"queryParams": [],
-			"preRequestScript": null,
-			"pathVariables": {},
-			"pathVariableData": [],
-			"method": "PUT",
-			"data": [],
-			"dataMode": "raw",
-			"version": 2,
-			"tests": null,
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1584900687052,
-			"name": "Update Order",
-			"description": "",
-			"collectionId": "8e369ca0-644a-b2d7-b456-a74b8d57a1a3",
-			"responses": [],
-			"rawModeData": "{\n\t\"date\": \"2020-03-21\",\n\t\"totalPrice\": 12\n}"
+			},
+			"response": []
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }
