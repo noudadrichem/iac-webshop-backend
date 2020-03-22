@@ -24,7 +24,7 @@ public class OrderController {
         return this.orderService.list();
     }
 
-    @PostMapping("/order")
+    @PostMapping("/orders")
     public Order create(@Valid @RequestBody OrderRequest orderRequest) {
         Order order = new Order(
                 orderRequest.getDate(),
@@ -34,7 +34,7 @@ public class OrderController {
         return this.orderService.create(order);
     }
 
-    @PutMapping("/order/{id}")
+    @PutMapping("/orders/{id}")
     public ResponseEntity<Order> update(@Valid @RequestBody OrderRequest orderRequest, @PathVariable Long id) {
         Optional<Order> optionalOrder = this.orderService.find(id);
 
@@ -49,7 +49,7 @@ public class OrderController {
         return new ResponseEntity<Order>(this.orderService.update(order), HttpStatus.OK);
     }
 
-    @DeleteMapping("/order/{id}")
+    @DeleteMapping("/orders/{id}")
     public ResponseEntity<Long> delete(@PathVariable Long id) {
         boolean isRemoved = this.orderService.delete(id);
 
