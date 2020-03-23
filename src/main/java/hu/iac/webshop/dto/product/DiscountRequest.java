@@ -1,10 +1,14 @@
 package hu.iac.webshop.dto.product;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.sql.Date;
 
 public class DiscountRequest {
     private long id;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
     private double discountedPrice;
     private String adText;

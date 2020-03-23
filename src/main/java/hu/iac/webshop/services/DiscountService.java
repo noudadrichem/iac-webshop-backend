@@ -3,8 +3,10 @@ package hu.iac.webshop.services;
 import hu.iac.webshop.domain.Discount;
 import hu.iac.webshop.repositories.DiscountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 import static hu.iac.webshop.services.DiscountSpecs.isGreaterThan;
 import static hu.iac.webshop.services.DiscountSpecs.isLesserThan;
@@ -16,7 +18,10 @@ public class DiscountService {
     @Autowired
     private DiscountRepository discountRepository;
 
-    public List<Discount> findAllCurrent() {return discountRepository.findAll(isGreaterThan().and(isLesserThan()));}
+    public List<Discount> findAllCurrent() {
+        return discountRepository.findAll(Specification.where(
+        isGreaterThan().and(isLesserThan())));
+    }
 
     public List<Discount> list() {return discountRepository.findAll();}
 
@@ -29,7 +34,15 @@ public class DiscountService {
 
     }
 
-    public void deleteDiscount(Discount discount) {
-        discountRepository.delete(discount);
+    public void deleteDiscount(Long id) {
+        Optional<Discount> discount = this.discountRepository.findById(id);
+
+        if (discount.isPresent()) {
+            this.discountRepository.deleteById(id);
+        }
+    }
+
+    public Optional<Discount> findById(long id) {
+        return this.discountRepository.findById(id);
     }
 }

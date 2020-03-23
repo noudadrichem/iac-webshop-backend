@@ -16,7 +16,7 @@ public class DiscountSpecs {
             @Override
             public Predicate toPredicate(Root<Discount> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 Date currentDate = new Date();
-                return criteriaBuilder.greaterThanOrEqualTo(root.get("startDate"), currentDate);
+                return criteriaBuilder.greaterThanOrEqualTo(root.get("endDate"), currentDate);
             }
         };
     }
@@ -26,7 +26,7 @@ public class DiscountSpecs {
             @Override
             public Predicate toPredicate(Root<Discount> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 Date currentDate = new Date();
-                return criteriaBuilder.lessThanOrEqualTo(root.get("endDate"), currentDate);
+                return criteriaBuilder.lessThanOrEqualTo(root.get("startDate"), currentDate);
             }
         };
     }
