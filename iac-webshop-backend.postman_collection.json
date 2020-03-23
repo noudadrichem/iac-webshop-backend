@@ -1,10 +1,164 @@
 {
 	"info": {
-		"_postman_id": "878f42b3-e4ad-42dc-81bb-81f7cac40825",
+		"_postman_id": "741ab731-b5fb-42c4-a12e-c5c05426a83b",
 		"name": "iac-webshop-backend",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "Discount",
+			"item": [
+				{
+					"name": "AddDiscount",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"startDate\": \"2020-03-20\",\n\t\"endDate\": \"2020-03-26\",\n\t\"discountedPrice\": 50.0,\n\t\"adText\": \"Nieuwe goede aanbieding voor maar 50 euros  \"\n}\n\t",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9091/discount/new",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"discount",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddVerlopenDiscount",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"startDate\": \"2020-01-20\",\n\t\"endDate\": \"2020-01-26\",\n\t\"discountedPrice\": 50.0,\n\t\"adText\": \"Nieuwe goede aanbieding voor maar 50 euros (aanbieding verlopen \"\n}\n\t",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9091/discount/new",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"discount",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetDiscounts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9091/discount",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"discount"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCurrentDiscounts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9091/discount/current",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"discount",
+								"current"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateDiscount",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"startDate\": \"2020-03-20\",\n\t\"endDate\": \"2020-03-27\",\n\t\"discountedPrice\": 50.0,\n\t\"adText\": \"Nieuwe goede aanbieding voor maar 50 euros  \"\n}\n\t",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9091/discount/update/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"discount",
+								"update",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteDiscount",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9091/discount/delete/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"discount",
+								"delete",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
 		{
 			"name": "fetch products",
 			"request": {
