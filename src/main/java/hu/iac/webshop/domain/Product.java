@@ -1,5 +1,7 @@
 package hu.iac.webshop.domain;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity(name="Product")

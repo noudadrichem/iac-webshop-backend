@@ -53,6 +53,7 @@
 						},
 						"url": {
 							"raw": "http://localhost:9091/discount/new",
+
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -142,6 +143,7 @@
 						"header": [],
 						"url": {
 							"raw": "http://localhost:9091/discount/delete/2",
+
 							"protocol": "http",
 							"host": [
 								"localhost"

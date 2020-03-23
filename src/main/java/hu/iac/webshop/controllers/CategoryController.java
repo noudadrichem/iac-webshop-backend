@@ -24,7 +24,7 @@ public class CategoryController {
         return this.categoryService.list();
     }
 
-    @PostMapping("/category")
+    @PostMapping("/categories")
     public Category create(@Valid @RequestBody CategoryRequest categoryRequest) {
         Category category = new Category(
                 categoryRequest.getImage(),
@@ -35,7 +35,7 @@ public class CategoryController {
         return this.categoryService.create(category);
     }
 
-    @PutMapping("/category/{id}")
+    @PutMapping("/categories/{id}")
     public ResponseEntity<Category> update(@Valid @RequestBody CategoryRequest categoryRequest, @PathVariable Long id) {
         Optional<Category> optionalCategory = this.categoryService.find(id);
 
@@ -51,7 +51,7 @@ public class CategoryController {
         return new ResponseEntity<Category>(this.categoryService.update(category), HttpStatus.OK);
     }
 
-    @DeleteMapping("/category/{id}")
+    @DeleteMapping("/categories/{id}")
     public ResponseEntity<Long> delete(@PathVariable Long id) {
         boolean isRemoved = this.categoryService.delete(id);
 
