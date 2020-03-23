@@ -25,7 +25,7 @@ public class CustomerController {
         return this.customerService.list();
     }
 
-    @PostMapping("/customer")
+    @PostMapping("/customers")
     public Customer create(@Valid @RequestBody CustomerRequest customerRequest){
         Customer customer = new Customer(
             customerRequest.getName(),
@@ -36,7 +36,7 @@ public class CustomerController {
         return this.customerService.create(customer);
     }
 
-    @PutMapping("/category/{id}")
+    @PutMapping("/customers/{id}")
     public ResponseEntity<Customer> update(@Valid @RequestBody CustomerRequest customerRequest, @PathVariable Long id) {
         Optional<Customer> optionalCustomer = this.customerService.find(id);
 
@@ -52,7 +52,7 @@ public class CustomerController {
         return new ResponseEntity<Customer>(this.customerService.update(customer), HttpStatus.OK);
     }
 
-    @DeleteMapping("/customer/{id}")
+    @DeleteMapping("/customers/{id}")
     public ResponseEntity<Long> delete(@PathVariable Long id) {
         boolean isRemoved = this.customerService.delete(id);
 
