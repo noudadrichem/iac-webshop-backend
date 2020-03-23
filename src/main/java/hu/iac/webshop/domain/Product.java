@@ -14,6 +14,13 @@ public class Product {
     private String name;
     private double price;
 
+
+    @ManyToMany(fetch=FetchType.LAZY, mappedBy="products")
+    private List<Order> orders;
+
+    @ManyToMany(fetch=FetchType.LAZY, mappedBy="products")
+    private List<Discount> discounts;
+
     public Product() {}
 
     public Product(String name, double price) {
@@ -43,5 +50,15 @@ public class Product {
 
     public double getPrice() {
         return price;
+    }
+
+    public List<Discount> getDiscounts() {
+        return this.discounts;
+    }
+
+    public void addDiscount(Discount discount) {
+        if (!discounts.contains(discount)) {
+            discounts.add(discount);
+        }
     }
 }
