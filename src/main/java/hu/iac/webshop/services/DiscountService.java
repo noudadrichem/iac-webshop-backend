@@ -34,11 +34,14 @@ public class DiscountService {
 
     }
 
-    public void deleteDiscount(Long id) {
+    public boolean deleteDiscount(Long id) {
         Optional<Discount> discount = this.discountRepository.findById(id);
 
         if (discount.isPresent()) {
             this.discountRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
         }
     }
 

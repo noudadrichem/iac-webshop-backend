@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +32,7 @@ public class DiscountController {
     }
 
     @PostMapping("/discount/new")
-    public Discount addDiscount(@RequestBody DiscountRequest discountRequest) {
+    public Discount addDiscount(@Valid @RequestBody DiscountRequest discountRequest) {
         Discount newDiscount = new Discount(
                 discountRequest.getStartDate(),
                 discountRequest.getEndDate(),
@@ -43,12 +44,18 @@ public class DiscountController {
     }
 
     @DeleteMapping("/discount/delete/{id}")
-    public void deleteDiscount(@PathVariable long id) {
-        this.discountService.deleteDiscount(id);
+    public ResponseEntity<Long> deleteDiscount(@PathVariable long id) {
+        boolean isRemoved = this.discountService.deleteDiscount(id);
+
+        if (!isRemoved) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
     @PutMapping("/discount/update/{id}")
-    public ResponseEntity<Discount> updateDiscount(@RequestBody DiscountRequest discountRequest, @PathVariable Long id) {
+    public ResponseEntity<Discount> updateDiscount(@Valid @RequestBody DiscountRequest discountRequest, @PathVariable Long id) {
         Optional<Discount> discountOptional = this.discountService.findById(id);
 
         if (discountOptional.isEmpty()) {
