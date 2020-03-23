@@ -1,30 +1,23 @@
-package hu.iac.webshop.domain;
+package hu.iac.webshop.dto.product;
 
-import javax.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.sql.Date;
 
-@Entity(name="Discount")
-public class Discount {
-
-    @Id
-    @SequenceGenerator(name = "discount_id_generator", sequenceName = "discount_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "discount_id_generator")
-    private Long id;
+public class DiscountRequest {
+    private long id;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
     private double discountedPrice;
     private String adText;
 
-    public Discount() {}
+    public DiscountRequest() {
 
-    public Discount(Date startDate, Date endDate, double discountedPrice, String adText) {
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.discountedPrice = discountedPrice;
-        this.adText = adText;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 

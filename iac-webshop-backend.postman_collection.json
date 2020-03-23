@@ -1,28 +1,21 @@
 {
 	"info": {
-		"_postman_id": "54be1926-f799-4fb3-80a2-671c13fb129f",
+		"_postman_id": "741ab731-b5fb-42c4-a12e-c5c05426a83b",
 		"name": "iac-webshop-backend",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "addresses",
+			"name": "Discount",
 			"item": [
 				{
-					"name": "new address",
+					"name": "AddDiscount",
 					"request": {
 						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"street\": \"Vosmaerstraat 91\",\n    \"city\": \"Delft\",\n    \"state\": \"Zuid-Holland\",\n    \"postalCode\": \"2222DB\",\n    \"country\": \"The Netherlands\"\n}",
+							"raw": "{\n\t\"startDate\": \"2020-03-20\",\n\t\"endDate\": \"2020-03-26\",\n\t\"discountedPrice\": 50.0,\n\t\"adText\": \"Nieuwe goede aanbieding voor maar 50 euros  \"\n}\n\t",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -30,46 +23,97 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:9091/addresses",
+							"raw": "http://localhost:9091/discount/new",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "9091",
 							"path": [
-								"addresses"
+								"discount",
+								"new"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "fetch addresses",
+					"name": "AddVerlopenDiscount",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"startDate\": \"2020-01-20\",\n\t\"endDate\": \"2020-01-26\",\n\t\"discountedPrice\": 50.0,\n\t\"adText\": \"Nieuwe goede aanbieding voor maar 50 euros (aanbieding verlopen \"\n}\n\t",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9091/discount/new",
+
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"discount",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetDiscounts",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:9091/addresses",
+							"raw": "http://localhost:9091/discount",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "9091",
 							"path": [
-								"addresses"
+								"discount"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "update address",
+					"name": "GetCurrentDiscounts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9091/discount/current",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"discount",
+								"current"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateDiscount",
 					"request": {
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"street\": \"Steffenskamp 18\",\n    \"city\": \"Laren\",\n    \"state\": \"Utrecht\",\n    \"postalCode\": \"1251 ZT\",\n    \"country\": \"The Netherlands\"\n}",
+							"raw": "{\n\t\"startDate\": \"2020-03-20\",\n\t\"endDate\": \"2020-03-27\",\n\t\"discountedPrice\": 50.0,\n\t\"adText\": \"Nieuwe goede aanbieding voor maar 50 euros  \"\n}\n\t",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -77,39 +121,40 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:9091/addresses/2",
+							"raw": "http://localhost:9091/discount/update/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "9091",
 							"path": [
-								"addresses",
-								"2"
+								"discount",
+								"update",
+								"1"
 							]
-						},
-						"description": "Updates address with ID 2"
+						}
 					},
 					"response": []
 				},
 				{
-					"name": "delete address",
+					"name": "DeleteDiscount",
 					"request": {
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:9091/addresses/3",
+							"raw": "http://localhost:9091/discount/delete/2",
+
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "9091",
 							"path": [
-								"addresses",
-								"3"
+								"discount",
+								"delete",
+								"2"
 							]
-						},
-						"description": "Deletes address with ID 3"
+						}
 					},
 					"response": []
 				}
