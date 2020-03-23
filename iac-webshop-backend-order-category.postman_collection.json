@@ -1,0 +1,191 @@
+{
+	"variables": [],
+	"info": {
+		"name": "iac-webshop-backend",
+		"_postman_id": "8e369ca0-644a-b2d7-b456-a74b8d57a1a3",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "orders",
+			"description": "",
+			"item": [
+				{
+					"name": "All orders",
+					"request": {
+						"url": "http://localhost:9091/orders",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "New Order",
+					"request": {
+						"url": "http://localhost:9091/orders",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"date\": \"2020-03-21\",\n\t\"totalPrice\": 12\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete order",
+					"request": {
+						"url": "http://localhost:9091/orders/1",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update Order",
+					"request": {
+						"url": "http://localhost:9091/orders/1",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"date\": \"2020-03-21\",\n\t\"totalPrice\": 12\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "categories",
+			"description": "",
+			"item": [
+				{
+					"name": "All categories",
+					"request": {
+						"url": "http://localhost:9091/categories",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "New category",
+					"request": {
+						"url": "http://localhost:9091/categories",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"image\": \"image path\",\n\t\"name\": \"name\",\n\t\"description\": \"beschrijving\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete category",
+					"request": {
+						"url": "http://localhost:9091/categories/1",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update category",
+					"request": {
+						"url": "http://localhost:9091/categories/1",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"image\": \"image path2\",\n\t\"name\": \"name\",\n\t\"description\": \"beschrijving\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "fetch products",
+			"request": {
+				"url": "http://localhost:9091/producten",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "new product",
+			"request": {
+				"url": "http://localhost:9091/producten/new",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"post test twee\",\n\t\"price\": 50.55\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
