@@ -1,5 +1,6 @@
 package hu.iac.webshop.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -19,7 +20,7 @@ public class Product {
     private List<Order> orders;
 
     @ManyToMany(fetch=FetchType.LAZY, mappedBy="products")
-    private List<Discount> discounts;
+    private List<Discount> discounts = new ArrayList<>();
 
     public Product() {}
 
