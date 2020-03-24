@@ -15,15 +15,20 @@ public class Address {
     private String postalCode;
     private String country;
 
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
+
     public Address() {
     }
 
-    public Address(String street, String city, String state, String postalCode, String country) {
+    public Address(String street, String city, String state, String postalCode, String country, Customer customer) {
         this.street = street;
         this.city = city;
         this.state = state;
         this.postalCode = postalCode;
         this.country = country;
+        this.customer = customer;
     }
 
     public Long getId() {
@@ -74,10 +79,7 @@ public class Address {
         this.country = country;
     }
 
-    public boolean validate() {
-//        if (street ligt echt in city en matched met postalCode) {
-//            return true;
-//        }
-        return false;
+    public Customer getCustomer() {
+        return this.customer;
     }
 }

@@ -72,6 +72,5 @@ public class Order {
         for (Product product : products) {
             totalPrice += product.getPrice();
         }
-        ;
     }
 }
