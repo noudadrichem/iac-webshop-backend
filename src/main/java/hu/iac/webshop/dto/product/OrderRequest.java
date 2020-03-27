@@ -15,6 +15,8 @@ public class OrderRequest {
     @NotNull(message = "Please provide a total price.")
     private double totalPrice;
 
+    private Long customerId;
+
     public OrderRequest() {
     }
 
@@ -25,6 +27,11 @@ public class OrderRequest {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
 
     public double getTotalPrice() {
         return totalPrice;

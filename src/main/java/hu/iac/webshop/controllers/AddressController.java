@@ -1,5 +1,7 @@
 package hu.iac.webshop.controllers;
 
+import hu.iac.webshop.domain.Customer;
+import hu.iac.webshop.services.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +17,11 @@ import java.util.Optional;
 @RestController
 public class AddressController {
     private final AddressService addressService;
+    private final CustomerService customerService;
 
-    public AddressController(AddressService addressService) {
+    public AddressController(AddressService addressService, CustomerService customerService) {
         this.addressService = addressService;
+        this.customerService = customerService;
     }
 
     @GetMapping("/addresses")
@@ -26,16 +30,22 @@ public class AddressController {
     }
 
     @PostMapping("/addresses")
-    public Address create(@Valid @RequestBody AddressRequest addressRequest) {
-        Address address = new Address(
+    public ResponseEntity<Address> create(@Valid @RequestBody AddressRequest addressRequest) {
+        Optional<Customer> customer = this.customerService.find(addressRequest.getCustomerId());
+
+        if (customer.isPresent()) {
+            Address address = new Address(
                 addressRequest.getStreet(),
                 addressRequest.getCity(),
                 addressRequest.getState(),
                 addressRequest.getPostalCode(),
-                addressRequest.getCountry()
-        );
+                addressRequest.getCountry(),
+                customer.get()
+            );
+            return new ResponseEntity<Address>(this.addressService.create(address), HttpStatus.OK);
+        }
 
-        return this.addressService.create(address);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/addresses/{id}")

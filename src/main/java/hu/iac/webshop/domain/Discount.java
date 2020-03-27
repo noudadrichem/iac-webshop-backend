@@ -2,6 +2,7 @@ package hu.iac.webshop.domain;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 
 @Entity(name="Discount")
 public class Discount {
@@ -14,6 +15,14 @@ public class Discount {
     private Date endDate;
     private double discountedPrice;
     private String adText;
+
+    @ManyToMany
+    @JoinTable(
+        name = "discount_product",
+        joinColumns = @JoinColumn(name = "product_id"),
+        inverseJoinColumns = @JoinColumn(name = "discount_id")
+    )
+    private List<Product> products;
 
     public Discount() {}
 

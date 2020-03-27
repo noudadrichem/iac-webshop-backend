@@ -1,7 +1,9 @@
 package hu.iac.webshop.controllers;
 
+import hu.iac.webshop.domain.Customer;
 import hu.iac.webshop.domain.Order;
 import hu.iac.webshop.dto.product.OrderRequest;
+import hu.iac.webshop.services.CustomerService;
 import hu.iac.webshop.services.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +16,11 @@ import java.util.Optional;
 @RestController
 public class OrderController {
     private final OrderService orderService;
+    private final CustomerService customerService;
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, CustomerService customerService) {
         this.orderService = orderService;
+        this.customerService = customerService;
     }
 
     @GetMapping("/orders")
@@ -25,13 +29,15 @@ public class OrderController {
     }
 
     @PostMapping("/orders")
-    public Order create(@Valid @RequestBody OrderRequest orderRequest) {
-        Order order = new Order(
-                orderRequest.getDate(),
-                orderRequest.getTotalPrice()
-            );
+    public ResponseEntity<Order> create(@Valid @RequestBody OrderRequest orderRequest) {
+        Optional<Customer> customer = this.customerService.find(orderRequest.getCustomerId());
 
-        return this.orderService.create(order);
+        if (customer.isPresent()) {
+            Order order = new Order(orderRequest.getDate(), orderRequest.getTotalPrice(), customer.get());
+            return new ResponseEntity<Order>(this.orderService.create(order), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/orders/{id}")

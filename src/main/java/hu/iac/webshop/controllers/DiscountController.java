@@ -34,10 +34,10 @@ public class DiscountController {
     @PostMapping("/discounts/new")
     public Discount addDiscount(@Valid @RequestBody DiscountRequest discountRequest) {
         Discount newDiscount = new Discount(
-                discountRequest.getStartDate(),
-                discountRequest.getEndDate(),
-                discountRequest.getDiscountedPrice(),
-                discountRequest.getAdText()
+            discountRequest.getStartDate(),
+            discountRequest.getEndDate(),
+            discountRequest.getDiscountedPrice(),
+            discountRequest.getAdText()
         );
 
         return this.discountService.createDiscount(newDiscount);

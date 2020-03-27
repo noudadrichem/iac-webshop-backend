@@ -4,9 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
-@Entity(name="Orderx")
+@Entity(name = "Orderx")
 public class Order {
 
     @Id
@@ -16,20 +15,21 @@ public class Order {
     private Date date;
     private double totalPrice;
 
-//    @ManyToOne
-//    @JoinColumn(name="customer_id", nullable=false)
-//    private Customer customer;
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
 
-    @OneToMany
-    @JoinColumn(name = "order_id")
+    @ManyToMany
+    @JoinTable(name = "order_product", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "order_id"))
     private List<Product> products;
 
     public Order() {
     }
 
-    public Order(Date date, double totalPrice) {
+    public Order(Date date, double totalPrice, Customer customer) {
         this.date = date;
         this.totalPrice = totalPrice;
+        this.customer = customer;
     }
 
     public void setId(Long id) {
@@ -56,17 +56,21 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-//    public List<Product> getProducts() {
-//        return products;
-//    }
-//
-//    public void setProducts(List<Product> products) {
-//        this.products = products;
-//    }
+    public List<Product> getProducts() {
+        return products;
+    }
 
-//    public void getCurrentOrderValue() {
-//        for (Product product : products) {
-//            totalPrice += product.getPrice();
-//        };
-//    }
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+    public Customer getCustomer() {
+        return this.customer;
+    }
+
+    public void getCurrentOrderValue() {
+        for (Product product : products) {
+            totalPrice += product.getPrice();
+        }
+    }
 }
