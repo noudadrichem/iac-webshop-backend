@@ -63,7 +63,6 @@ public class DiscountController {
         }
 
         Discount discount = discountOptional.get();
-
         discount.setStartDate(discountRequest.getStartDate());
         discount.setEndDate(discountRequest.getEndDate());
         discount.setDiscountedPrice(discountRequest.getDiscountedPrice());
