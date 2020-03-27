@@ -14,6 +14,9 @@ public class Product {
     private String name;
     private double price;
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<Cart> cartProducts;
+
     public Product() {}
 
     public Product(String name, double price) {
