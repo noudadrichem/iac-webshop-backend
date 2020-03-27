@@ -42,7 +42,6 @@ public class CheckoutController {
             checkoutRequest.getCustomerRequest().getEmail()
         );
 
-//        System.out.println(customer);
 
         Customer newCustomer = this.customerService.create(customer);
 
@@ -58,14 +57,18 @@ public class CheckoutController {
         this.addressService.create(address);
 
         List<ProductsCheckoutRequest> productList = checkoutRequest.getProductsCheckoutRequests();
-
+        System.out.println(productList + "   test");
         for (ProductsCheckoutRequest productsCheckoutRequest : productList) {
+            System.out.println("test2");
             Optional<Product> optionalProduct = productService.find(productsCheckoutRequest.getProductId());
             if (optionalProduct.isPresent()) {
+                System.out.println("test3");
                 Product product = optionalProduct.get();
                 if (product.getStock() - productsCheckoutRequest.getAmount() < 0) {
                     return new ResponseEntity<>("Er is niet genoeg voorraad", HttpStatus.NOT_ACCEPTABLE);
                 }
+            } else {
+                return new ResponseEntity<>("Dit product bestaat niet", HttpStatus.NOT_ACCEPTABLE);
             }
         }
 

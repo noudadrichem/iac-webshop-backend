@@ -24,14 +24,14 @@ public class ProductController {
         this.discountService = discountService;
     }
 
-    @GetMapping("/producten")
+    @GetMapping("/products")
     public List<Product> getProducten() {
         List<Product> producten = this.productService.list();
 
         return producten;
     }
 
-    @PostMapping("/producten/new")
+    @PostMapping("/products")
     public Product addProducten(@RequestBody ProductRequest productRequest) {
 
         Product newProduct = new Product(
@@ -50,7 +50,7 @@ public class ProductController {
         return this.productService.createProduct(newProduct);
     }
 
-    @PutMapping("/producten/{id}/update")
+    @PutMapping("/products/{id}")
     public ResponseEntity<Product> update(@Valid @RequestBody ProductRequest productRequest, @PathVariable Long id) {
         Optional<Product> optionalProduct = this.productService.find(id);
 
@@ -67,7 +67,7 @@ public class ProductController {
         return new ResponseEntity<Product>(updatedProduct, HttpStatus.OK);
     }
 
-    @DeleteMapping("/producten/{id}/delete")
+    @DeleteMapping("/products/{id}")
     public ResponseEntity<Long> delete(@PathVariable Long id) {
         boolean isProductRemoved = this.productService.delete(id);
 
