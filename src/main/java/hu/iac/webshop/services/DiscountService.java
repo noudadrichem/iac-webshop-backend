@@ -19,11 +19,12 @@ public class DiscountService {
     private DiscountRepository discountRepository;
 
     public List<Discount> findAllCurrent() {
-        return discountRepository.findAll(Specification.where(
-        isGreaterThan().and(isLesserThan())));
+        return discountRepository.findAll(Specification.where(isGreaterThan().and(isLesserThan())));
     }
 
-    public List<Discount> list() {return discountRepository.findAll();}
+    public List<Discount> list() {
+        return discountRepository.findAll();
+    }
 
     public Discount createDiscount(Discount discount) {
         return discountRepository.save(discount);

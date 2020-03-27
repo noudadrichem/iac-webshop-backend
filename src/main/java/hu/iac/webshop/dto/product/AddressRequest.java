@@ -21,6 +21,8 @@ public class AddressRequest {
     @Length(max = 255)
     private String country;
 
+    private Long customerId;
+
     public AddressRequest() {}
 
     public String getStreet() {
@@ -61,5 +63,13 @@ public class AddressRequest {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 }

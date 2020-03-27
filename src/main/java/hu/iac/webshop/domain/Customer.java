@@ -13,8 +13,12 @@ public class Customer {
     private String name;
     private String phone;
     private String email;
-    //private Address address;
-    //private List<Order> orders;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Address> addresses;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Order> orders;
 
     public Customer(){
 
@@ -58,10 +62,20 @@ public class Customer {
         this.email = email;
     }
 
+    public List<Order> getOrders() {
+        return this.orders;
+    }
+
+    public void addOrder(Order order) {
+        if (!this.orders.contains(order)) {
+            this.orders.add(order);
+        }
+    }
+
 //    public Address getAddress() {
 //        return address;
 //    }
-
+//
 //    public void setAddress(Address address) {
 //        this.address = address;
 //    }

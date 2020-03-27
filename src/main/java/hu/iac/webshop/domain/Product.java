@@ -1,5 +1,6 @@
 package hu.iac.webshop.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -14,6 +15,13 @@ public class Product {
     private String name;
     private double price;
     private int stock;
+
+
+    @ManyToMany(fetch=FetchType.LAZY, mappedBy="products")
+    private List<Order> orders;
+
+    @ManyToMany(fetch=FetchType.LAZY, mappedBy="products")
+    private List<Discount> discounts = new ArrayList<>();
 
     public Product() {}
 
@@ -53,5 +61,14 @@ public class Product {
 
     public int getStock() {
         return this.stock;
+
+    public List<Discount> getDiscounts() {
+        return this.discounts;
+    }
+
+    public void addDiscount(Discount discount) {
+        if (!discounts.contains(discount)) {
+            discounts.add(discount);
+        }
     }
 }

@@ -1,10 +1,13 @@
 package hu.iac.webshop.dto.product;
 
+import java.util.List;
+
 public class ProductRequest {
 
     private String name;
     private double price;
     private int stock;
+    private List<Long> discountIds;
 
     public ProductRequest() {}
 
@@ -30,5 +33,13 @@ public class ProductRequest {
 
     public int getStock() {
         return this.stock;
+    }
+  
+    public void setDiscountIds(List<Long> discountIds) {
+        this.discountIds = discountIds;
+    }
+
+    public List<Long> getDiscountIds() {
+        return this.discountIds;
     }
 }

@@ -8,16 +8,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import hu.iac.webshop.domain.Discount;
 import hu.iac.webshop.domain.Product;
 import hu.iac.webshop.dto.product.ProductRequest;
+import hu.iac.webshop.services.DiscountService;
 import hu.iac.webshop.services.ProductService;
 
 @RestController
 public class ProductController {
     private final ProductService productService;
+    private final DiscountService discountService;
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, DiscountService discountService) {
         this.productService = productService;
+        this.discountService = discountService;
     }
 
     @GetMapping("/producten")
@@ -35,6 +39,13 @@ public class ProductController {
             productRequest.getPrice(),
             productRequest.getStock()
         );
+
+        for (Long discountId : productRequest.getDiscountIds()) {
+            Optional<Discount> discount = discountService.findById(discountId);
+            if(discount.isPresent()) {
+                newProduct.addDiscount(discount.get());
+            }
+        }
 
         return this.productService.createProduct(newProduct);
     }
