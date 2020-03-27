@@ -61,6 +61,7 @@ public class Product {
 
     public int getStock() {
         return this.stock;
+    }
 
     public List<Discount> getDiscounts() {
         return this.discounts;
