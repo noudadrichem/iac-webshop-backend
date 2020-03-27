@@ -4,6 +4,7 @@ public class ProductRequest {
 
     private String name;
     private double price;
+    private int stock;
 
     public ProductRequest() {}
 
@@ -21,5 +22,13 @@ public class ProductRequest {
 
     public double getPrice() {
         return price;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    public int getStock() {
+        return this.stock;
     }
 }

@@ -32,7 +32,8 @@ public class ProductController {
 
         Product newProduct = new Product(
             productRequest.getName(),
-            productRequest.getPrice()
+            productRequest.getPrice(),
+            productRequest.getStock()
         );
 
         return this.productService.createProduct(newProduct);
@@ -49,6 +50,7 @@ public class ProductController {
         Product product = optionalProduct.get();
         product.setName(productRequest.getName());
         product.setPrice(productRequest.getPrice());
+        product.setStock(productRequest.getStock());
 
         Product updatedProduct = this.productService.update(product);
         return new ResponseEntity<Product>(updatedProduct, HttpStatus.OK);
