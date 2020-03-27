@@ -14,7 +14,7 @@ public class Customer {
     private String phone;
     private String email;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
     private List<Address> addresses;
 
     @OneToMany(mappedBy = "customer")

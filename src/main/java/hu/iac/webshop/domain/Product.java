@@ -61,14 +61,15 @@ public class Product {
 
     public int getStock() {
         return this.stock;
-
-    public List<Discount> getDiscounts() {
-        return this.discounts;
     }
-
-    public void addDiscount(Discount discount) {
-        if (!discounts.contains(discount)) {
-            discounts.add(discount);
+        public List<Discount> getDiscounts () {
+            return this.discounts;
         }
-    }
+
+        public void addDiscount (Discount discount){
+            if (!discounts.contains(discount)) {
+                discounts.add(discount);
+            }
+        }
+
 }
