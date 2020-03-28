@@ -16,8 +16,8 @@ public class Customer {
     //private Address address;
     //private List<Order> orders;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private List<Cart> cartProducts;
+//    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+//    private List<Cart> cartProducts;
 
     public Customer(){
 
@@ -69,7 +69,7 @@ public class Customer {
 //        this.address = address;
 //    }
 
-    public List<Cart> getCartProducts(){
-        return this.cartProducts;
-    }
+//    public List<Cart> getCartProducts(){
+//        return this.cartProducts;
+//    }
 }
