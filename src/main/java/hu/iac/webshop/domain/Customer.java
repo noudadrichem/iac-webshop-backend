@@ -1,6 +1,7 @@
 package hu.iac.webshop.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name="Customer")
@@ -19,6 +20,9 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer")
     private List<Order> orders;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<Cart> carts = new ArrayList<>();
 
     public Customer(){
 

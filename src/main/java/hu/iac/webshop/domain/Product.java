@@ -23,6 +23,9 @@ public class Product {
     @ManyToMany(fetch=FetchType.LAZY, mappedBy="products")
     private List<Discount> discounts = new ArrayList<>();
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<Cart> carts = new ArrayList<>();
+
     public Product() {}
 
     public Product(String name, double price, int stock) {
