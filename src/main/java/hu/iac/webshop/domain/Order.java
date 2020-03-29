@@ -65,6 +65,9 @@ public class Order {
     }
 
     public void addProduct(Product product) {
+        System.out.println("_____");
+        System.out.println(product);
+        System.out.println("_____");
         if (this.products.contains(product)) {
             // UPDATE quantity in order of selected product, this was a brain fart.
             // int prodIdx = this.products.indexOf(product);
