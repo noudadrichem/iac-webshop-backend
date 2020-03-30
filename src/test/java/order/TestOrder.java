@@ -30,7 +30,7 @@ public class TestOrder {
         double totalOrderValue = order.getCurrentOrderValue();
         double expectedOrderValue = 60;
 
-        customer.addOrder(order);
+        // customer.addOrder(order);
 
         assertEquals(totalOrderValue, expectedOrderValue);
     }

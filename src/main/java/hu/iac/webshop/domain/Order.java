@@ -1,5 +1,6 @@
 package hu.iac.webshop.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class Order {
         this.date = date;
         this.totalPrice = totalPrice;
         this.customer = customer;
+        this.products = new ArrayList<Product>();
     }
 
     public void setId(Long id) {

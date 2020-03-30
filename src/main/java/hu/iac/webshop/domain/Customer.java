@@ -1,6 +1,8 @@
 package hu.iac.webshop.domain;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name="Customer")
@@ -20,14 +22,14 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private List<Order> orders;
 
-    public Customer(){
-
-    }
+    public Customer(){}
 
     public Customer(String name, String phone, String email){
         this.name = name;
         this.phone = phone;
         this.email = email;
+        this.addresses = new ArrayList<Address>();
+        this.orders = new ArrayList<Order>();
     }
 
     public Long getId() {
