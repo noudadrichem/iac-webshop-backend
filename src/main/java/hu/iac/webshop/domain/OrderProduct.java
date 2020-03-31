@@ -4,25 +4,30 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity(name = "OrderProduct")
-public class OrderProduct implements Serializable {
-    @Id
-    @ManyToOne
-    @JoinColumn
+public class OrderProduct{
+    @EmbeddedId
+    private OrderProductId id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("orderId")
     private Order order;
 
-    @Id
-    @ManyToOne
-    @JoinColumn
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("productId")
     private Product product;
 
+    @Column(name = "amount")
     private int amount;
 
-    public OrderProduct(){};
+    private OrderProduct(){
 
-    public OrderProduct(Order order, Product product, int amount) {
+    }
+
+    public OrderProduct(Order order, Product product, int amount){
         this.order = order;
         this.product = product;
         this.amount = amount;
+        this.id = new OrderProductId(order.getId(), product.getId());
     }
 
     public Order getOrder() {

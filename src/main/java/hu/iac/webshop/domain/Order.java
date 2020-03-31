@@ -16,14 +16,12 @@ public class Order {
     private Date date;
     private double totalPrice;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<OrderProduct> orderProducts = new ArrayList<>();
-
-    private int amount;
 
     public Order() {
     }
@@ -70,21 +68,13 @@ public class Order {
         return this.customer;
     }
 
-    public int getAmount() {
-        return amount;
-    }
+//    public void getCurrentOrderValue() {
+//        for (OrderProduct product : orderProducts) {
+//            totalPrice += product.getProduct().getPrice();
+//        }
+//    }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public void getCurrentOrderValue() {
-        for (OrderProduct product : orderProducts) {
-            totalPrice += product.getProduct().getPrice();
-        }
-    }
-
-    public void addProduct(OrderProduct orderProduct){
-        orderProducts.add(orderProduct);
-    }
+//    public void addProduct(OrderProduct orderProduct){
+//        orderProducts.add(orderProduct);
+//    }
 }

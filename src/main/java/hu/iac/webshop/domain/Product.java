@@ -19,7 +19,7 @@ public class Product {
     @ManyToMany(fetch=FetchType.LAZY, mappedBy="products")
     private List<Discount> discounts = new ArrayList<>();
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
     public Product() {}

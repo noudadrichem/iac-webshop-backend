@@ -35,12 +35,12 @@ public class OrderController {
         return this.orderService.list();
     }
 
-    @GetMapping("/orders/getorderproducts/{id}")
-    public List<OrderProduct> getOrderProducts(@PathVariable Long id){
-        Optional<Order> optionalOrder = this.orderService.find(id);
-
-        return optionalOrder.get().getOrderProducts();
-    }
+//    @GetMapping("/orders/getorderproducts/{id}")
+//    public List<OrderProduct> getOrderProducts(@PathVariable Long id){
+//        Optional<Order> optionalOrder = this.orderService.find(id);
+//
+//        return optionalOrder.get().getOrderProducts();
+//    }
 
     @PostMapping("/orders")
     public ResponseEntity<Order> create(@Valid @RequestBody OrderRequest orderRequest) {
@@ -69,26 +69,6 @@ public class OrderController {
         return new ResponseEntity<Order>(this.orderService.update(order), HttpStatus.OK);
     }
 
-    @PutMapping("/orders/orderproducts")
-    public ResponseEntity<Order> updateProducts(@Valid @RequestBody OrderProductRequest orderProductRequest) {
-        Optional<Order> optionalOrder = this.orderService.find(orderProductRequest.getOrderId());
-        Optional<Product> optionalProduct = this.productService.find(orderProductRequest.getProductId());
-
-        if (optionalOrder.isEmpty() || optionalProduct.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        OrderProduct orderProduct = new OrderProduct(
-            optionalOrder.get(),
-            optionalProduct.get(),
-            orderProductRequest.getAmount()
-        );
-
-        Order order = optionalOrder.get();
-        order.addProduct(orderProduct);
-
-        return new ResponseEntity<Order>(this.orderService.update(order), HttpStatus.OK);
-    }
 
     @DeleteMapping("/orders/{id}")
     public ResponseEntity<Long> delete(@PathVariable Long id) {
