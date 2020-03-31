@@ -2,9 +2,13 @@ package hu.iac.webshop.controllers;
 
 import hu.iac.webshop.domain.Customer;
 import hu.iac.webshop.domain.Order;
+import hu.iac.webshop.domain.OrderProduct;
+import hu.iac.webshop.domain.Product;
+import hu.iac.webshop.dto.product.OrderProductRequest;
 import hu.iac.webshop.dto.product.OrderRequest;
 import hu.iac.webshop.services.CustomerService;
 import hu.iac.webshop.services.OrderService;
+import hu.iac.webshop.services.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,15 +21,25 @@ import java.util.Optional;
 public class OrderController {
     private final OrderService orderService;
     private final CustomerService customerService;
+    private final ProductService productService;
 
-    public OrderController(OrderService orderService, CustomerService customerService) {
+
+    public OrderController(OrderService orderService, CustomerService customerService, ProductService productService) {
         this.orderService = orderService;
         this.customerService = customerService;
+        this.productService = productService;
     }
 
     @GetMapping("/orders")
     public List<Order> get() {
         return this.orderService.list();
+    }
+
+    @GetMapping("/orders/getorderproducts/{id}")
+    public List<OrderProduct> getOrderProducts(@PathVariable Long id){
+        Optional<Order> optionalOrder = this.orderService.find(id);
+
+        return optionalOrder.get().getOrderProducts();
     }
 
     @PostMapping("/orders")
@@ -51,6 +65,27 @@ public class OrderController {
         Order order = optionalOrder.get();
         order.setDate(orderRequest.getDate());
         order.setTotalPrice(orderRequest.getTotalPrice());
+
+        return new ResponseEntity<Order>(this.orderService.update(order), HttpStatus.OK);
+    }
+
+    @PutMapping("/orders/orderproducts")
+    public ResponseEntity<Order> updateProducts(@Valid @RequestBody OrderProductRequest orderProductRequest) {
+        Optional<Order> optionalOrder = this.orderService.find(orderProductRequest.getOrderId());
+        Optional<Product> optionalProduct = this.productService.find(orderProductRequest.getProductId());
+
+        if (optionalOrder.isEmpty() || optionalProduct.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        OrderProduct orderProduct = new OrderProduct(
+            optionalOrder.get(),
+            optionalProduct.get(),
+            orderProductRequest.getAmount()
+        );
+
+        Order order = optionalOrder.get();
+        order.addProduct(orderProduct);
 
         return new ResponseEntity<Order>(this.orderService.update(order), HttpStatus.OK);
     }

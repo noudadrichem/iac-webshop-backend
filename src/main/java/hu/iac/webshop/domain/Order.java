@@ -83,4 +83,8 @@ public class Order {
             totalPrice += product.getProduct().getPrice();
         }
     }
+
+    public void addProduct(OrderProduct orderProduct){
+        orderProducts.add(orderProduct);
+    }
 }

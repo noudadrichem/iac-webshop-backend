@@ -17,6 +17,8 @@ public class OrderProduct implements Serializable {
 
     private int amount;
 
+    public OrderProduct(){};
+
     public OrderProduct(Order order, Product product, int amount) {
         this.order = order;
         this.product = product;
