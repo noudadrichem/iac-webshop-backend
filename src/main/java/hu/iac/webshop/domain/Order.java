@@ -1,5 +1,6 @@
 package hu.iac.webshop.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.ArrayList;
@@ -20,10 +21,11 @@ public class Order {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
-    @JsonManagedReference
+    @JsonBackReference
     private Customer customer;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
     public Order() {

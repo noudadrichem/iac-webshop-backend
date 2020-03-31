@@ -1,5 +1,8 @@
 package hu.iac.webshop.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -10,10 +13,12 @@ public class OrderProduct{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("orderId")
+    @JsonBackReference
     private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("productId")
+    @JsonManagedReference
     private Product product;
 
     @Column(name = "amount")

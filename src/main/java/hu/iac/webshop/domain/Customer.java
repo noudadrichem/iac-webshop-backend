@@ -1,6 +1,7 @@
 package hu.iac.webshop.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.List;
@@ -20,7 +21,7 @@ public class Customer {
     private List<Address> addresses;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
-    @JsonBackReference
+    @JsonManagedReference
     private List<Order> orders;
 
     public Customer(){
