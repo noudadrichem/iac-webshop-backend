@@ -1,5 +1,7 @@
 package hu.iac.webshop.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -14,10 +16,11 @@ public class Customer {
     private String phone;
     private String email;
 
-    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
     private List<Address> addresses;
 
-    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
+    @JsonBackReference
     private List<Order> orders;
 
     public Customer(){
@@ -67,16 +70,18 @@ public class Customer {
     }
 
     public void addOrder(Order order) {
-//        if (!this.orders.contains(order)) {
-//            this.orders.add(order);
-//        }
+        if (!this.orders.contains(order)) {
+            this.orders.add(order);
+        }
     }
 
-//    public Address getAddress() {
-//        return address;
-//    }
-//
-//    public void setAddress(Address address) {
-//        this.address = address;
-//    }
+    public List<Address> getAddress() {
+        return addresses;
+    }
+
+    public void addAddress(Address address) {
+        if (!this.addresses.contains(address)) {
+            this.addresses.add(address);
+        }
+    }
 }
