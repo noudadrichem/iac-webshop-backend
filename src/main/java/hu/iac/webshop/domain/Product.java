@@ -16,12 +16,11 @@ public class Product {
     private double price;
     private int stock;
 
-
-    @ManyToMany(fetch=FetchType.LAZY, mappedBy="products")
-    private List<Order> orders;
-
     @ManyToMany(fetch=FetchType.LAZY, mappedBy="products")
     private List<Discount> discounts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<OrderProduct> orderProducts = new ArrayList<>();
 
     public Product() {}
 

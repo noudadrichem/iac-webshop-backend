@@ -32,7 +32,6 @@ public class OrderRequest {
         return customerId;
     }
 
-
     public double getTotalPrice() {
         return totalPrice;
     }

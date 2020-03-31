@@ -1,5 +1,6 @@
 package hu.iac.webshop.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,9 +20,10 @@ public class Order {
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    @ManyToMany
-    @JoinTable(name = "order_product", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "order_id"))
-    private List<Product> products;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderProduct> orderProducts = new ArrayList<>();
+
+    private int amount;
 
     public Order() {
     }
@@ -56,21 +58,29 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public List<OrderProduct> getOrderProducts() {
+        return orderProducts;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setOrderProducts(List<OrderProduct> orderProducts) {
+        this.orderProducts = orderProducts;
     }
 
     public Customer getCustomer() {
         return this.customer;
     }
 
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
     public void getCurrentOrderValue() {
-        for (Product product : products) {
-            totalPrice += product.getPrice();
+        for (OrderProduct product : orderProducts) {
+            totalPrice += product.getProduct().getPrice();
         }
     }
 }
