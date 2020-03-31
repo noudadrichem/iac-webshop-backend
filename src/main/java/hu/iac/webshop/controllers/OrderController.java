@@ -2,9 +2,6 @@ package hu.iac.webshop.controllers;
 
 import hu.iac.webshop.domain.Customer;
 import hu.iac.webshop.domain.Order;
-import hu.iac.webshop.domain.OrderProduct;
-import hu.iac.webshop.domain.Product;
-import hu.iac.webshop.dto.product.OrderProductRequest;
 import hu.iac.webshop.dto.product.OrderRequest;
 import hu.iac.webshop.services.CustomerService;
 import hu.iac.webshop.services.OrderService;
@@ -35,12 +32,10 @@ public class OrderController {
         return this.orderService.list();
     }
 
-//    @GetMapping("/orders/getorderproducts/{id}")
-//    public List<OrderProduct> getOrderProducts(@PathVariable Long id){
-//        Optional<Order> optionalOrder = this.orderService.find(id);
-//
-//        return optionalOrder.get().getOrderProducts();
-//    }
+    @GetMapping("/orders/{id}")
+    public Order getOrderById(@PathVariable Long id){
+        return this.orderService.find(id).get();
+    }
 
     @PostMapping("/orders")
     public ResponseEntity<Order> create(@Valid @RequestBody OrderRequest orderRequest) {
