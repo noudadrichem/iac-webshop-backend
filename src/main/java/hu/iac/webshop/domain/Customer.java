@@ -2,8 +2,10 @@ package hu.iac.webshop.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name="Customer")
@@ -17,12 +19,13 @@ public class Customer {
     private String phone;
     private String email;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
-    private List<Address> addresses;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", targetEntity = Address.class, cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("customer")
+    private List<Address> addresses = new ArrayList<Address>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
-    @JsonManagedReference
-    private List<Order> orders;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", targetEntity = Order.class, cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("customer")
+    private List<Order> orders = new ArrayList<Order>();
 
     public Customer(){
 
@@ -66,14 +69,20 @@ public class Customer {
         this.email = email;
     }
 
+    public List<Address> getAddresses() {
+        return this.addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
+
     public List<Order> getOrders() {
         return this.orders;
     }
 
-    public void addOrder(Order order) {
-        if (!this.orders.contains(order)) {
-            this.orders.add(order);
-        }
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     public List<Address> getAddress() {
