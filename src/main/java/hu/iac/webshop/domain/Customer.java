@@ -1,5 +1,9 @@
 package hu.iac.webshop.domain;
 
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -17,10 +21,12 @@ public class Customer {
     private String phone;
     private String email;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", targetEntity = Address.class, cascade = CascadeType.ALL)
     @JsonIgnoreProperties("customer")
     private List<Address> addresses = new ArrayList<Address>();
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", targetEntity = Order.class, cascade = CascadeType.ALL)
     @JsonIgnoreProperties("customer")
     private List<Order> orders = new ArrayList<Order>();

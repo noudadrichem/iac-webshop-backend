@@ -50,6 +50,7 @@ public class ProductController {
         return this.productService.createProduct(newProduct);
     }
 
+
     @PutMapping("/products/{id}")
     public ResponseEntity<Product> update(@Valid @RequestBody ProductRequest productRequest, @PathVariable Long id) {
         Optional<Product> optionalProduct = this.productService.find(id);
@@ -66,6 +67,7 @@ public class ProductController {
         Product updatedProduct = this.productService.update(product);
         return new ResponseEntity<Product>(updatedProduct, HttpStatus.OK);
     }
+
 
     @DeleteMapping("/products/{id}")
     public ResponseEntity<Long> delete(@PathVariable Long id) {
