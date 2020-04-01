@@ -31,7 +31,7 @@ public class DiscountController {
         return discounts;
     }
 
-    @PostMapping("/discounts/new")
+    @PostMapping("/discounts")
     public Discount addDiscount(@Valid @RequestBody DiscountRequest discountRequest) {
         Discount newDiscount = new Discount(
             discountRequest.getStartDate(),
@@ -43,7 +43,7 @@ public class DiscountController {
         return this.discountService.createDiscount(newDiscount);
     }
 
-    @DeleteMapping("/discounts/delete/{id}")
+    @DeleteMapping("/discounts/{id}")
     public ResponseEntity<Long> deleteDiscount(@PathVariable long id) {
         boolean isRemoved = this.discountService.deleteDiscount(id);
 
@@ -54,7 +54,7 @@ public class DiscountController {
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
-    @PutMapping("/discounts/update/{id}")
+    @PutMapping("/discounts/{id}")
     public ResponseEntity<Discount> updateDiscount(@Valid @RequestBody DiscountRequest discountRequest, @PathVariable Long id) {
         Optional<Discount> discountOptional = this.discountService.findById(id);
 

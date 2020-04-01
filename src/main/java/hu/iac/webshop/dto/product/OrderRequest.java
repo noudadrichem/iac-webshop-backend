@@ -39,4 +39,6 @@ public class OrderRequest {
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
+
+
 }

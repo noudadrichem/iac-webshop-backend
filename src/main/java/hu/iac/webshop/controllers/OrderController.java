@@ -38,7 +38,7 @@ public class OrderController {
     }
 
     @PostMapping("/orders")
-    public ResponseEntity<Order> create(@Valid @RequestBody OrderRequest orderRequest) {
+    public ResponseEntity create(@Valid @RequestBody OrderRequest orderRequest) {
         Optional<Customer> customer = this.customerService.find(orderRequest.getCustomerId());
 
         if (customer.isPresent()) {
@@ -46,7 +46,7 @@ public class OrderController {
             return new ResponseEntity<Order>(this.orderService.create(order), HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Customer was not found", HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/orders/{id}")
