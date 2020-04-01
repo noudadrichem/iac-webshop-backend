@@ -1,5 +1,7 @@
 package hu.iac.webshop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,7 @@ public class Product {
     private List<Order> orders;
 
     @ManyToMany(fetch=FetchType.LAZY, mappedBy="products")
+    @JsonIgnoreProperties("products")
     private List<Discount> discounts = new ArrayList<>();
 
     public Product() {}
