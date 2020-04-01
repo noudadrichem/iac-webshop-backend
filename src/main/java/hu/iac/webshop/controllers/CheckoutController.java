@@ -3,10 +3,7 @@ package hu.iac.webshop.controllers;
 import hu.iac.webshop.domain.Address;
 import hu.iac.webshop.domain.Customer;
 import hu.iac.webshop.domain.Product;
-import hu.iac.webshop.dto.product.AddressRequest;
-import hu.iac.webshop.dto.product.CheckoutRequest;
-import hu.iac.webshop.dto.product.CustomerRequest;
-import hu.iac.webshop.dto.product.ProductsCheckoutRequest;
+import hu.iac.webshop.dto.product.*;
 import hu.iac.webshop.services.AddressService;
 import hu.iac.webshop.services.CustomerService;
 import hu.iac.webshop.services.ProductService;
@@ -17,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,21 +54,13 @@ public class CheckoutController {
 
         this.addressService.create(address);
 
-        List<ProductsCheckoutRequest> productList = checkoutRequest.getProductsCheckoutRequests();
-        System.out.println(productList + "   test");
-        for (ProductsCheckoutRequest productsCheckoutRequest : productList) {
-            System.out.println("test2");
-            Optional<Product> optionalProduct = productService.find(productsCheckoutRequest.getProductId());
-            if (optionalProduct.isPresent()) {
-                System.out.println("test3");
-                Product product = optionalProduct.get();
-                if (product.getStock() - productsCheckoutRequest.getAmount() < 0) {
-                    return new ResponseEntity<>("Er is niet genoeg voorraad", HttpStatus.NOT_ACCEPTABLE);
-                }
-            } else {
-                return new ResponseEntity<>("Dit product bestaat niet", HttpStatus.NOT_ACCEPTABLE);
-            }
-        }
+        OrderRequest orderRequest = checkoutRequest.getOrderRequest();
+
+//        ArrayList<OrderProducts> orderProductsList = orderRequest.getOrderProducts();
+//        for (OrderProduct orderProduct : orderProductsList) {
+//
+//
+//        }
 
         String paymentMethod = checkoutRequest.getPaymentMethod();
         if (paymentMethod.equals("IDEAL")) {
@@ -85,3 +75,15 @@ public class CheckoutController {
 
     };
 }
+
+
+
+//    Optional<Product> optionalProduct = productService.find(product.getId());
+//            if (optionalProduct.isEmpty()) {
+//                return new ResponseEntity<>("Product met productid: " + product.getId() + " kon niet gevonden worden", HttpStatus.NOT_FOUND);
+//    } else {
+//    Product dbProduct = optionalProduct.get();
+//    if (product.getStock() > dbProduct.getStock()) {
+//    return new ResponseEntity<>("")
+//    }
+//    }

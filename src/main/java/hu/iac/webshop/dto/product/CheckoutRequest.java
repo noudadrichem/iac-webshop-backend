@@ -8,14 +8,15 @@ public class CheckoutRequest {
     private String paymentMethod;
     private CustomerRequest customerRequest;
     private AddressRequest addressRequest;
-    private List<ProductsCheckoutRequest> productsCheckoutRequests;
+    private OrderRequest orderRequest;
+//    private List<ProductsCheckoutRequest> productsCheckoutRequests;
 
 
-    public CheckoutRequest(String paymentMethod, CustomerRequest customerRequest, AddressRequest addressRequest, List<ProductsCheckoutRequest> productsCheckoutRequests) {
+    public CheckoutRequest(String paymentMethod, CustomerRequest customerRequest, AddressRequest addressRequest, OrderRequest orderRequest) {
         this.paymentMethod = paymentMethod;
         this.customerRequest = customerRequest;
         this.addressRequest = addressRequest;
-        this.productsCheckoutRequests = productsCheckoutRequests;
+        this.orderRequest = orderRequest;
     }
 
     public String getPaymentMethod() {
@@ -42,11 +43,19 @@ public class CheckoutRequest {
         this.customerRequest = customerRequest;
     }
 
-    public List<ProductsCheckoutRequest> getProductsCheckoutRequests() {
-        return productsCheckoutRequests;
+    public OrderRequest getOrderRequest() {
+        return orderRequest;
     }
 
-    public void setProductsCheckoutRequests(List<ProductsCheckoutRequest> productsCheckoutRequests) {
-        this.productsCheckoutRequests = productsCheckoutRequests;
+    public void setOrderRequest(OrderRequest orderRequest) {
+        this.orderRequest = orderRequest;
     }
+
+//    public List<ProductsCheckoutRequest> getProductsCheckoutRequests() {
+//        return productsCheckoutRequests;
+//    }
+//
+//    public void setProductsCheckoutRequests(List<ProductsCheckoutRequest> productsCheckoutRequests) {
+//        this.productsCheckoutRequests = productsCheckoutRequests;
+//    }
 }
