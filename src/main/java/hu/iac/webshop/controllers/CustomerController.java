@@ -36,7 +36,7 @@ public class CustomerController {
         return this.customerService.create(customer);
     }
 
-    @PutMapping("/categories/{id}")
+    @PutMapping("/customers/{id}")
     public ResponseEntity<Customer> update(@Valid @RequestBody CustomerRequest customerRequest, @PathVariable Long id) {
         Optional<Customer> optionalCustomer = this.customerService.find(id);
 

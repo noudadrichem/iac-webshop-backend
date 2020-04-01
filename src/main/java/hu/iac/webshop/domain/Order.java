@@ -1,5 +1,9 @@
 package hu.iac.webshop.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,13 +19,14 @@ public class Order {
     private Date date;
     private double totalPrice;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
+    @JsonBackReference
     private Customer customer;
 
-    @ManyToMany
-    @JoinTable(name = "order_product", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "order_id"))
-    private List<Product> products;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<OrderProduct> orderProducts = new ArrayList<>();
 
     public Order() {
     }
@@ -56,21 +61,29 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public List<OrderProduct> getOrderProducts() {
+        return orderProducts;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setOrderProducts(List<OrderProduct> orderProducts) {
+        this.orderProducts = orderProducts;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Customer getCustomer() {
         return this.customer;
     }
 
-    public void getCurrentOrderValue() {
-        for (Product product : products) {
-            totalPrice += product.getPrice();
-        }
-    }
+//    public void getCurrentOrderValue() {
+//        for (OrderProduct product : orderProducts) {
+//            totalPrice += product.getProduct().getPrice();
+//        }
+//    }
+
+//    public void addProduct(OrderProduct orderProduct){
+//        orderProducts.add(orderProduct);
+//    }
 }

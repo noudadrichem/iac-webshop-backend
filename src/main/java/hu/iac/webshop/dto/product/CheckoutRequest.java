@@ -6,17 +6,18 @@ import java.util.List;
 public class CheckoutRequest {
 
     private String paymentMethod;
-    private CustomerRequest customerRequest;
     private AddressRequest addressRequest;
-    private OrderRequest orderRequest;
+    private long orderId;
+    private long customerId;
+
+
 //    private List<ProductsCheckoutRequest> productsCheckoutRequests;
 
 
-    public CheckoutRequest(String paymentMethod, CustomerRequest customerRequest, AddressRequest addressRequest, OrderRequest orderRequest) {
+    public CheckoutRequest(String paymentMethod, AddressRequest addressRequest) {
         this.paymentMethod = paymentMethod;
-        this.customerRequest = customerRequest;
         this.addressRequest = addressRequest;
-        this.orderRequest = orderRequest;
+
     }
 
     public String getPaymentMethod() {
@@ -35,23 +36,22 @@ public class CheckoutRequest {
         this.addressRequest = addressRequest;
     }
 
-    public CustomerRequest getCustomerRequest() {
-        return customerRequest;
+    public long getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomerRequest(CustomerRequest customerRequest) {
-        this.customerRequest = customerRequest;
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 
-    public OrderRequest getOrderRequest() {
-        return orderRequest;
+    public long getOrderId() {
+        return orderId;
     }
 
-    public void setOrderRequest(OrderRequest orderRequest) {
-        this.orderRequest = orderRequest;
+    public void setOrderId(long orderId) {
+        this.orderId = orderId;
     }
-
-//    public List<ProductsCheckoutRequest> getProductsCheckoutRequests() {
+    //    public List<ProductsCheckoutRequest> getProductsCheckoutRequests() {
 //        return productsCheckoutRequests;
 //    }
 //

@@ -1,11 +1,10 @@
 package hu.iac.webshop.controllers;
 
-import hu.iac.webshop.domain.Address;
-import hu.iac.webshop.domain.Customer;
-import hu.iac.webshop.domain.Product;
+import hu.iac.webshop.domain.*;
 import hu.iac.webshop.dto.product.*;
 import hu.iac.webshop.services.AddressService;
 import hu.iac.webshop.services.CustomerService;
+import hu.iac.webshop.services.OrderService;
 import hu.iac.webshop.services.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +21,13 @@ import java.util.Optional;
 public class CheckoutController {
     private final CustomerService customerService;
     private final AddressService addressService;
+    private final OrderService orderService;
     private final ProductService productService;
 
-    public CheckoutController(CustomerService customerService, AddressService addressService, ProductService productService) {
+    public CheckoutController(CustomerService customerService, AddressService addressService,  OrderService orderService, ProductService productService) {
         this.customerService = customerService;
         this.addressService = addressService;
+        this.orderService = orderService;
         this.productService = productService;
     }
 
@@ -34,14 +35,14 @@ public class CheckoutController {
     public ResponseEntity checkout(@Valid @RequestBody CheckoutRequest checkoutRequest) {
 
 
-        Customer customer = new Customer(
-            checkoutRequest.getCustomerRequest().getName(),
-            checkoutRequest.getCustomerRequest().getPhone(),
-            checkoutRequest.getCustomerRequest().getEmail()
-        );
 
 
-        Customer newCustomer = this.customerService.create(customer);
+
+        Optional<Customer> newCustomer = this.customerService.find(checkoutRequest.getCustomerId());
+        if (newCustomer.isEmpty()) {
+            return new ResponseEntity<>("Customer id does not exist", HttpStatus.NOT_FOUND);
+        }
+        Customer customer = newCustomer.get();
 
         Address address = new Address(
             checkoutRequest.getAddressRequest().getStreet(),
@@ -49,18 +50,43 @@ public class CheckoutController {
             checkoutRequest.getAddressRequest().getState(),
             checkoutRequest.getAddressRequest().getPostalCode(),
             checkoutRequest.getAddressRequest().getCountry(),
-            newCustomer
+            customer
         );
 
         this.addressService.create(address);
 
-        OrderRequest orderRequest = checkoutRequest.getOrderRequest();
 
-//        ArrayList<OrderProducts> orderProductsList = orderRequest.getOrderProducts();
-//        for (OrderProduct orderProduct : orderProductsList) {
-//
-//
-//        }
+
+        Optional<Order> optionalOrder = this.orderService.find(checkoutRequest.getOrderId());
+        if (optionalOrder.isEmpty()) {
+            return new ResponseEntity<>("Order id does not exist", HttpStatus.NOT_FOUND);
+        } else  {
+            Order order = optionalOrder.get();
+            List<OrderProduct> orderProductList =  order.getOrderProducts();
+            if (orderProductList.isEmpty()) {
+                return new ResponseEntity<>("Order does not have any products", HttpStatus.NOT_ACCEPTABLE);
+            } else {
+                for (OrderProduct orderProduct : orderProductList) {
+                    Product product = orderProduct.getProduct();
+                    int amount = orderProduct.getAmount();
+                    long productId = product.getId();
+                    Optional<Product> optionalProduct = productService.find(productId);
+                    if (optionalProduct.isEmpty()){
+                        return new ResponseEntity<>("Not a valid product; id= " + productId, HttpStatus.NOT_FOUND);
+                    } else {
+                        Product savedProduct = optionalProduct.get();
+                        int savedProductStock = savedProduct.getStock();
+                        if (amount > savedProductStock) {
+                            return new ResponseEntity<>("Not enought products in stock for product= " + productId, HttpStatus.NOT_ACCEPTABLE);
+                        } else {
+                            savedProduct.setStock(savedProductStock - amount);
+                            productService.update(savedProduct);
+                        }
+                    }
+                }
+            }
+        }
+
 
         String paymentMethod = checkoutRequest.getPaymentMethod();
         if (paymentMethod.equals("IDEAL")) {
@@ -73,17 +99,7 @@ public class CheckoutController {
 
 
 
-    };
+    }
 }
 
 
-
-//    Optional<Product> optionalProduct = productService.find(product.getId());
-//            if (optionalProduct.isEmpty()) {
-//                return new ResponseEntity<>("Product met productid: " + product.getId() + " kon niet gevonden worden", HttpStatus.NOT_FOUND);
-//    } else {
-//    Product dbProduct = optionalProduct.get();
-//    if (product.getStock() > dbProduct.getStock()) {
-//    return new ResponseEntity<>("")
-//    }
-//    }

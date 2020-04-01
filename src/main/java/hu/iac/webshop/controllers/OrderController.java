@@ -5,6 +5,7 @@ import hu.iac.webshop.domain.Order;
 import hu.iac.webshop.dto.product.OrderRequest;
 import hu.iac.webshop.services.CustomerService;
 import hu.iac.webshop.services.OrderService;
+import hu.iac.webshop.services.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,15 +18,23 @@ import java.util.Optional;
 public class OrderController {
     private final OrderService orderService;
     private final CustomerService customerService;
+    private final ProductService productService;
 
-    public OrderController(OrderService orderService, CustomerService customerService) {
+
+    public OrderController(OrderService orderService, CustomerService customerService, ProductService productService) {
         this.orderService = orderService;
         this.customerService = customerService;
+        this.productService = productService;
     }
 
     @GetMapping("/orders")
     public List<Order> get() {
         return this.orderService.list();
+    }
+
+    @GetMapping("/orders/{id}")
+    public Order getOrderById(@PathVariable Long id){
+        return this.orderService.find(id).get();
     }
 
     @PostMapping("/orders")
@@ -54,6 +63,7 @@ public class OrderController {
 
         return new ResponseEntity<Order>(this.orderService.update(order), HttpStatus.OK);
     }
+
 
     @DeleteMapping("/orders/{id}")
     public ResponseEntity<Long> delete(@PathVariable Long id) {

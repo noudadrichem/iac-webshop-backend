@@ -1,5 +1,6 @@
 package hu.iac.webshop.services;
 
+import hu.iac.webshop.domain.Customer;
 import hu.iac.webshop.domain.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
