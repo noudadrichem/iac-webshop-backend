@@ -1,5 +1,7 @@
 package hu.iac.webshop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity(name = "Address")
@@ -17,6 +19,7 @@ public class Address {
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
+    @JsonIgnoreProperties("addresses")
     private Customer customer;
 
     public Address() {
