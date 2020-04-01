@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,11 +32,6 @@ public class CheckoutController {
 
     @PostMapping("/checkout")
     public ResponseEntity checkout(@Valid @RequestBody CheckoutRequest checkoutRequest) {
-
-
-
-
-
         Optional<Customer> newCustomer = this.customerService.find(checkoutRequest.getCustomerId());
         if (newCustomer.isEmpty()) {
             return new ResponseEntity<>("Customer id does not exist", HttpStatus.NOT_FOUND);
@@ -54,8 +48,6 @@ public class CheckoutController {
         );
 
         this.addressService.create(address);
-
-
 
         Optional<Order> optionalOrder = this.orderService.find(checkoutRequest.getOrderId());
         if (optionalOrder.isEmpty()) {

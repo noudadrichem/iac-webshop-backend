@@ -1,4 +1,4 @@
-package product;
+package hu.iac.webshop.product;
 
 import org.junit.jupiter.api.Test;
 

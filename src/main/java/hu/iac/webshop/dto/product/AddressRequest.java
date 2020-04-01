@@ -25,6 +25,20 @@ public class AddressRequest {
 
     public AddressRequest() {}
 
+    public AddressRequest(
+        String street,
+        String city,
+        String state,
+        String postalCode,
+        String country
+    ) {
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.postalCode = postalCode;
+        this.country = country;
+    }
+
     public String getStreet() {
         return street;
     }
