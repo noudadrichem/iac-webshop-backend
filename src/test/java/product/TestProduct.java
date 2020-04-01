@@ -2,10 +2,19 @@ package product;
 
 import org.junit.jupiter.api.Test;
 
+import hu.iac.webshop.controllers.ProductController;
 
 import org.junit.jupiter.api.DisplayName;
 
+// @WebMvcTest(value = ProductController.class)
 public class TestProduct {
+
+    // @Autowired
+    // private MockMvc mockMvc;
+    // @MockBean
+    // private OrderRepository mockRepository;
+    // @MockBean
+    // private OrderService mockService;
 
     @Test
     @DisplayName("Constructor product")

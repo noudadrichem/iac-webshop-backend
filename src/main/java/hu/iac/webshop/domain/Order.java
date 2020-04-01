@@ -37,7 +37,7 @@ public class Order {
         this.date = date;
         this.totalPrice = totalPrice;
         this.customer = customer;
-        this.products = new ArrayList<Product>();
+        // this.products = new ArrayList<Product>();
     }
 
     public void setId(Long id) {
@@ -76,20 +76,20 @@ public class Order {
         this.customer = customer;
     }
 
-    public void addProduct(Product product) {
-        System.out.println("_____");
-        System.out.println(product);
-        System.out.println("_____");
-        if (this.products.contains(product)) {
-            // UPDATE quantity in order of selected product, this was a brain fart.
-            // int prodIdx = this.products.indexOf(product);
-            // Product product = this.products.get(prodIdx);
-            // product.
-            // this.products.add(product);
-        } else {
-            this.products.add(product);
-        }
-    }
+    // public void addProduct(Product product) {
+    //     System.out.println("_____");
+    //     System.out.println(product);
+    //     System.out.println("_____");
+    //     if (this.products.contains(product)) {
+    //         // UPDATE quantity in order of selected product, this was a brain fart.
+    //         // int prodIdx = this.products.indexOf(product);
+    //         // Product product = this.products.get(prodIdx);
+    //         // product.
+    //         // this.products.add(product);
+    //     } else {
+    //         this.products.add(product);
+    //     }
+    // }
 
     public Customer getCustomer() {
         return this.customer;
