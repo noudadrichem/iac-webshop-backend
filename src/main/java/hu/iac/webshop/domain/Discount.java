@@ -1,5 +1,7 @@
 package hu.iac.webshop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
@@ -22,6 +24,7 @@ public class Discount {
         joinColumns = @JoinColumn(name = "product_id"),
         inverseJoinColumns = @JoinColumn(name = "discount_id")
     )
+    @JsonIgnoreProperties("discounts")
     private List<Product> products;
 
     public Discount() {}
