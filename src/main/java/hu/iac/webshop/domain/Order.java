@@ -1,9 +1,8 @@
 package hu.iac.webshop.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.Date;
 import java.util.List;
 
@@ -22,12 +21,13 @@ public class Order {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
-    @JsonBackReference
+    @JsonIgnoreProperties("orders")
     private Customer customer;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonManagedReference
-    private List<OrderProduct> orderProducts = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "order_product", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "order_id"))
+    @JsonIgnoreProperties("order")
+    private List<Product> products;
 
     public Order() {
     }
@@ -63,12 +63,12 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public List<OrderProduct> getOrderProducts() {
-        return orderProducts;
+    public List<Product> getProducts() {
+        return products;
     }
 
-    public void setOrderProducts(List<OrderProduct> orderProducts) {
-        this.orderProducts = orderProducts;
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     public void setCustomer(Customer customer) {

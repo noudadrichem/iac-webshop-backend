@@ -1,6 +1,7 @@
 package hu.iac.webshop.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ public class Product {
     private int stock;
 
     @ManyToMany(fetch=FetchType.LAZY, mappedBy="products")
+    @JsonIgnoreProperties("products")
     private List<Discount> discounts = new ArrayList<>();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
