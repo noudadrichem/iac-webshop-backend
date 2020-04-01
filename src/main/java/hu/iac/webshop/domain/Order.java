@@ -1,5 +1,9 @@
 package hu.iac.webshop.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Date;
@@ -17,15 +21,14 @@ public class Order {
     private Date date;
     private double totalPrice;
 
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("order")
+    private List<OrderProduct> orderProducts = new ArrayList<>();
+  
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
     @JsonIgnoreProperties("orders")
     private Customer customer;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "order_product", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "order_id"))
-    @JsonIgnoreProperties("order")
-    private List<Product> products;
 
     public Order() {
     }
@@ -60,21 +63,29 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public List<OrderProduct> getOrderProducts() {
+        return orderProducts;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setOrderProducts(List<OrderProduct> orderProducts) {
+        this.orderProducts = orderProducts;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Customer getCustomer() {
         return this.customer;
     }
 
-    public void getCurrentOrderValue() {
-        for (Product product : products) {
-            totalPrice += product.getPrice();
-        }
-    }
+//    public void getCurrentOrderValue() {
+//        for (OrderProduct product : orderProducts) {
+//            totalPrice += product.getProduct().getPrice();
+//        }
+//    }
+
+//    public void addProduct(OrderProduct orderProduct){
+//        orderProducts.add(orderProduct);
+//    }
 }

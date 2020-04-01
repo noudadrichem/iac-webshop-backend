@@ -1,5 +1,7 @@
 package hu.iac.webshop.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -81,5 +83,15 @@ public class Customer {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public List<Address> getAddress() {
+        return addresses;
+    }
+
+    public void addAddress(Address address) {
+        if (!this.addresses.contains(address)) {
+            this.addresses.add(address);
+        }
     }
 }

@@ -18,6 +18,6 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@root.com
       PGADMIN_DEFAULT_PASSWORD: SuperSecret
     volumes:
-      - ./pgadmin-data:/var/lib/postgresql/data8
+      - ./pgadmin-data:/var/lib/postgresql/data
     ports:
       - 80:80
