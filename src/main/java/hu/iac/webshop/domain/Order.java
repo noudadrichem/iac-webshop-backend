@@ -1,6 +1,11 @@
 package hu.iac.webshop.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.Date;
 import java.util.List;
 
@@ -16,13 +21,14 @@ public class Order {
     private Date date;
     private double totalPrice;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("order")
+    private List<OrderProduct> orderProducts = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(name = "order_product", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "order_id"))
-    private List<Product> products;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id", nullable = false)
+    @JsonIgnoreProperties("orders")
+    private Customer customer;
 
     public Order() {
     }
@@ -58,12 +64,16 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public List<OrderProduct> getOrderProducts() {
+        return orderProducts;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setOrderProducts(List<OrderProduct> orderProducts) {
+        this.orderProducts = orderProducts;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public void addProduct(Product product) {
@@ -85,11 +95,13 @@ public class Order {
         return this.customer;
     }
 
-    public double getCurrentOrderValue() {
-        for (Product product : products) {
-            this.totalPrice += product.getPrice();
-        }
+//    public void getCurrentOrderValue() {
+//        for (OrderProduct product : orderProducts) {
+//            totalPrice += product.getProduct().getPrice();
+//        }
+//    }
 
-        return totalPrice;
-    }
+//    public void addProduct(OrderProduct orderProduct){
+//        orderProducts.add(orderProduct);
+//    }
 }
