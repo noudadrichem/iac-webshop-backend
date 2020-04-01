@@ -18,6 +18,7 @@ public class Order {
     private Long id;
     private Date date;
     private double totalPrice;
+    private String isOrdered;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
@@ -35,6 +36,7 @@ public class Order {
         this.date = date;
         this.totalPrice = totalPrice;
         this.customer = customer;
+        this.isOrdered = "False";
     }
 
     public void setId(Long id) {
@@ -75,6 +77,14 @@ public class Order {
 
     public Customer getCustomer() {
         return this.customer;
+    }
+
+    public void setIsOrdered() {
+        this.isOrdered = "True";
+    }
+
+    public String getIsOrdered() {
+        return this.isOrdered;
     }
 
 //    public void getCurrentOrderValue() {

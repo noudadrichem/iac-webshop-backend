@@ -60,11 +60,13 @@ public class CheckoutController {
         Optional<Order> optionalOrder = this.orderService.find(checkoutRequest.getOrderId());
         if (optionalOrder.isEmpty()) {
             return new ResponseEntity<>("Order id does not exist", HttpStatus.NOT_FOUND);
-        } else  {
+        } else {
             Order order = optionalOrder.get();
             List<OrderProduct> orderProductList =  order.getOrderProducts();
             if (orderProductList.isEmpty()) {
                 return new ResponseEntity<>("Order does not have any products", HttpStatus.NOT_ACCEPTABLE);
+            } else if (order.getIsOrdered().equals("True")) {
+                return new ResponseEntity<>("Order has already been processed", HttpStatus.NOT_ACCEPTABLE);
             } else {
                 for (OrderProduct orderProduct : orderProductList) {
                     Product product = orderProduct.getProduct();
@@ -85,17 +87,22 @@ public class CheckoutController {
                     }
                 }
             }
+            String paymentMethod = checkoutRequest.getPaymentMethod();
+            if (paymentMethod.equals("IDEAL")) {
+                order.setIsOrdered();
+                orderService.update(order);
+                return new ResponseEntity<>("U heeft met IDEAL betaald", HttpStatus.OK);
+            } else if (paymentMethod.equals("Paypal")) {
+                order.setIsOrdered();
+                orderService.update(order);
+                return new ResponseEntity<>("U heeft met Paypal betaald", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Voer een geldig betaalmiddel in (IDEAL of Paypal)", HttpStatus.NOT_ACCEPTABLE);
+            }
         }
 
 
-        String paymentMethod = checkoutRequest.getPaymentMethod();
-        if (paymentMethod.equals("IDEAL")) {
-            return new ResponseEntity<>("U heeft met IDEAL betaald", HttpStatus.OK);
-        } else if (paymentMethod.equals("Paypal")) {
-            return new ResponseEntity<>("U heeft met Paypal betaald", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Voer een geldig betaalmiddel in (IDEAL of Paypal)", HttpStatus.NOT_ACCEPTABLE);
-        }
+
 
 
 
