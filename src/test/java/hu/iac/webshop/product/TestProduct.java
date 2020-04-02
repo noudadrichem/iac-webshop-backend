@@ -66,7 +66,7 @@ class TestProduct {
 
     @Test
     @DisplayName("Get one product")
-    void shouldReturnUserObject_whenGetUser() throws Exception {
+    void shouldFetchSingleProduct() throws Exception {
         Optional<Product> optProduct = Optional.of(testProduct1);
         given(productService.find(1L)).willReturn(optProduct);
 
@@ -78,7 +78,7 @@ class TestProduct {
     }
 
     @Test
-    @DisplayName("Create Product")
+    @DisplayName("Create product")
     public void shouldCreateProduct() throws Exception {
         mvc.perform(post(PRODUCT_URL).contentType(MediaType.APPLICATION_JSON).content(POST_REQ_BODY).characterEncoding("utf-8"))
             .andExpect(status().isOk());
