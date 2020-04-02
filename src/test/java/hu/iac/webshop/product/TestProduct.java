@@ -11,7 +11,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
 import hu.iac.webshop.controllers.ProductController;
 import hu.iac.webshop.domain.Product;
@@ -22,7 +21,6 @@ import java.util.Arrays;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -59,7 +57,6 @@ class TestProduct {
     public void shouldFetchProduct() throws Exception {
         given(productService.list()).willReturn(Arrays.asList(testProduct1, testProduct2, testProduct3));
         mvc.perform(get(PRODUCT_URL)
-            .content(objectMapper.writer().writeValueAsString(POST_REQ_BODY))
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$[0].name", is(testProduct1.getName())))
@@ -67,17 +64,18 @@ class TestProduct {
             .andExpect(jsonPath("$[0].stock", is(testProduct1.getStock())));
     }
 
-    // @Test
-    // @DisplayName("Get one product")
-    // void shouldReturnUserObject_whenGetUser() throws Exception {
-    //     Optional<Product> optProduct = Optional.of(testProduct1);
-    //     given(productService.find(1L)).willReturn(optProduct);
+    @Test
+    @DisplayName("Get one product")
+    void shouldReturnUserObject_whenGetUser() throws Exception {
+        Optional<Product> optProduct = Optional.of(testProduct1);
+        given(productService.find(1L)).willReturn(optProduct);
 
-    //     mvc.perform(post(PRODUCT_URL + "/1").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
-    //         .andExpect(jsonPath("$[0].name", is(testProduct1.getName())))
-    //         .andExpect(jsonPath("$[0].price", is(testProduct1.getPrice())))
-    //         .andExpect(jsonPath("$[0].stock", is(testProduct1.getStock())));
-    // }
+        mvc.perform(get(PRODUCT_URL + "/1").content(objectMapper.writer().writeValueAsString(POST_REQ_BODY))
+                .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is(testProduct1.getName())))
+                .andExpect(jsonPath("$.price", is(testProduct1.getPrice())))
+                .andExpect(jsonPath("$.stock", is(testProduct1.getStock())));
+    }
 
     @Test
     @DisplayName("Create Product")
