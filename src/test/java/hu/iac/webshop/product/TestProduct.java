@@ -46,11 +46,9 @@ class TestProduct {
 
     private final String PRODUCT_URL = "/products";
     private final String POST_REQ_BODY = "{\"name\": \"Komkommer\",\"price\": 10.0,\"stock\": 50, \"discountIds\": []}";
-
     private final Product testProduct1 = new Product("Komkommer", 10.0, 50);
     private final Product testProduct2 = new Product("Desktop", 1250.95, 120);
     private final Product testProduct3 = new Product("Mobiel", 800.0, 420);
-
 
     @Test
     @DisplayName("Get products")
@@ -71,10 +69,10 @@ class TestProduct {
         given(productService.find(1L)).willReturn(optProduct);
 
         mvc.perform(get(PRODUCT_URL + "/1").content(objectMapper.writer().writeValueAsString(POST_REQ_BODY))
-                .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
-                .andExpect(jsonPath("$.name", is(testProduct1.getName())))
-                .andExpect(jsonPath("$.price", is(testProduct1.getPrice())))
-                .andExpect(jsonPath("$.stock", is(testProduct1.getStock())));
+            .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+            .andExpect(jsonPath("$.name", is(testProduct1.getName())))
+            .andExpect(jsonPath("$.price", is(testProduct1.getPrice())))
+            .andExpect(jsonPath("$.stock", is(testProduct1.getStock())));
     }
 
     @Test
@@ -82,9 +80,5 @@ class TestProduct {
     public void shouldCreateProduct() throws Exception {
         mvc.perform(post(PRODUCT_URL).contentType(MediaType.APPLICATION_JSON).content(POST_REQ_BODY).characterEncoding("utf-8"))
             .andExpect(status().isOk());
-            // .andExpect(jsonPath("$.name", is(testProduct1.getName())))
-            // .andExpect(jsonPath("$.price", is(testProduct1.getPrice())))
-            // .andExpect(jsonPath("$.stock", is(testProduct1.getStock())));
-            // .andReturn();
     }
 }
