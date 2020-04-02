@@ -1,9 +1,6 @@
 package hu.iac.webshop.domain;
 
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -107,11 +104,11 @@ public class Order {
         return this.isOrdered;
     }
 
-//    public void getCurrentOrderValue() {
-//        for (OrderProduct product : orderProducts) {
-//            totalPrice += product.getProduct().getPrice();
-//        }
-//    }
+   public void getCurrentOrderValue() {
+       for (OrderProduct product : orderProducts) {
+           totalPrice += product.getProduct().getPrice();
+       }
+   }
 
 //    public void addProduct(OrderProduct orderProduct){
 //        orderProducts.add(orderProduct);

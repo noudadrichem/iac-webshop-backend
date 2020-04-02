@@ -13,7 +13,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import hu.iac.webshop.controllers.ProductController;
+import hu.iac.webshop.domain.Customer;
 import hu.iac.webshop.domain.Product;
+import hu.iac.webshop.services.CustomerService;
 import hu.iac.webshop.services.DiscountService;
 import hu.iac.webshop.services.ProductService;
 
