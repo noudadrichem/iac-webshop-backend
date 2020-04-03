@@ -1,4 +1,4 @@
-package hu.iac.webshop.orderproduct;
+package hu.iac.webshop.controllers;
 
 import hu.iac.webshop.controllers.OrderProductController;
 import hu.iac.webshop.domain.*;
@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(OrderProductController.class)
 @DisplayName("OrderProduct Controller")
 @Tag("Controller")
-public class TestOrderProduct {
+public class OrderProductControllerTest {
 
     @Autowired
     private MockMvc mvc;
