@@ -31,6 +31,16 @@ public class ProductController {
         return producten;
     }
 
+    @GetMapping("/products/{id}")
+    public ResponseEntity<Product> addProducten(@PathVariable Long id) {
+        Optional<Product> product = productService.find(id);
+        if (product.isEmpty()) {
+            return new ResponseEntity<Product>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<Product>(product.get(), HttpStatus.OK);
+    }
+
     @PostMapping("/products")
     public Product addProducten(@RequestBody ProductRequest productRequest) {
 

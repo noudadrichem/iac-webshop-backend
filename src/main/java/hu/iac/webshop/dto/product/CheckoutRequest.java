@@ -12,7 +12,9 @@ public class CheckoutRequest {
 
 
 //    private List<ProductsCheckoutRequest> productsCheckoutRequests;
+    public CheckoutRequest() {
 
+    }
 
     public CheckoutRequest(String paymentMethod, AddressRequest addressRequest) {
         this.paymentMethod = paymentMethod;

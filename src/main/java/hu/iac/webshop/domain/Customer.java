@@ -31,14 +31,14 @@ public class Customer {
     @JsonIgnoreProperties("customer")
     private List<Order> orders = new ArrayList<Order>();
 
-    public Customer(){
-
-    }
+    public Customer(){}
 
     public Customer(String name, String phone, String email){
         this.name = name;
         this.phone = phone;
         this.email = email;
+        this.addresses = new ArrayList<Address>();
+        this.orders = new ArrayList<Order>();
     }
 
     public Long getId() {
