@@ -1,5 +1,7 @@
 # iac webshop back-end
 
+![CI](https://github.com/noudadrichem/iac-webshop-backend/workflows/CI/badge.svg)
+
 Install packages
 ```bash
 mvn clean install
