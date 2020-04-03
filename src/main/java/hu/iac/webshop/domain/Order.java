@@ -18,7 +18,7 @@ public class Order {
     private Long id;
     private Date date;
     private double totalPrice;
-    private String isOrdered;
+    private String isCheckedOut;
 
     @JsonIgnore
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
@@ -38,7 +38,7 @@ public class Order {
         this.date = date;
         this.totalPrice = totalPrice;
         this.customer = customer;
-        this.isOrdered = "False";
+        this.isCheckedOut = "False";
     }
 
     public void setId(Long id) {
@@ -77,31 +77,28 @@ public class Order {
         this.customer = customer;
     }
 
-    // public void addProduct(Product product) {
-    //     System.out.println("_____");
-    //     System.out.println(product);
-    //     System.out.println("_____");
-    //     if (this.products.contains(product)) {
-    //         // UPDATE quantity in order of selected product, this was a brain fart.
-    //         // int prodIdx = this.products.indexOf(product);
-    //         // Product product = this.products.get(prodIdx);
-    //         // product.
-    //         // this.products.add(product);
-    //     } else {
-    //         this.products.add(product);
-    //     }
-    // }
+     public void addProduct(OrderProduct orderProduct) {
+//         if (this.products.contains(product)) {
+             // UPDATE quantity in order of selected product, this was a brain fart.
+             // int prodIdx = this.products.indexOf(product);
+             // Product product = this.products.get(prodIdx);
+             // product.
+             // this.products.add(product);
+//         } else {
+             this.orderProducts.add(orderProduct);
+//         }
+     }
 
     public Customer getCustomer() {
         return this.customer;
     }
 
     public void setIsOrdered() {
-        this.isOrdered = "True";
+        this.isCheckedOut = "True";
     }
 
-    public String getIsOrdered() {
-        return this.isOrdered;
+    public String getIsCheckedOut() {
+        return this.isCheckedOut;
     }
 
    public void getCurrentOrderValue() {
