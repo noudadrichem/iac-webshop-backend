@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -31,8 +32,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(ProductController.class)
-@DisplayName("User Controller")
+@DisplayName("Product Controller")
 @Tag("Controller")
+@AutoConfigureMockMvc
 class ProductControllerTest {
 
     @Autowired
@@ -48,6 +50,7 @@ class ProductControllerTest {
 
     private final String PRODUCT_URL = "/products";
     private final String POST_REQ_BODY = "{\"name\": \"Komkommer\",\"price\": 10.0,\"stock\": 50, \"discountIds\": []}";
+
     private final Product testProduct1 = new Product("Komkommer", 10.0, 50);
     private final Product testProduct2 = new Product("Desktop", 1250.95, 120);
     private final Product testProduct3 = new Product("Mobiel", 800.0, 420);
