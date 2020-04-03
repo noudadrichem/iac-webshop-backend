@@ -28,17 +28,24 @@ public class OrderProductController {
     }
 
     @PostMapping("/orderproducts")
-    public ResponseEntity<OrderProduct> create(@Valid @RequestBody OrderProductRequest orderProductRequest){
+    public ResponseEntity create(@Valid @RequestBody OrderProductRequest orderProductRequest){
         Optional<Order> order = this.orderService.find(orderProductRequest.getOrderId());
         Optional<Product> product = this.productService.find(orderProductRequest.getProductId());
 
         if (order.isPresent() && product.isPresent()) {
-            OrderProduct orderProduct = new OrderProduct(
-                order.get(),
-                product.get(),
-                orderProductRequest.getAmount()
-            );
-            return new ResponseEntity<OrderProduct>(this.orderProductService.create(orderProduct), HttpStatus.OK);
+            int amount = orderProductRequest.getAmount();
+            int stock = product.get().getStock();
+
+            if (amount <= stock) {
+                OrderProduct orderProduct = new OrderProduct(
+                    order.get(),
+                    product.get(),
+                    orderProductRequest.getAmount()
+                );
+                return new ResponseEntity<OrderProduct>(this.orderProductService.create(orderProduct), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Not enough products in stock to order this amount", HttpStatus.NOT_ACCEPTABLE);
+            }
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
