@@ -1,24 +1,14 @@
 package hu.iac.webshop.dto.product;
 
-
-import java.util.List;
-
 public class CheckoutRequest {
 
     private String paymentMethod;
-    private AddressRequest addressRequest;
+    private long addressId;
     private long orderId;
     private long customerId;
 
 
-//    private List<ProductsCheckoutRequest> productsCheckoutRequests;
     public CheckoutRequest() {
-
-    }
-
-    public CheckoutRequest(String paymentMethod, AddressRequest addressRequest) {
-        this.paymentMethod = paymentMethod;
-        this.addressRequest = addressRequest;
 
     }
 
@@ -28,14 +18,6 @@ public class CheckoutRequest {
 
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
-    }
-
-    public AddressRequest getAddressRequest() {
-        return addressRequest;
-    }
-
-    public void setAddressRequest(AddressRequest addressRequest) {
-        this.addressRequest = addressRequest;
     }
 
     public long getCustomerId() {
@@ -53,11 +35,12 @@ public class CheckoutRequest {
     public void setOrderId(long orderId) {
         this.orderId = orderId;
     }
-    //    public List<ProductsCheckoutRequest> getProductsCheckoutRequests() {
-//        return productsCheckoutRequests;
-//    }
-//
-//    public void setProductsCheckoutRequests(List<ProductsCheckoutRequest> productsCheckoutRequests) {
-//        this.productsCheckoutRequests = productsCheckoutRequests;
-//    }
+
+    public long getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(long addressId) {
+        this.addressId = addressId;
+    }
 }
