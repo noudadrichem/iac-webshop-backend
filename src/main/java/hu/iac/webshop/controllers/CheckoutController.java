@@ -34,6 +34,7 @@ public class CheckoutController {
     public ResponseEntity checkout(@Valid @RequestBody CheckoutRequest checkoutRequest) {
         Optional<Customer> newCustomer = this.customerService.find(checkoutRequest.getCustomerId());
         Optional<Order> optionalOrder = this.orderService.find(checkoutRequest.getOrderId());
+        Optional<Address> optionalAddress = this.addressService.find(checkoutRequest.getCustomerId());
 
         if (newCustomer.isEmpty()) {
             return new ResponseEntity<>("Customer id does not exist", HttpStatus.NOT_FOUND);
@@ -41,56 +42,39 @@ public class CheckoutController {
         if (optionalOrder.isEmpty()) {
             return new ResponseEntity<>("Order id does not exist", HttpStatus.NOT_FOUND);
         }
+        if (optionalAddress.isEmpty()) {
+            return new ResponseEntity<>("Address id does not exist", HttpStatus.NOT_FOUND);
+        }
 
         Customer customer = newCustomer.get();
         Order order = optionalOrder.get();
+        Address address = optionalAddress.get();
 
-        Address address = new Address(
-            checkoutRequest.getAddressRequest().getStreet(),
-            checkoutRequest.getAddressRequest().getCity(),
-            checkoutRequest.getAddressRequest().getState(),
-            checkoutRequest.getAddressRequest().getPostalCode(),
-            checkoutRequest.getAddressRequest().getCountry(),
-            customer
-        );
-
-        this.addressService.create(address);
 
         List<OrderProduct> orderProductList =  order.getOrderProducts();
         if (orderProductList.isEmpty()) {
             return new ResponseEntity<>("Order does not have any products", HttpStatus.NOT_ACCEPTABLE);
-        } else if (order.getIsOrdered().equals("True")) {
+        } else if (order.getIsCheckedOut().equals("True")) {
             return new ResponseEntity<>("Order has already been processed", HttpStatus.NOT_ACCEPTABLE);
         }
 
         for (OrderProduct orderProduct : orderProductList) {
             Product product = orderProduct.getProduct();
             int amount = orderProduct.getAmount();
-            long productId = product.getId();
-            Optional<Product> optionalProduct = productService.find(productId);
-            if (optionalProduct.isEmpty()){
-                return new ResponseEntity<>("Not a valid product; id= " + productId, HttpStatus.NOT_FOUND);
+            int stock = product.getStock();
+            if (amount > stock) {
+                return new ResponseEntity<>("Not enought products in stock for product= " + product, HttpStatus.NOT_ACCEPTABLE);
             } else {
-                Product savedProduct = optionalProduct.get();
-                int savedProductStock = savedProduct.getStock();
-                if (amount > savedProductStock) {
-                    return new ResponseEntity<>("Not enought products in stock for product= " + productId, HttpStatus.NOT_ACCEPTABLE);
-                } else {
-                    savedProduct.setStock(savedProductStock - amount);
-                    productService.update(savedProduct);
-                }
+                product.setStock(stock - amount);
+                productService.update(product);
             }
         }
 
         String paymentMethod = checkoutRequest.getPaymentMethod();
-        if (paymentMethod.equals("IDEAL")) {
+        if (paymentMethod.equals("IDEAL") || paymentMethod.equals("Paypal")) {
             order.setIsOrdered();
             orderService.update(order);
-            return new ResponseEntity<>("U heeft met IDEAL betaald", HttpStatus.OK);
-        } else if (paymentMethod.equals("Paypal")) {
-            order.setIsOrdered();
-            orderService.update(order);
-            return new ResponseEntity<>("U heeft met Paypal betaald", HttpStatus.OK);
+            return new ResponseEntity<>("U heeft met betaald met  " + paymentMethod, HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Voer een geldig betaalmiddel in (IDEAL of Paypal)", HttpStatus.NOT_ACCEPTABLE);
         }
