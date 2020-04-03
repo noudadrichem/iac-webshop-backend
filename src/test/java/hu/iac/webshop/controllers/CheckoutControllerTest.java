@@ -51,9 +51,9 @@ public class CheckoutControllerTest {
     private final Product testProduct1 = new Product("Komkommer", 10.0, 50);
     private final Product testProduct2 = new Product("Desktop", 1250.95, 120);
     private final Product testProduct3 = new Product("Mobiel", 800.0, 420);
-    private OrderProduct orderProduct1 = new OrderProduct(order, testProduct1, 3);
-    private OrderProduct orderProduct2 = new OrderProduct(order, testProduct2, 119);
-    private OrderProduct orderProduct3 = new OrderProduct(order, testProduct3, 420);
+    private final OrderProduct orderProduct1 = new OrderProduct(order, testProduct1, 3);
+    private final OrderProduct orderProduct2 = new OrderProduct(order, testProduct2, 119);
+    private final OrderProduct orderProduct3 = new OrderProduct(order, testProduct3, 420);
 
     @Test
     @DisplayName("Checkout")
