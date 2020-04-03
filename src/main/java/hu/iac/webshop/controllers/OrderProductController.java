@@ -9,9 +9,7 @@ import hu.iac.webshop.services.OrderService;
 import hu.iac.webshop.services.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -43,5 +41,16 @@ public class OrderProductController {
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("orderproducts/{orderproductid}")
+    public ResponseEntity<Long> emptyCart(@PathVariable Long orderproductid){
+        boolean isProductRemoved = this.orderProductService.deleteProduct(orderproductid);
+
+        if (!isProductRemoved) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(orderproductid, HttpStatus.OK);
     }
 }
