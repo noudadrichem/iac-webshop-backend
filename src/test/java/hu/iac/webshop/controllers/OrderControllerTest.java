@@ -1,4 +1,4 @@
-package hu.iac.webshop.order;
+package hu.iac.webshop.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(OrderController.class)
 @DisplayName("Order Controller")
 @Tag("Controller")
-class TestOrder {
+class OrderControllerTest {
 
     @Autowired
     private MockMvc mvc;

@@ -77,20 +77,17 @@ public class Order {
         this.customer = customer;
     }
 
-    // public void addProduct(Product product) {
-    //     System.out.println("_____");
-    //     System.out.println(product);
-    //     System.out.println("_____");
-    //     if (this.products.contains(product)) {
-    //         // UPDATE quantity in order of selected product, this was a brain fart.
-    //         // int prodIdx = this.products.indexOf(product);
-    //         // Product product = this.products.get(prodIdx);
-    //         // product.
-    //         // this.products.add(product);
-    //     } else {
-    //         this.products.add(product);
-    //     }
-    // }
+     public void addProduct(OrderProduct orderProduct) {
+//         if (this.products.contains(product)) {
+             // UPDATE quantity in order of selected product, this was a brain fart.
+             // int prodIdx = this.products.indexOf(product);
+             // Product product = this.products.get(prodIdx);
+             // product.
+             // this.products.add(product);
+//         } else {
+             this.orderProducts.add(orderProduct);
+//         }
+     }
 
     public Customer getCustomer() {
         return this.customer;
