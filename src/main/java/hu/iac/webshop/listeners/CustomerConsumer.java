@@ -9,18 +9,22 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 @Component
-public class Consumer {
+public class CustomerConsumer {
 
     @Autowired
     private CustomerService customerService;
 
     @JmsListener(destination = "customer.queue")
-    public void listener(Map<String, Object> customerMap) {
+    public void customerListener(Map<String, Object> customerMap) {
         Customer customer = new Customer(
             customerMap.get("name").toString(),
             customerMap.get("phone").toString(),
             customerMap.get("email").toString()
         );
+
+        if (customerMap.containsKey("id")) {
+            customer.setId(Long.parseLong(customerMap.get("id").toString()));
+        }
 
         this.customerService.create(customer);
     }

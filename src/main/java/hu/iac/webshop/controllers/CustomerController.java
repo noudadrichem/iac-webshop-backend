@@ -24,7 +24,7 @@ public class CustomerController {
     private JmsTemplate jmsTemplate;
 
     @Autowired
-    private Queue queue;
+    private Queue customerQueue;
 
     private final CustomerService customerService;
 
@@ -45,25 +45,28 @@ public class CustomerController {
         customerMap.put("phone", customerRequest.getPhone());
         customerMap.put("email", customerRequest.getEmail());
 
-        jmsTemplate.convertAndSend(queue, customerMap);
+        jmsTemplate.convertAndSend(customerQueue, customerMap);
 
         return customerMap;
     }
 
     @PutMapping("/customers/{id}")
-    public ResponseEntity<Customer> update(@Valid @RequestBody CustomerRequest customerRequest, @PathVariable Long id) {
+    public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody CustomerRequest customerRequest, @PathVariable Long id) {
+        Map<String, Object> customerMap = new HashMap<>();
         Optional<Customer> optionalCustomer = this.customerService.find(id);
 
         if (optionalCustomer.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        Customer customer = optionalCustomer.get();
-        customer.setName(customerRequest.getName());
-        customer.setPhone(customerRequest.getPhone());
-        customer.setEmail(customerRequest.getEmail());
+        customerMap.put("id", id);
+        customerMap.put("name", customerRequest.getName());
+        customerMap.put("phone", customerRequest.getPhone());
+        customerMap.put("email", customerRequest.getEmail());
 
-        return new ResponseEntity<Customer>(this.customerService.update(customer), HttpStatus.OK);
+        jmsTemplate.convertAndSend(customerQueue, customerMap);
+
+        return new ResponseEntity<>(customerMap, HttpStatus.OK);
     }
 
     @DeleteMapping("/customers/{id}")
