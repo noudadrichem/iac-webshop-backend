@@ -27,7 +27,7 @@ public class OrderProductController {
         this.productService = productService;
     }
 
-    @PostMapping("/orderproducts")
+    @PostMapping("/orders/products")
     public ResponseEntity create(@Valid @RequestBody OrderProductRequest orderProductRequest){
         Optional<Order> order = this.orderService.find(orderProductRequest.getOrderId());
         Optional<Product> product = this.productService.find(orderProductRequest.getProductId());
@@ -43,15 +43,15 @@ public class OrderProductController {
                     orderProductRequest.getAmount()
                 );
                 return new ResponseEntity<OrderProduct>(this.orderProductService.create(orderProduct), HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>("Not enough products in stock to order this amount", HttpStatus.NOT_ACCEPTABLE);
             }
+
+            return new ResponseEntity<>("Not enough products in stock to order this amount", HttpStatus.NOT_ACCEPTABLE);
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("/orderproducts/{orderId}/{productId}")
+    @DeleteMapping("/orders/{orderId}/products/{productId}")
     public ResponseEntity delete(@PathVariable Long orderId, @PathVariable Long productId) {
         OrderProductId orderProductId = new OrderProductId(orderId, productId);
         boolean isRemoved = this.orderProductService.delete(orderProductId);

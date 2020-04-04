@@ -23,8 +23,8 @@ public class OrderProductService {
         if (orderProduct.isPresent()) {
             this.orderProductRepository.deleteById(orderProductId);
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 }

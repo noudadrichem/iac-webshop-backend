@@ -103,8 +103,7 @@ public class Order {
 
    public void getCurrentOrderValue() {
        for (OrderProduct orderProduct : orderProducts) {
-           Product product = orderProduct.getProduct();
-           totalPrice += product.getPrice() * orderProduct.getAmount();
+           totalPrice += orderProduct.getProduct().getPrice() * orderProduct.getAmount();
        }
    }
 
