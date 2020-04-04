@@ -32,12 +32,12 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @GetMapping("/customers")
+    @GetMapping("/authzi/customers")
     public List<Customer> getCategories() {
         return this.customerService.list();
     }
 
-    @PostMapping("/customers")
+    @PostMapping("/authzi/customers")
     public Map<String, Object> create(@Valid @RequestBody CustomerRequest customerRequest) throws MessageConversionException {
         Map<String, Object> customerMap = new HashMap<>();
 
