@@ -19,6 +19,10 @@ public class CategoryService {
         return this.categoryRepository.findAll();
     }
 
+    public Category findByName(String name){
+        return this.categoryRepository.findByName(name);
+    }
+
     public Category create(Category category) {
         return this.categoryRepository.save(category);
     }

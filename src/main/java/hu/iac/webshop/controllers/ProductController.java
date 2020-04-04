@@ -4,6 +4,7 @@ import java.util.*;
 
 import javax.validation.Valid;
 
+import hu.iac.webshop.services.CategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +19,12 @@ import hu.iac.webshop.services.ProductService;
 public class ProductController {
     private final ProductService productService;
     private final DiscountService discountService;
+    private final CategoryService categoryService;
 
-    public ProductController(ProductService productService, DiscountService discountService) {
+    public ProductController(ProductService productService, DiscountService discountService, CategoryService categoryService) {
         this.productService = productService;
         this.discountService = discountService;
+        this.categoryService = categoryService;
     }
 
     @GetMapping("/products")
@@ -43,12 +46,21 @@ public class ProductController {
 
     @PostMapping("/products")
     public Product addProducten(@RequestBody ProductRequest productRequest) {
+        long id = 1;
 
         Product newProduct = new Product(
             productRequest.getName(),
             productRequest.getPrice(),
-            productRequest.getStock()
+            productRequest.getStock(),
+            categoryService.find(id).get()
         );
+
+        for (Long discountId : productRequest.getDiscountIds()) {
+            Optional<Discount> discount = discountService.findById(discountId);
+            if(discount.isPresent()) {
+                newProduct.addDiscount(discount.get());
+            }
+        }
 
         for (Long discountId : productRequest.getDiscountIds()) {
             Optional<Discount> discount = discountService.findById(discountId);
@@ -77,7 +89,6 @@ public class ProductController {
         Product updatedProduct = this.productService.update(product);
         return new ResponseEntity<Product>(updatedProduct, HttpStatus.OK);
     }
-
 
     @DeleteMapping("/products/{id}")
     public ResponseEntity<Long> delete(@PathVariable Long id) {

@@ -8,6 +8,7 @@ public class ProductRequest {
     private double price;
     private int stock;
     private List<Long> discountIds;
+    private Long categoryId;
 
     public ProductRequest() {}
 
@@ -41,5 +42,13 @@ public class ProductRequest {
 
     public List<Long> getDiscountIds() {
         return this.discountIds;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 }

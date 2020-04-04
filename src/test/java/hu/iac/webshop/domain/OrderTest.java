@@ -14,8 +14,9 @@ public class OrderTest {
         /*arrange*/
         Customer customer = new Customer("Test", "06-12345678", "Test@Test.nl");
         Order order = new Order(new Date(), 0.0, customer);
-        Product product1 = new Product("Komkommer", 10.0, 50);
-        Product product2 = new Product("Telefoon", 500.0, 20);
+        Category category = new Category("x", "nieuw", "Description");
+        Product product1 = new Product("Komkommer", 10.0, 50, category);
+        Product product2 = new Product("Telefoon", 500.0, 20, category);
         OrderProduct orderProduct1 = new OrderProduct(order, product1, 5);
         OrderProduct orderProduct2 = new OrderProduct(order, product2, 1);
         OrderProduct orderProduct3 = new OrderProduct(order, product1, 2);

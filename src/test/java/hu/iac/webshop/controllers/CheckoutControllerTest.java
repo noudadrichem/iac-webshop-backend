@@ -48,9 +48,10 @@ public class CheckoutControllerTest {
     private final Customer customer = new Customer("Test", "06-12345678", "Test@Test.nl");
     private final Address address = new Address("Vosmaerstraat 91", "Delft", "Zuid-Holland", "2222DB", "The Netherlands", customer);
     private final Order order = new Order(new Date(), 50.55, customer);
-    private final Product testProduct1 = new Product("Komkommer", 10.0, 50);
-    private final Product testProduct2 = new Product("Desktop", 1250.95, 120);
-    private final Product testProduct3 = new Product("Mobiel", 800.0, 420);
+    private final Category category = new Category("x", "nieuw", "Description");
+    private final Product testProduct1 = new Product("Komkommer", 10.0, 50, category);
+    private final Product testProduct2 = new Product("Desktop", 1250.95, 120, category);
+    private final Product testProduct3 = new Product("Mobiel", 800.0, 420, category);
     private final OrderProduct orderProduct1 = new OrderProduct(order, testProduct1, 3);
     private final OrderProduct orderProduct2 = new OrderProduct(order, testProduct2, 119);
     private final OrderProduct orderProduct3 = new OrderProduct(order, testProduct3, 420);

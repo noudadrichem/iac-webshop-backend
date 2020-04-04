@@ -5,13 +5,14 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotNull;
 
 public class CategoryRequest {
-    @NotNull
     private String image;
-    @NotNull
+
     @Length(max = 255)
     private String name;
-    @NotNull
+
     private String description;
+
+    private Long productId;
 
     public CategoryRequest() {}
 
@@ -37,5 +38,13 @@ public class CategoryRequest {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 }

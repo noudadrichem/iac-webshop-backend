@@ -1,6 +1,7 @@
 package hu.iac.webshop.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import hu.iac.webshop.domain.Category;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -50,10 +51,10 @@ class ProductControllerTest {
 
     private final String PRODUCT_URL = "/products";
     private final String POST_REQ_BODY = "{\"name\": \"Komkommer\",\"price\": 10.0,\"stock\": 50, \"discountIds\": []}";
-
-    private final Product testProduct1 = new Product("Komkommer", 10.0, 50);
-    private final Product testProduct2 = new Product("Desktop", 1250.95, 120);
-    private final Product testProduct3 = new Product("Mobiel", 800.0, 420);
+    private final Category category = new Category("x", "nieuw", "Description");
+    private final Product testProduct1 = new Product("Komkommer", 10.0, 50, category);
+    private final Product testProduct2 = new Product("Desktop", 1250.95, 120, category);
+    private final Product testProduct3 = new Product("Mobiel", 800.0, 420, category);
 
     @Test
     @DisplayName("Get products")
