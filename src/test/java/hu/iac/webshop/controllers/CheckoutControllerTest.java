@@ -1,5 +1,7 @@
 package hu.iac.webshop.controllers;
 
+import hu.iac.webshop.auth.JwtAuthenticationProvider;
+import hu.iac.webshop.config.JwtSecurityConfig;
 import hu.iac.webshop.domain.*;
 import hu.iac.webshop.services.*;
 import org.junit.jupiter.api.DisplayName;
@@ -37,6 +39,8 @@ public class CheckoutControllerTest {
     private AddressService addressService;
     @MockBean
     private ProductService productService;
+    @Autowired
+    private JwtSecurityConfig jwtSecurityConfig;
 
     /* Setting the request parameters */
     private final String CHECKOUT_URL = "/authed/checkout";

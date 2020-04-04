@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import hu.iac.webshop.auth.JwtAuthenticationProvider;
 import hu.iac.webshop.domain.Product;
 import hu.iac.webshop.services.DiscountService;
 import hu.iac.webshop.services.ProductService;
@@ -36,9 +37,10 @@ class ProductControllerTest {
 
     @Autowired
     private MockMvc mvc;
-
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private JwtAuthenticationProvider jwtAuthenticationProvider;
 
     @MockBean
     private ProductService productService;

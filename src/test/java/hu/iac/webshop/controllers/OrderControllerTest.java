@@ -14,6 +14,7 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import hu.iac.webshop.auth.JwtAuthenticationProvider;
 import hu.iac.webshop.domain.Customer;
 import hu.iac.webshop.domain.Order;
 import hu.iac.webshop.services.CustomerService;
@@ -56,6 +57,8 @@ class OrderControllerTest {
     private CustomerService customerService;
     @MockBean
     private ProductService productService;
+    @Autowired
+    private JwtAuthenticationProvider jwtAuthenticationProvider;
 
     private final String PRODUCT_URL = "/authed/orders";
     private final String POST_REQ_BODY = "{\"date\": \"2020-03-23\",\"totalPrice\": 44.5,\"customerId\": 1}";
