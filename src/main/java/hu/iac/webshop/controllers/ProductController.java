@@ -4,6 +4,7 @@ import java.util.*;
 
 import javax.validation.Valid;
 
+import hu.iac.webshop.domain.Category;
 import hu.iac.webshop.services.CategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,30 +47,35 @@ public class ProductController {
 
     @PostMapping("/products")
     public Product addProducten(@RequestBody ProductRequest productRequest) {
-        long id = 1;
 
         Product newProduct = new Product(
             productRequest.getName(),
             productRequest.getPrice(),
-            productRequest.getStock(),
-            categoryService.find(id).get()
+            productRequest.getStock()
         );
 
         for (Long discountId : productRequest.getDiscountIds()) {
-            Optional<Discount> discount = discountService.findById(discountId);
+            Optional<Discount> discount = this.discountService.findById(discountId);
             if(discount.isPresent()) {
                 newProduct.addDiscount(discount.get());
             }
         }
 
         for (Long discountId : productRequest.getDiscountIds()) {
-            Optional<Discount> discount = discountService.findById(discountId);
+            Optional<Discount> discount = this.discountService.findById(discountId);
             if(discount.isPresent()) {
                 newProduct.addDiscount(discount.get());
             }
         }
 
-        return this.productService.createProduct(newProduct);
+        Product persistedProduct = this.productService.createProduct(newProduct);
+        Optional<Category> optionalCategory = this.categoryService.findByName("nieuw");
+        if(optionalCategory.isPresent()) {
+            Category category = optionalCategory.get();
+            category.addProduct(persistedProduct);
+            this.categoryService.update(category);
+        }
+        return persistedProduct;
     }
 
 

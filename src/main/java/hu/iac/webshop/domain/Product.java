@@ -33,11 +33,10 @@ public class Product {
 
     public Product() {}
 
-    public Product(String name, double price, int stock, Category category) {
+    public Product(String name, double price, int stock) {
         this.name = name;
         this.price = price;
         this.stock = stock;
-        this.categories.add(category);
     }
 
     public void setId(Long id) {

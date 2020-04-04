@@ -19,7 +19,7 @@ public class CategoryService {
         return this.categoryRepository.findAll();
     }
 
-    public Category findByName(String name){
+    public Optional<Category> findByName(String name){
         return this.categoryRepository.findByName(name);
     }
 

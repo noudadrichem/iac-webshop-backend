@@ -30,7 +30,7 @@ public class CategoryController {
 
     @GetMapping("/categories/{name}")
     public Category getCategoryByName(@PathVariable String name){
-        return this.categoryService.findByName(name);
+        return this.categoryService.findByName(name).get();
     }
 
     @PostMapping("/categories")
