@@ -29,11 +29,12 @@ public class Discount {
 
     public Discount() {}
 
-    public Discount(Date startDate, Date endDate, double discountedPrice, String adText) {
+    public Discount(Date startDate, Date endDate, double discountedPrice, String adText, List<Product> products) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.discountedPrice = discountedPrice;
         this.adText = adText;
+        this.products = products;
     }
 
     public Long getId() {
@@ -74,5 +75,13 @@ public class Discount {
 
     public void setAdText(String adText) {
         this.adText = adText;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 }
