@@ -7,7 +7,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity(name = "OrderProduct")
-public class OrderProduct{
+public class OrderProduct {
+
     @EmbeddedId
     private OrderProductId id;
 

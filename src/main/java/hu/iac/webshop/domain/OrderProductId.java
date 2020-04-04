@@ -1,9 +1,11 @@
 package hu.iac.webshop.domain;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Embeddable
 public class OrderProductId implements Serializable {
     @Column(name = "order_id")
     private Long orderId;
@@ -11,8 +13,7 @@ public class OrderProductId implements Serializable {
     @Column(name = "product_id")
     private Long productId;
 
-    private OrderProductId(){
-
+    public OrderProductId(){
     }
 
     public OrderProductId(Long orderId, Long productId){
@@ -48,4 +49,8 @@ public class OrderProductId implements Serializable {
             Objects.equals(productId, that.productId);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getOrderId(), getProductId());
+    }
 }

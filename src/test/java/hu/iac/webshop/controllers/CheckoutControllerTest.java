@@ -54,7 +54,7 @@ public class CheckoutControllerTest {
     private final OrderProduct orderProduct3 = new OrderProduct(order, testProduct3, 420);
 
     @Test
-    @DisplayName("Checkout")
+    @DisplayName("Should checkout")
     public void shouldCheckout() throws Exception {
         order.addProduct(orderProduct1);
         order.addProduct(orderProduct2);
@@ -74,5 +74,143 @@ public class CheckoutControllerTest {
             .header("Moetje", "Test")
             .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJUZXN0IiwiaWQiOjEsInJvbGUiOiJhZG1pbiIsImlhdCI6MTU4NjAyNTYzNCwiZXhwIjoxNTg2MDQzNjM0fQ.xspHGVdEtnRc7jNbahvrkaNdrxkMQZjQx_Dlgu2_FS0")
             ).andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("Should fail checkout on empty order")
+    public void shouldFailOnEmptyOrder() throws Exception {
+        Optional<Customer> optionalCustomer = Optional.of(customer);
+        given(customerService.find(1L)).willReturn(optionalCustomer);
+
+        Optional<Address> optionalAddress = Optional.of(address);
+        given(addressService.find(1L)).willReturn(optionalAddress);
+
+        Optional<Order> optionalOrder = Optional.of(order);
+        given(orderService.find(1L)).willReturn(optionalOrder);
+
+        mvc.perform(post(CHECKOUT_URL).contentType(MediaType.APPLICATION_JSON).content(POST_REQ_BODY)
+            .characterEncoding("utf-8")).andExpect(status().isNotAcceptable());
+    }
+
+    @Test
+    @DisplayName("Should fail checkout on already processed order")
+    public void shouldFailOnProcessedOrder() throws Exception {
+        order.addProduct(orderProduct1);
+        order.addProduct(orderProduct2);
+        order.addProduct(orderProduct3);
+        order.setCheckedOutTrue();
+
+        Optional<Customer> optionalCustomer = Optional.of(customer);
+        given(customerService.find(1L)).willReturn(optionalCustomer);
+
+        Optional<Address> optionalAddress = Optional.of(address);
+        given(addressService.find(1L)).willReturn(optionalAddress);
+
+        Optional<Order> optionalOrder = Optional.of(order);
+        given(orderService.find(1L)).willReturn(optionalOrder);
+
+        mvc.perform(post(CHECKOUT_URL).contentType(MediaType.APPLICATION_JSON).content(POST_REQ_BODY)
+            .characterEncoding("utf-8")).andExpect(status().isNotAcceptable());
+    }
+
+    @Test
+    @DisplayName("Should fail checkout because stock too low")
+    public void shouldFailOnTooLowStock() throws Exception {
+        order.addProduct(orderProduct3);
+        order.addProduct(orderProduct3);
+
+        Optional<Customer> optionalCustomer = Optional.of(customer);
+        given(customerService.find(1L)).willReturn(optionalCustomer);
+
+        Optional<Address> optionalAddress = Optional.of(address);
+        given(addressService.find(1L)).willReturn(optionalAddress);
+
+        Optional<Order> optionalOrder = Optional.of(order);
+        given(orderService.find(1L)).willReturn(optionalOrder);
+
+        mvc.perform(post(CHECKOUT_URL).contentType(MediaType.APPLICATION_JSON).content(POST_REQ_BODY)
+            .characterEncoding("utf-8")).andExpect(status().isNotAcceptable());
+    }
+
+    @Test
+    @DisplayName("Should fail checkout on wrong payment")
+    public void shouldFailOnWrongPayment() throws Exception {
+        String paymentChanged = "{\"paymentMethod\": \"Natura\",\"customerId\": 1,\"addressRequest\": {\"street\": \"Vosmaerstraat 91\",\"city\": \"Delft\",\"state\": \"Zuid-Holland\",\"postalCode\": \"2222DB\",\"country\": \"The Netherlands\"},\"orderId\": 1}";
+
+        order.addProduct(orderProduct1);
+        order.addProduct(orderProduct2);
+        order.addProduct(orderProduct3);
+
+        Optional<Customer> optionalCustomer = Optional.of(customer);
+        given(customerService.find(1L)).willReturn(optionalCustomer);
+
+        Optional<Address> optionalAddress = Optional.of(address);
+        given(addressService.find(1L)).willReturn(optionalAddress);
+
+        Optional<Order> optionalOrder = Optional.of(order);
+        given(orderService.find(1L)).willReturn(optionalOrder);
+
+        mvc.perform(post(CHECKOUT_URL).contentType(MediaType.APPLICATION_JSON).content(paymentChanged)
+            .characterEncoding("utf-8")).andExpect(status().isNotAcceptable());
+    }
+
+    @Test
+    @DisplayName("Should fail checkout on customer")
+    public void shouldFailOnCustomer() throws Exception {
+        order.addProduct(orderProduct1);
+        order.addProduct(orderProduct2);
+        order.addProduct(orderProduct3);
+
+        Optional<Customer> optionalCustomer = Optional.of(customer);
+        given(customerService.find(2L)).willReturn(optionalCustomer);
+
+        Optional<Address> optionalAddress = Optional.of(address);
+        given(addressService.find(1L)).willReturn(optionalAddress);
+
+        Optional<Order> optionalOrder = Optional.of(order);
+        given(orderService.find(1L)).willReturn(optionalOrder);
+
+        mvc.perform(post(CHECKOUT_URL).contentType(MediaType.APPLICATION_JSON).content(POST_REQ_BODY)
+            .characterEncoding("utf-8")).andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("Should fail checkout on address")
+    public void shouldFailOnAddress() throws Exception {
+        order.addProduct(orderProduct1);
+        order.addProduct(orderProduct2);
+        order.addProduct(orderProduct3);
+
+        Optional<Customer> optionalCustomer = Optional.of(customer);
+        given(customerService.find(1L)).willReturn(optionalCustomer);
+
+        Optional<Address> optionalAddress = Optional.of(address);
+        given(addressService.find(2L)).willReturn(optionalAddress);
+
+        Optional<Order> optionalOrder = Optional.of(order);
+        given(orderService.find(1L)).willReturn(optionalOrder);
+
+        mvc.perform(post(CHECKOUT_URL).contentType(MediaType.APPLICATION_JSON).content(POST_REQ_BODY)
+            .characterEncoding("utf-8")).andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("Should fail checkout on order")
+    public void shouldFailOnOrder() throws Exception {
+        order.addProduct(orderProduct1);
+        order.addProduct(orderProduct2);
+        order.addProduct(orderProduct3);
+
+        Optional<Customer> optionalCustomer = Optional.of(customer);
+        given(customerService.find(1L)).willReturn(optionalCustomer);
+
+        Optional<Address> optionalAddress = Optional.of(address);
+        given(addressService.find(1L)).willReturn(optionalAddress);
+
+        Optional<Order> optionalOrder = Optional.of(order);
+        given(orderService.find(2L)).willReturn(optionalOrder);
+
+        mvc.perform(post(CHECKOUT_URL).contentType(MediaType.APPLICATION_JSON).content(POST_REQ_BODY)
+            .characterEncoding("utf-8")).andExpect(status().isNotFound());
     }
 }

@@ -6,6 +6,15 @@ public class Account {
     private String userName;
     private long id;
     private String role;
+    private String account;
+    private Date createdOn;
+
+    public Account() {}
+
+    public Account(String account, Date createdOn) {
+        this.account = account;
+        this.createdOn = createdOn;
+    }
 
     public void setUserName(String userName) {
         this.userName = userName;
@@ -29,5 +38,9 @@ public class Account {
 
     public String getRole() {
         return role;
+    }
+
+    public boolean isActive() {
+        return createdOn.before(new Date());
     }
 }

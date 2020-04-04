@@ -18,7 +18,7 @@ public class Order {
     private Long id;
     private Date date;
     private double totalPrice;
-    private String isCheckedOut;
+    private boolean isCheckedOut;
 
     @JsonIgnore
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
@@ -38,7 +38,7 @@ public class Order {
         this.date = date;
         this.totalPrice = totalPrice;
         this.customer = customer;
-        this.isCheckedOut = "False";
+        this.isCheckedOut = false;
     }
 
     public void setId(Long id) {
@@ -93,17 +93,17 @@ public class Order {
         return this.customer;
     }
 
-    public void setIsOrdered() {
-        this.isCheckedOut = "True";
+    public void setCheckedOutTrue() {
+        this.isCheckedOut = true;
     }
 
-    public String getIsCheckedOut() {
+    public boolean isCheckedOut() {
         return this.isCheckedOut;
     }
 
    public void getCurrentOrderValue() {
-       for (OrderProduct product : orderProducts) {
-           totalPrice += product.getProduct().getPrice();
+       for (OrderProduct orderProduct : orderProducts) {
+           totalPrice += orderProduct.getProduct().getPrice() * orderProduct.getAmount();
        }
    }
 

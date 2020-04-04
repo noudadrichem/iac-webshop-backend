@@ -5,10 +5,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -19,6 +21,7 @@ import hu.iac.webshop.services.DiscountService;
 import hu.iac.webshop.services.OrderService;
 import hu.iac.webshop.services.ProductService;
 
+import javax.jms.Queue;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Optional;
@@ -40,6 +43,11 @@ class OrderControllerTest {
     private MockMvc mvc;
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockBean
+    private JmsTemplate jmsTemplate;
+    @MockBean
+    private Queue orderQueue;
     @MockBean
     private OrderService orderService;
     @MockBean
