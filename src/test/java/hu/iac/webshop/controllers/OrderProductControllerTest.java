@@ -39,7 +39,7 @@ public class OrderProductControllerTest {
     private ProductService productService;
 
     /* Setting the request parameters */
-    private final String PRODUCT_URL = "/orderproducts";
+    private final String PRODUCT_URL = "/orders/products";
     private final String POST_REQ_BODY = "{\"productId\": 1,\"orderId\": 1,\"amount\": 2}";
 
     /* Creating objects to test the request with */

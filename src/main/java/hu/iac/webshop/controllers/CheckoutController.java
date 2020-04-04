@@ -54,7 +54,7 @@ public class CheckoutController {
         List<OrderProduct> orderProductList =  order.getOrderProducts();
         if (orderProductList.isEmpty()) {
             return new ResponseEntity<>("Order does not have any products", HttpStatus.NOT_ACCEPTABLE);
-        } else if (order.getIsCheckedOut().equals("True")) {
+        } else if (order.isCheckedOut()) {
             return new ResponseEntity<>("Order has already been processed", HttpStatus.NOT_ACCEPTABLE);
         }
 
@@ -63,7 +63,7 @@ public class CheckoutController {
             int amount = orderProduct.getAmount();
             int stock = product.getStock();
             if (amount > stock) {
-                return new ResponseEntity<>("Not enought products in stock for product= " + product, HttpStatus.NOT_ACCEPTABLE);
+                return new ResponseEntity<>("Not enough products in stock for product = " + product, HttpStatus.NOT_ACCEPTABLE);
             } else {
                 product.setStock(stock - amount);
                 productService.update(product);
@@ -72,7 +72,7 @@ public class CheckoutController {
 
         String paymentMethod = checkoutRequest.getPaymentMethod();
         if (paymentMethod.equals("IDEAL") || paymentMethod.equals("Paypal")) {
-            order.setIsOrdered();
+            order.setCheckedOutTrue();
             orderService.update(order);
             return new ResponseEntity<>("U heeft met betaald met  " + paymentMethod, HttpStatus.OK);
         } else {
