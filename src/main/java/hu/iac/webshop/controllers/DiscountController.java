@@ -19,19 +19,19 @@ public class DiscountController {
         this.discountService = discountService;
     }
 
-    @GetMapping("/discounts")
+    @GetMapping("/authed/discounts")
     public List<Discount> getDiscounts() {
         List<Discount> discounts = this.discountService.list();
         return discounts;
     }
 
-    @GetMapping("/discounts/current")
+    @GetMapping("/authed/discounts/current")
     public List<Discount> getCurrentDiscounts() {
         List<Discount> discounts = this.discountService.findAllCurrent();
         return discounts;
     }
 
-    @PostMapping("/discounts")
+    @PostMapping("/authed/discounts")
     public Discount addDiscount(@Valid @RequestBody DiscountRequest discountRequest) {
         Discount newDiscount = new Discount(
             discountRequest.getStartDate(),
@@ -43,7 +43,7 @@ public class DiscountController {
         return this.discountService.createDiscount(newDiscount);
     }
 
-    @DeleteMapping("/discounts/{id}")
+    @DeleteMapping("/authed/discounts/{id}")
     public ResponseEntity<Long> deleteDiscount(@PathVariable long id) {
         boolean isRemoved = this.discountService.deleteDiscount(id);
 
@@ -54,7 +54,7 @@ public class DiscountController {
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
-    @PutMapping("/discounts/{id}")
+    @PutMapping("/authed/discounts/{id}")
     public ResponseEntity<Discount> updateDiscount(@Valid @RequestBody DiscountRequest discountRequest, @PathVariable Long id) {
         Optional<Discount> discountOptional = this.discountService.findById(id);
 

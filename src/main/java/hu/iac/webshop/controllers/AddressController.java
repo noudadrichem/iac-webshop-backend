@@ -24,12 +24,12 @@ public class AddressController {
         this.customerService = customerService;
     }
 
-    @GetMapping("/addresses")
+    @GetMapping("/authed/addresses")
     public List<Address> get() {
         return this.addressService.list();
     }
 
-    @PostMapping("/addresses")
+    @PostMapping("/authed/addresses")
     public ResponseEntity<Address> create(@Valid @RequestBody AddressRequest addressRequest) {
         Optional<Customer> customer = this.customerService.find(addressRequest.getCustomerId());
 
@@ -48,7 +48,7 @@ public class AddressController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping("/addresses/{id}")
+    @PutMapping("/authed/addresses/{id}")
     public ResponseEntity<Address> update(@Valid @RequestBody AddressRequest addressRequest, @PathVariable Long id) {
         Optional<Address> optionalAddress = this.addressService.find(id);
 
@@ -66,7 +66,7 @@ public class AddressController {
         return new ResponseEntity<Address>(this.addressService.update(address), HttpStatus.OK);
     }
 
-    @DeleteMapping("/addresses/{id}")
+    @DeleteMapping("/authed/addresses/{id}")
     public ResponseEntity<Long> delete(@PathVariable Long id) {
         boolean isRemoved = this.addressService.delete(id);
 

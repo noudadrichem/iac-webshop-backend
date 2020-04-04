@@ -28,7 +28,7 @@ public class OrderProductController {
         this.productService = productService;
     }
 
-    @PostMapping("/orderproducts")
+    @PostMapping("/authed/orderproducts")
     public ResponseEntity<OrderProduct> create(@Valid @RequestBody OrderProductRequest orderProductRequest){
         Optional<Order> order = this.orderService.find(orderProductRequest.getOrderId());
         Optional<Product> product = this.productService.find(orderProductRequest.getProductId());

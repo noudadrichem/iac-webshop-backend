@@ -32,12 +32,12 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @GetMapping("/authzi/customers")
+    @GetMapping("/authed/customers")
     public List<Customer> getCategories() {
         return this.customerService.list();
     }
 
-    @PostMapping("/authzi/customers")
+    @PostMapping("/authed/customers")
     public Map<String, Object> create(@Valid @RequestBody CustomerRequest customerRequest) throws MessageConversionException {
         Map<String, Object> customerMap = new HashMap<>();
 
@@ -50,7 +50,7 @@ public class CustomerController {
         return customerMap;
     }
 
-    @PutMapping("/customers/{id}")
+    @PutMapping("/authed/customers/{id}")
     public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody CustomerRequest customerRequest, @PathVariable Long id) {
         Map<String, Object> customerMap = new HashMap<>();
         Optional<Customer> optionalCustomer = this.customerService.find(id);
@@ -69,7 +69,7 @@ public class CustomerController {
         return new ResponseEntity<>(customerMap, HttpStatus.OK);
     }
 
-    @DeleteMapping("/customers/{id}")
+    @DeleteMapping("/authed/customers/{id}")
     public ResponseEntity<Long> delete(@PathVariable Long id) {
         boolean isRemoved = this.customerService.delete(id);
 

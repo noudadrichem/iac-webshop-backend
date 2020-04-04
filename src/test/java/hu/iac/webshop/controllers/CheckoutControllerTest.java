@@ -13,8 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import hu.iac.webshop.controllers.CheckoutController;
-
 import java.util.Date;
 import java.util.Optional;
 
@@ -41,7 +39,7 @@ public class CheckoutControllerTest {
     private ProductService productService;
 
     /* Setting the request parameters */
-    private final String CHECKOUT_URL = "/checkout";
+    private final String CHECKOUT_URL = "/authed/checkout";
     private final String POST_REQ_BODY = "{\"paymentMethod\": \"IDEAL\",\"customerId\": 1,\"addressRequest\": {\"street\": \"Vosmaerstraat 91\",\"city\": \"Delft\",\"state\": \"Zuid-Holland\",\"postalCode\": \"2222DB\",\"country\": \"The Netherlands\"},\"orderId\": 1}";
 
     /* Creating objects to test the request with */
@@ -72,6 +70,9 @@ public class CheckoutControllerTest {
         given(orderService.find(1L)).willReturn(optionalOrder);
 
         mvc.perform(post(CHECKOUT_URL).contentType(MediaType.APPLICATION_JSON).content(POST_REQ_BODY)
-            .characterEncoding("utf-8")).andExpect(status().isOk());
+            .characterEncoding("utf-8")
+            .header("Moetje", "Test")
+            .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJUZXN0IiwiaWQiOjEsInJvbGUiOiJhZG1pbiIsImlhdCI6MTU4NjAyNTYzNCwiZXhwIjoxNTg2MDQzNjM0fQ.xspHGVdEtnRc7jNbahvrkaNdrxkMQZjQx_Dlgu2_FS0")
+            ).andExpect(status().isOk());
     }
 }

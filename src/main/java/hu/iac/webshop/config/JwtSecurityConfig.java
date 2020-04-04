@@ -40,7 +40,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public JwtAuthenticationTokenFilter authTokenFilter() {
-        JwtAuthenticationTokenFilter filter = new JwtAuthenticationTokenFilter("/authzi/**");
+        JwtAuthenticationTokenFilter filter = new JwtAuthenticationTokenFilter("/authed/**");
         filter.setAuthenticationManager(authManager());
         filter.setAuthenticationSuccessHandler(new JwtSuccessHandler());
 
@@ -50,7 +50,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .authorizeRequests().antMatchers("/authzi/**").authenticated()
+                .authorizeRequests().antMatchers("/authed/**").authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(entryPoint)
                 .and()

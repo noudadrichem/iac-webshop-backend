@@ -1,6 +1,5 @@
 package hu.iac.webshop.controllers;
 
-import hu.iac.webshop.controllers.OrderProductController;
 import hu.iac.webshop.domain.*;
 import hu.iac.webshop.services.*;
 import org.junit.jupiter.api.DisplayName;
@@ -39,7 +38,7 @@ public class OrderProductControllerTest {
     private ProductService productService;
 
     /* Setting the request parameters */
-    private final String PRODUCT_URL = "/orderproducts";
+    private final String PRODUCT_URL = "/authed/orderproducts";
     private final String POST_REQ_BODY = "{\"productId\": 1,\"orderId\": 1,\"amount\": 2}";
 
     /* Creating objects to test the request with */

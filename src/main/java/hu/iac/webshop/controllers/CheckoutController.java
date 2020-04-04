@@ -30,7 +30,7 @@ public class CheckoutController {
         this.productService = productService;
     }
 
-    @PostMapping("/checkout")
+    @PostMapping("/authed/checkout")
     public ResponseEntity checkout(@Valid @RequestBody CheckoutRequest checkoutRequest) {
         Optional<Customer> newCustomer = this.customerService.find(checkoutRequest.getCustomerId());
         Optional<Order> optionalOrder = this.orderService.find(checkoutRequest.getOrderId());

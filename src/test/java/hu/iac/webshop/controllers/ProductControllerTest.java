@@ -12,10 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import hu.iac.webshop.controllers.ProductController;
-import hu.iac.webshop.domain.Customer;
 import hu.iac.webshop.domain.Product;
-import hu.iac.webshop.services.CustomerService;
 import hu.iac.webshop.services.DiscountService;
 import hu.iac.webshop.services.ProductService;
 
@@ -46,7 +43,7 @@ class ProductControllerTest {
     @MockBean
     private DiscountService discountService;
 
-    private final String PRODUCT_URL = "/products";
+    private final String PRODUCT_URL = "/authed/products";
     private final String POST_REQ_BODY = "{\"name\": \"Komkommer\",\"price\": 10.0,\"stock\": 50, \"discountIds\": []}";
     private final Product testProduct1 = new Product("Komkommer", 10.0, 50);
     private final Product testProduct2 = new Product("Desktop", 1250.95, 120);

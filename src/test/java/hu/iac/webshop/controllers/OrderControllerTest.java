@@ -12,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import hu.iac.webshop.controllers.OrderController;
 import hu.iac.webshop.domain.Customer;
 import hu.iac.webshop.domain.Order;
 import hu.iac.webshop.services.CustomerService;
@@ -50,7 +49,7 @@ class OrderControllerTest {
     @MockBean
     private ProductService productService;
 
-    private final String PRODUCT_URL = "/orders";
+    private final String PRODUCT_URL = "/authed/orders";
     private final String POST_REQ_BODY = "{\"date\": \"2020-03-23\",\"totalPrice\": 44.5,\"customerId\": 1}";
 
     private final Customer customer = new Customer("Test", "06-12345678", "Test@Test.nl");
@@ -70,7 +69,6 @@ class OrderControllerTest {
     void shouldFetchSingleProduct() throws Exception {
         Optional<Order> optOrder = Optional.of(order);
         given(orderService.find(1L)).willReturn(optOrder);
-
         mvc.perform(get(PRODUCT_URL + "/1").content(objectMapper.writer().writeValueAsString(POST_REQ_BODY))
             .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
             // .andExpect(jsonPath("$.date", is(order.getDate()))) // format bugs :(

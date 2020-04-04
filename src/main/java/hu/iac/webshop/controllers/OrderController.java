@@ -39,17 +39,17 @@ public class OrderController {
         this.productService = productService;
     }
 
-    @GetMapping("/orders")
+    @GetMapping("/authed/orders")
     public List<Order> get() {
         return this.orderService.list();
     }
 
-    @GetMapping("/orders/{id}")
+    @GetMapping("/authed/orders/{id}")
     public Order getOrderById(@PathVariable Long id){
         return this.orderService.find(id).get();
     }
 
-    @PostMapping("/orders")
+    @PostMapping("/authed/orders")
     public ResponseEntity create(@Valid @RequestBody OrderRequest orderRequest) throws MessageConversionException {
         Optional<Customer> customer = this.customerService.find(orderRequest.getCustomerId());
 
@@ -71,7 +71,7 @@ public class OrderController {
         return new ResponseEntity<>("Customer was not found", HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping("/orders/{id}")
+    @PutMapping("/authed/orders/{id}")
     public ResponseEntity update(@Valid @RequestBody OrderRequest orderRequest, @PathVariable Long id) throws MessageConversionException {
         Optional<Customer> customer = this.customerService.find(orderRequest.getCustomerId());
         Optional<Order> optionalOrder = this.orderService.find(id);
@@ -99,7 +99,7 @@ public class OrderController {
     }
 
 
-    @DeleteMapping("/orders/{id}")
+    @DeleteMapping("/authed/orders/{id}")
     public ResponseEntity<Long> delete(@PathVariable Long id) {
         boolean isRemoved = this.orderService.delete(id);
 
