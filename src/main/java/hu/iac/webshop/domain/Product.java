@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
@@ -55,7 +56,21 @@ public class Product {
         this.price = price;
     }
 
+    public double getOriginalPrice() {
+        return price;
+    }
+
     public double getPrice() {
+        if (discounts.isEmpty()) {
+            return price;
+        } else {
+            for (Discount discount : discounts) {
+                Date curDate = new Date();
+                if (curDate.before(discount.getEndDate()) && curDate.after(discount.getStartDate())) {
+                    return discount.getDiscountedPrice();
+                }
+            }
+        }
         return price;
     }
 
