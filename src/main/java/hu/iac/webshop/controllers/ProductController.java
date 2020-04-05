@@ -32,13 +32,13 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<Product> addProducten(@PathVariable Long id) {
-        Optional<Product> product = productService.find(id);
-        if (product.isEmpty()) {
+    public ResponseEntity<Product> getProduct(@PathVariable Long id) {
+        Optional<Product> optionalProduct = productService.find(id);
+        if (optionalProduct.isEmpty()) {
             return new ResponseEntity<Product>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<Product>(product.get(), HttpStatus.OK);
+        return new ResponseEntity<Product>(optionalProduct.get(), HttpStatus.OK);
     }
 
     @PostMapping("/products")
@@ -47,7 +47,8 @@ public class ProductController {
         Product newProduct = new Product(
             productRequest.getName(),
             productRequest.getPrice(),
-            productRequest.getStock()
+            productRequest.getStock(),
+            productRequest.getDescription()
         );
 
         for (Long discountId : productRequest.getDiscountIds()) {
@@ -73,6 +74,7 @@ public class ProductController {
         product.setName(productRequest.getName());
         product.setPrice(productRequest.getPrice());
         product.setStock(productRequest.getStock());
+        product.setDescription(productRequest.getDescription());
 
         Product updatedProduct = this.productService.update(product);
         return new ResponseEntity<Product>(updatedProduct, HttpStatus.OK);
