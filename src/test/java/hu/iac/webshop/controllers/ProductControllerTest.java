@@ -2,6 +2,7 @@ package hu.iac.webshop.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.iac.webshop.domain.Category;
+import hu.iac.webshop.services.CategoryService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -45,6 +46,8 @@ class ProductControllerTest {
     private ProductService productService;
     @MockBean
     private DiscountService discountService;
+    @MockBean
+    private CategoryService categoryService;
 
     private final String PRODUCT_URL = "/products";
     private final String POST_REQ_BODY = "{\"name\": \"Komkommer\",\"price\": 10.0,\"stock\": 50, \"discountIds\": []}";

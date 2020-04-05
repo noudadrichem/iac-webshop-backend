@@ -33,10 +33,6 @@ public class Product {
     @JsonIgnoreProperties("product")
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
-    @ManyToMany
-    @JsonIgnoreProperties("products")
-    private List<Category> categories;
-
     public Product() {}
 
     public Product(String name, double price, int stock, String description) {
