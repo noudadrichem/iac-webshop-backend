@@ -34,3 +34,6 @@ We werken met feature branches.
 - etc.
 
 Via Github actions wordt `mvn test` gerunned en wordt `mvn package` gerunned om een artifact te genereren.
+
+### Postman Scripts
+In root :: 'iac-webshop-backend.postman_collection'
