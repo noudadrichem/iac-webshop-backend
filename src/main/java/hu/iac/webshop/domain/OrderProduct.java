@@ -13,12 +13,12 @@ public class OrderProduct {
     @EmbeddedId
     private OrderProductId id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("orderId")
     @JsonIgnoreProperties("orderProducts")
     private Order order;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("productId")
     @JsonIgnoreProperties("orderProducts")
     private Product product;
@@ -26,7 +26,7 @@ public class OrderProduct {
     @Column(name = "amount")
     private int amount;
 
-    private OrderProduct(){
+    public OrderProduct() {
 
     }
 
@@ -35,6 +35,10 @@ public class OrderProduct {
         this.product = product;
         this.amount = amount;
         this.id = new OrderProductId(order.getId(), product.getId());
+    }
+
+    public OrderProductId getId() {
+        return id;
     }
 
     public Order getOrder() {
