@@ -1,22 +1,27 @@
 package hu.iac.webshop.controllers;
 
 import hu.iac.webshop.domain.Discount;
+import hu.iac.webshop.domain.Product;
 import hu.iac.webshop.dto.product.DiscountRequest;
 import hu.iac.webshop.services.DiscountService;
+import hu.iac.webshop.services.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 public class DiscountController {
     private final DiscountService discountService;
+    private final ProductService productService;
 
-    public DiscountController(DiscountService discountService) {
+    public DiscountController(DiscountService discountService, ProductService productService) {
         this.discountService = discountService;
+        this.productService = productService;
     }
 
     @GetMapping("/discounts")
@@ -43,15 +48,34 @@ public class DiscountController {
     }
 
     @PostMapping("/discounts")
-    public Discount addDiscount(@Valid @RequestBody DiscountRequest discountRequest) {
+    public ResponseEntity addDiscount(@Valid @RequestBody DiscountRequest discountRequest) {
+        List<Product> productList = new ArrayList<>();
+        for (String productId : discountRequest.getProductIdList()) {
+            Long longProductId = Long.parseLong(productId);
+            Optional<Product> optionalProduct = productService.find(longProductId);
+            if (optionalProduct.isEmpty()){
+                return new ResponseEntity<>("Invalide productid: "+ productId, HttpStatus.NOT_FOUND);
+            } else {
+                Product product = optionalProduct.get();
+//                return new ResponseEntity<>(product, HttpStatus.NOT_FOUND);
+                productList.add(product);
+            }
+        }
+        if (productList.isEmpty()) {
+            return new ResponseEntity<>("empty", HttpStatus.NOT_FOUND);
+        }
+
         Discount newDiscount = new Discount(
             discountRequest.getStartDate(),
             discountRequest.getEndDate(),
             discountRequest.getDiscountedPrice(),
-            discountRequest.getAdText()
+            discountRequest.getAdText(),
+            productList
         );
 
-        return this.discountService.createDiscount(newDiscount);
+//        return new ResponseEntity<>(productList, HttpStatus.NOT_FOUND );
+
+        return new ResponseEntity<>(this.discountService.createDiscount(newDiscount), HttpStatus.OK);
     }
 
     @DeleteMapping("/discounts/{id}")

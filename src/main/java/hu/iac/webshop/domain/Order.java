@@ -35,7 +35,7 @@ public class Order {
     public Order(Date date, Customer customer) {
         this.date = date;
         this.customer = customer;
-        this.isCheckedOut = false;
+//        this.isCheckedOut = false;
     }
 
     public void setId(Long id) {
