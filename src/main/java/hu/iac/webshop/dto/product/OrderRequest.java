@@ -2,6 +2,7 @@ package hu.iac.webshop.dto.product;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -10,6 +11,8 @@ public class OrderRequest {
     @NotNull(message = "Please provide a date.")
     private Date date;
 
+    @NotNull(message = "Please provide a customer id")
+    @Min(0)
     private Long customerId;
 
     public OrderRequest() {

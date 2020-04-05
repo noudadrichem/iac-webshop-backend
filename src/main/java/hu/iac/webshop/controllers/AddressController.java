@@ -62,8 +62,9 @@ public class AddressController {
     @PutMapping("/addresses/{id}")
     public ResponseEntity<Address> update(@Valid @RequestBody AddressRequest addressRequest, @PathVariable Long id) {
         Optional<Address> optionalAddress = this.addressService.find(id);
+        Optional<Customer> optionalCustomer = this.customerService.find(addressRequest.getCustomerId());
 
-        if (optionalAddress.isEmpty()) {
+        if (optionalAddress.isEmpty() || optionalCustomer.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -73,6 +74,7 @@ public class AddressController {
         address.setState(addressRequest.getState());
         address.setPostalCode(addressRequest.getPostalCode());
         address.setCountry(addressRequest.getCountry());
+        address.setCustomer(optionalCustomer.get());
 
         return new ResponseEntity<Address>(this.addressService.update(address), HttpStatus.OK);
     }
