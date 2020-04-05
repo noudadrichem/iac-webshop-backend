@@ -21,3 +21,22 @@ jobs:
       run: |
         mvn install
         mvn package
+
+    - name: Build docker container
+        run : docker build .
+    - name: Archive artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: container
+          path:
+
+    # - name: Publish Docker Image to GPR
+    #     uses: machine-learning-apps/gpr-docker-publish@master
+    #     id: docker
+    #     with:
+    #         IMAGE_NAME: 'test-docker-action'
+    #         TAG: 'my-optional-tag-name'
+    #         DOCKERFILE_PATH: 'argo/gpu.Dockerfile'
+    #         BUILD_CONTEXT: 'argo/'
+    #     env:
+    #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
