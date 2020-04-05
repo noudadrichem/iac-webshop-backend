@@ -44,8 +44,8 @@ public class OrderProductControllerTest {
 
     /* Creating objects to test the request with */
     private final Customer customer = new Customer("Test", "06-12345678", "Test@Test.nl");
-    private final Order order = new Order(new Date(), 0, customer);
-    private final Product product = new Product("Komkommer", 10.0, 50);
+    private final Order order = new Order(new Date(), customer);
+    private final Product product = new Product("Komkommer", 10.0, 50, "Dit is een komkommer");
 
     @Test
     @DisplayName("add product to order")

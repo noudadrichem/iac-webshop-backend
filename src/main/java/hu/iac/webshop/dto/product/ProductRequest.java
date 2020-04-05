@@ -6,6 +6,7 @@ public class ProductRequest {
 
     private String name;
     private double price;
+    private String description;
     private int stock;
     private List<Long> discountIds;
 
@@ -34,12 +35,20 @@ public class ProductRequest {
     public int getStock() {
         return this.stock;
     }
-  
+
     public void setDiscountIds(List<Long> discountIds) {
         this.discountIds = discountIds;
     }
 
     public List<Long> getDiscountIds() {
         return this.discountIds;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -29,6 +29,17 @@ public class AddressController {
         return this.addressService.list();
     }
 
+    @GetMapping("/addresses/{id}")
+    public ResponseEntity getDiscount(@PathVariable Long id){
+        Optional<Address> optionalAddress = this.addressService.find(id);
+
+        if (optionalAddress.isEmpty()) {
+            return new ResponseEntity<>("Address bestaat niet", HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(optionalAddress.get(), HttpStatus.OK);
+    }
+
     @PostMapping("/addresses")
     public ResponseEntity<Address> create(@Valid @RequestBody AddressRequest addressRequest) {
         Optional<Customer> customer = this.customerService.find(addressRequest.getCustomerId());

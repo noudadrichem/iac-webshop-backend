@@ -22,6 +22,10 @@ public class DiscountService {
         return discountRepository.findAll(Specification.where(isGreaterThan().and(isLesserThan())));
     }
 
+    public Optional<Discount> find(Long id) {
+        return this.discountRepository.findById(id);
+    }
+
     public List<Discount> list() {
         return discountRepository.findAll();
     }
