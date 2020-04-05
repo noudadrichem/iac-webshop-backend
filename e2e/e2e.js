@@ -37,10 +37,10 @@ const PRODUCT_BODY = ({ name, price}) => ({
 
 async function startE2E() {
     // create customer
-    const { data: customer } = await axios.post(`${ROOT_API_URL}/customers`, CUSTOMER_BODY);
+    const { data: customer } = await axios.post(`${ROOT_API_URL}/customers`, CUSTOMER_BODY).catch(error);
     log({customer})
 
-    const { data: customers } = await axios.get(`${ROOT_API_URL}/customers`, CUSTOMER_BODY);
+    const { data: customers } = await axios.get(`${ROOT_API_URL}/customers`, CUSTOMER_BODY).catch(error);
     log({customers})
 
     // // get customer JWT token
@@ -52,16 +52,17 @@ async function startE2E() {
         // headers: { 'Authorization': `Bearer ${token}` }
     }
 
-    const { data: categories } = await axios.get(`${ROOT_API_URL}/categories`, headers);
-    if (categories.length > 0) {
-        // create categorry 'nieuw'
-        const { data: categoryNew } = await axios.post(`${ROOT_API_URL}/categories`, CATEGORY_BODY('nieuw'), headers)
-        // create category 'Featured'
-        const { data: categoryFeatured } = await axios.post(`${ROOT_API_URL}/categories`, CATEGORY_BODY('featured'), headers);
-        // create category 'Sale'
-        const { data: categorySale } = await axios.post(`${ROOT_API_URL}/categories`, CATEGORY_BODY('sale'), headers);
-        const categories = [categoryNew, categoryFeatured, categorySale];
-    }
+    // const { data: categories } = await axios.get(`${ROOT_API_URL}/categories`, headers).catch(error);
+    // console.log('categories.length', categories.length)
+    // if (categories.length !== 0) {
+    // create categorry 'nieuw'
+    const { data: categoryNew } = await axios.post(`${ROOT_API_URL}/categories`, CATEGORY_BODY('nieuw'), headers).catch(error)
+    // create category 'Featured'
+    const { data: categoryFeatured } = await axios.post(`${ROOT_API_URL}/categories`, CATEGORY_BODY('featured'), headers).catch(error);
+    // create category 'Sale'
+    const { data: categorySale } = await axios.post(`${ROOT_API_URL}/categories`, CATEGORY_BODY('sale'), headers).catch(error);
+    const categories = [categoryNew, categoryFeatured, categorySale];
+    // }
     log({categories})
 
     const mockProducts = [
@@ -81,13 +82,13 @@ async function startE2E() {
     const products = [];
     for (let i = 0; i < mockProducts.length; i++) {
         const body = PRODUCT_BODY(mockProducts[i]);
-        const { data: product } = await axios.post(`${ROOT_API_URL}/products`, body, headers);
+        const { data: product } = await axios.post(`${ROOT_API_URL}/products`, body, headers).catch(error);
         products.push(product);
     }
     log({ products })
 
     // create discount
-    const { data: discount } = await axios.post(`${ROOT_API_URL}/discounts`, DISCOUNT_BODY, headers);
+    const { data: discount } = await axios.post(`${ROOT_API_URL}/discounts`, DISCOUNT_BODY, headers).catch(error);
     log({ discount })
 
     // add product to category
@@ -95,7 +96,7 @@ async function startE2E() {
     //     URL: `${ROOT_API_URL}/categories/product/add/${categories[0].id}`,
     //     body: { productId: products[0].id }
     // })
-    // const { data: productAndCategory } = await axios.put(`${ROOT_API_URL}/categories/product/add/${categories[0].id}`, { productId: products[0].id }, headers);
+    // const { data: productAndCategory } = await axios.put(`${ROOT_API_URL}/categories/product/add/${categories[1].id}`, { productId: products[0].id }, headers).catch(error);
     // log({ productAndCategory })
 
 
@@ -105,11 +106,11 @@ async function startE2E() {
         "totalPrice": 10.0,
         "customerId": 1
     }
-    const { data: order } = await axios.post(`${ROOT_API_URL}/orders`, ORDER_BODY, headers);
+    const { data: order } = await axios.post(`${ROOT_API_URL}/orders`, ORDER_BODY, headers).catch(error);
     log({ order })
 
     // orders
-    const { data: orders } = await axios.get(`${ROOT_API_URL}/orders`, headers);
+    const { data: orders } = await axios.get(`${ROOT_API_URL}/orders`, headers).catch(error);
     log({ orders })
 
     // create order product
@@ -118,31 +119,33 @@ async function startE2E() {
         "orderId": 1, //order.id,
         "amount": 2
     }
-    const { data: orderProduct } = await axios.post(`${ROOT_API_URL}/orders/products`, ORDER_PRODUCT_BODY, headers);
+    const { data: orderProduct } = await axios.post(`${ROOT_API_URL}/orders/products`, ORDER_PRODUCT_BODY, headers).catch(error);
     log({ orderProduct })
 
 
+    const ADDRESS_BODY = {
+        "street": "Vosmaerstraat 91",
+        "city": "Delft",
+        "state": "Zuid-Holland",
+        "postalCode": "2222DB",
+        "country": "The Netherlands",
+        "customerId": 1
+    }
+    const { data: address } = await axios.post(`${ROOT_API_URL}/addresses`, ADDRESS_BODY, headers).catch(error);
+    log({ address })
+
     const CHECKOUT_BODY = {
         "paymentMethod": "IDEAL",
-        "customerId": customer.id || 1,
-        "addressRequest": {
-            "street": "Vosmaerstraat 91",
-            "city": "Delft",
-            "state": "Zuid-Holland",
-            "postalCode": "2222DB",
-            "country": "The Netherlands"
-        },
+        "customerId": 1,
+        "addressId": 1,
         "orderId": 1
     }
-
     log({
         url: `${ROOT_API_URL}/checkout`,
         body: CHECKOUT_BODY
     })
-    const { data: checkout } = await axios.post(`${ROOT_API_URL}/checkout`, CHECKOUT_BODY, headers);
+    const { data: checkout } = await axios.post(`${ROOT_API_URL}/checkout`, CHECKOUT_BODY, headers).catch(error);
     log({ checkout })
-
-    console.log('http://localhost:9091' + '/checkout')
 
 }
 
@@ -155,8 +158,6 @@ function succes(data) {
 function error(data) {
     log(data)
 }
-
-
 
 // util
 function log() {
