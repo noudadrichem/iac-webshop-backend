@@ -2,15 +2,21 @@ package hu.iac.webshop.dto.product;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 public class DiscountRequest {
+    @NotNull(message = "Please provide a discountedPrice")
     private double discountedPrice;
+
+    @NotNull(message = "Please provide a adText")
     private String adText;
 
+    @NotNull(message = "Please provide a startDate")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
 
+    @NotNull(message = "Please provide a endDate")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 

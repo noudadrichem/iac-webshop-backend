@@ -1,12 +1,22 @@
 package hu.iac.webshop.dto.product;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class ProductRequest {
-
+    @NotNull(message = "Please provide a name")
     private String name;
+
+    @NotNull(message = "Please provide a price")
+    @Min(0)
     private double price;
+
+    @NotNull(message = "Please provide a description")
     private String description;
+
+    @NotNull(message = "Please provide a stock")
+    @Min(0)
     private int stock;
     private List<Long> discountIds;
 
