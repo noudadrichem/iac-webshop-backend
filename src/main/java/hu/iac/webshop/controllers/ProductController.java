@@ -46,7 +46,7 @@ public class ProductController {
     }
 
     @PostMapping("/products")
-    public Product addProducten(@RequestBody ProductRequest productRequest) {
+    public ResponseEntity<Product> addProducten(@RequestBody ProductRequest productRequest) {
 
         Product newProduct = new Product(
             productRequest.getName(),
@@ -76,7 +76,7 @@ public class ProductController {
             category.addProduct(persistedProduct);
             this.categoryService.update(category);
         }
-        return persistedProduct;
+        return new ResponseEntity<Product>(persistedProduct, HttpStatus.OK);
     }
 
 
