@@ -30,7 +30,7 @@ public class AddressController {
     }
 
     @GetMapping("/addresses/{id}")
-    public ResponseEntity getDiscount(@PathVariable Long id){
+    public ResponseEntity getAddress(@PathVariable Long id){
         Optional<Address> optionalAddress = this.addressService.find(id);
 
         if (optionalAddress.isEmpty()) {
