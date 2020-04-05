@@ -28,17 +28,9 @@ public class CategoryController {
         return this.categoryService.list();
     }
 
-    @GetMapping("/categories/{id}")
-    public ResponseEntity getCategory(@PathVariable Long id) {
-        Optional<Category> optionalCategory = this.categoryService.find(id);
-
-        if (optionalCategory.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        Category category = optionalCategory.get();
-        System.out.println(category.getProducts());
-        return new ResponseEntity<>(category, HttpStatus.OK);
+    @GetMapping("/categories/{name}")
+    public Category getCategoryByName(@PathVariable String name) {
+        return this.categoryService.findByName(name).get();
     }
 
     @PostMapping("/categories")
