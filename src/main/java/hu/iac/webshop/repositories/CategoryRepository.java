@@ -6,11 +6,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import hu.iac.webshop.domain.Category;
+
 import java.util.Optional;
 
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
-    @Query(value = "SELECT * FROM category WHERE name = :name ", nativeQuery = true)
+    @Query(value = "SELECT c FROM Category c WHERE c.name = :name ")
     Optional<Category> findByName(@Param("name") String name);
 }
