@@ -17,6 +17,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_id_generator")
     private Long id;
     private Date date;
+    @Column(columnDefinition = "boolean default false")
     private boolean isCheckedOut;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
