@@ -33,11 +33,22 @@ public class CustomerController {
     }
 
     @GetMapping("/authed/customers")
-    public List<Customer> getCategories() {
+    public List<Customer> getAll() {
         return this.customerService.list();
     }
 
-    @PostMapping("/authed/customers")
+    @GetMapping("/customers/{id}")
+    public ResponseEntity getCustomer(@PathVariable Long id){
+        Optional<Customer> optionalCustomer = this.customerService.find(id);
+
+        if (optionalCustomer.isEmpty()) {
+            return new ResponseEntity<>("Customer bestaat niet", HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(optionalCustomer.get(), HttpStatus.OK);
+    }
+
+    @PostMapping("/customers")
     public Map<String, Object> create(@Valid @RequestBody CustomerRequest customerRequest) throws MessageConversionException {
         Map<String, Object> customerMap = new HashMap<>();
 

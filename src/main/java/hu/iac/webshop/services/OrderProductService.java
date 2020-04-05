@@ -6,12 +6,21 @@ import hu.iac.webshop.repositories.OrderProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class OrderProductService {
     @Autowired
     private OrderProductRepository orderProductRepository;
+
+    public List<OrderProduct> findAllByOrderId(Long orderId) {
+        return this.orderProductRepository.findAllByOrderId(orderId);
+    }
+
+    public List<OrderProduct> list() {
+        return this.orderProductRepository.findAll();
+    }
 
     public OrderProduct create(OrderProduct orderProduct){
         return this.orderProductRepository.save(orderProduct);

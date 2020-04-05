@@ -19,10 +19,10 @@ public class Category {
     @ManyToMany
     @JoinTable(
         name = "product_category",
-        joinColumns = @JoinColumn(name = "product_id"),
-        inverseJoinColumns = @JoinColumn(name = "category_id")
+        joinColumns = @JoinColumn(name = "category_id"),
+        inverseJoinColumns = @JoinColumn(name = "product_id")
     )
-    @JsonIgnoreProperties("discounts")
+    @JsonIgnoreProperties("categories")
     private List<Product> products;
 
     public Category() {}
@@ -63,5 +63,17 @@ public class Category {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public String getPageUrl() {
+        return "http://localhost:9091/categories/" + this.id;
     }
 }

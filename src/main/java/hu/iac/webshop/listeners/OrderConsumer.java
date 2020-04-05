@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.Map;
 
 @Component
-public class DossierConsumer {
+public class OrderConsumer {
 
     @Autowired
     private OrderService orderService;
@@ -28,7 +28,6 @@ public class DossierConsumer {
 
         Order order = new Order(
             new SimpleDateFormat("yyyy-MM-dd").parse(orderMap.get("date").toString()),
-            Double.parseDouble(orderMap.get("totalPrice").toString()),
             customer
         );
 

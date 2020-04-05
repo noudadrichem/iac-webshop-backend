@@ -18,8 +18,7 @@ public class Address {
     private String postalCode;
     private String country;
 
-    @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
     @JsonIgnoreProperties("addresses")
     private Customer customer;
@@ -84,7 +83,15 @@ public class Address {
         this.country = country;
     }
 
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
     public Customer getCustomer() {
         return this.customer;
+    }
+
+    public String getPageUrl() {
+        return "http://localhost:9091/addresses/" + this.id;
     }
 }

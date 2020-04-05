@@ -17,15 +17,13 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_id_generator")
     private Long id;
     private Date date;
-    private double totalPrice;
+    @Column(columnDefinition = "boolean default false")
     private boolean isCheckedOut;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnoreProperties("order")
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
     @JsonIgnoreProperties("orders")
@@ -34,9 +32,8 @@ public class Order {
     public Order() {
     }
 
-    public Order(Date date, double totalPrice, Customer customer) {
+    public Order(Date date, Customer customer) {
         this.date = date;
-        this.totalPrice = totalPrice;
         this.customer = customer;
         this.isCheckedOut = false;
     }
@@ -57,14 +54,6 @@ public class Order {
         this.date = date;
     }
 
-    public double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
     public List<OrderProduct> getOrderProducts() {
         return orderProducts;
     }
@@ -73,9 +62,6 @@ public class Order {
         this.orderProducts = orderProducts;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
 
      public void addProduct(OrderProduct orderProduct) {
 //         if (this.products.contains(product)) {
@@ -89,6 +75,14 @@ public class Order {
 //         }
      }
 
+    public String getPageUrl() {
+        return "http://localhost:9091/orders/" + this.id;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
     public Customer getCustomer() {
         return this.customer;
     }
@@ -101,11 +95,15 @@ public class Order {
         return this.isCheckedOut;
     }
 
-   public void getCurrentOrderValue() {
-       for (OrderProduct orderProduct : orderProducts) {
-           totalPrice += orderProduct.getProduct().getPrice() * orderProduct.getAmount();
-       }
-   }
+    public double getTotalPrice() {
+        double totalPrice = 0;
+
+        for (OrderProduct orderProduct : orderProducts) {
+            totalPrice += orderProduct.getProduct().getPrice() * orderProduct.getAmount();
+        }
+
+        return totalPrice;
+    }
 
 //    public void addProduct(OrderProduct orderProduct){
 //        orderProducts.add(orderProduct);

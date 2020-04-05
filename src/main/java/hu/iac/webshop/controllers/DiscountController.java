@@ -25,7 +25,18 @@ public class DiscountController {
         return discounts;
     }
 
-    @GetMapping("/authed/discounts/current")
+    @GetMapping("/authed/discounts/{id}")
+    public ResponseEntity getDiscount(@PathVariable Long id){
+        Optional<Discount> optionalDiscount = this.discountService.find(id);
+
+        if (optionalDiscount.isEmpty()) {
+            return new ResponseEntity<>("Discount bestaat niet", HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(optionalDiscount.get(), HttpStatus.OK);
+    }
+
+    @GetMapping("/discounts/current")
     public List<Discount> getCurrentDiscounts() {
         List<Discount> discounts = this.discountService.findAllCurrent();
         return discounts;
