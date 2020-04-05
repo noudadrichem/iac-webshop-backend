@@ -11,7 +11,7 @@
     <groupId>hu.iac</groupId>
     <artifactId>webshop</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>webshop</name>
     <description>Webshop</description>
 
