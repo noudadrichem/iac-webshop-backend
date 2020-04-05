@@ -18,7 +18,9 @@ public class Order {
     private Long id;
     private Date date;
     private double totalPrice;
-    private Boolean isCheckedOut;
+
+    @Column(columnDefinition = "boolean default false")
+    private boolean isCheckedOut;
 
     @JsonIgnore
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
