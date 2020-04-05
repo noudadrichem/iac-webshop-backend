@@ -1,22 +1,28 @@
-version: '3.1'
+version: "3.1"
 services:
-  postgresql:
-    image: postgres
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: pass
-      POSTGRES_DB: postgres
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./postgres-data:/var/lib/postgresql/data8
+    postgresql:
+        image: postgres
+        environment:
+            POSTGRES_USER: user
+            POSTGRES_PASSWORD: pass
+            POSTGRES_DB: postgres
+            PGDATA: /tmp
+        ports:
+            - "5432:5432"
+        volumes:
+            - ./postgres-data:/var/lib/postgresql/data8
 
-  pgadmin4:
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@root.com
-      PGADMIN_DEFAULT_PASSWORD: SuperSecret
-    volumes:
-      - ./pgadmin-data:/var/lib/postgresql/data8
-    ports:
-      - 80:80
+    pgadmin4:
+        image: dpage/pgadmin4
+        environment:
+            PGADMIN_DEFAULT_EMAIL: admin@root.com
+            PGADMIN_DEFAULT_PASSWORD: SuperSecret
+        volumes:
+            - ./pgadmin-data:/var/lib/postgresql/data
+        ports:
+            - 80:80
+
+    app:
+        build: .
+        ports:
+            - 9091:9091

@@ -1,9 +1,25 @@
 package hu.iac.webshop.dto.product;
 
-public class ProductRequest {
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
+public class ProductRequest {
+    @NotNull(message = "Please provide a name")
     private String name;
+
+    @NotNull(message = "Please provide a price")
+    @Min(0)
     private double price;
+
+    @NotNull(message = "Please provide a description")
+    private String description;
+
+    @NotNull(message = "Please provide a stock")
+    @Min(0)
+    private int stock;
+    private List<Long> discountIds;
+    private Long categoryId;
 
     public ProductRequest() {}
 
@@ -21,5 +37,37 @@ public class ProductRequest {
 
     public double getPrice() {
         return price;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    public int getStock() {
+        return this.stock;
+    }
+
+    public void setDiscountIds(List<Long> discountIds) {
+        this.discountIds = discountIds;
+    }
+
+    public List<Long> getDiscountIds() {
+        return this.discountIds;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

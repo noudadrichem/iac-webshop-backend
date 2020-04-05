@@ -1,12 +1,15 @@
 package hu.iac.webshop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
-@Entity(name="Orderx")
+@Entity(name = "Orderx")
 public class Order {
 
     @Id
@@ -14,22 +17,25 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_id_generator")
     private Long id;
     private Date date;
-    private double totalPrice;
+    @Column(columnDefinition = "boolean default false")
+    private boolean isCheckedOut;
 
-//    @ManyToOne
-//    @JoinColumn(name="customer_id", nullable=false)
-//    private Customer customer;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("order")
+    private List<OrderProduct> orderProducts = new ArrayList<>();
 
-    @OneToMany
-    @JoinColumn(name = "order_id")
-    private List<Product> products;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id", nullable = false)
+    @JsonIgnoreProperties("orders")
+    private Customer customer;
 
     public Order() {
     }
 
-    public Order(Date date, double totalPrice) {
+    public Order(Date date, Customer customer) {
         this.date = date;
-        this.totalPrice = totalPrice;
+        this.customer = customer;
+//        this.isCheckedOut = false;
     }
 
     public void setId(Long id) {
@@ -48,25 +54,58 @@ public class Order {
         this.date = date;
     }
 
+    public List<OrderProduct> getOrderProducts() {
+        return orderProducts;
+    }
+
+    public void setOrderProducts(List<OrderProduct> orderProducts) {
+        this.orderProducts = orderProducts;
+    }
+
+
+     public void addProduct(OrderProduct orderProduct) {
+//         if (this.products.contains(product)) {
+             // UPDATE quantity in order of selected product, this was a brain fart.
+             // int prodIdx = this.products.indexOf(product);
+             // Product product = this.products.get(prodIdx);
+             // product.
+             // this.products.add(product);
+//         } else {
+             this.orderProducts.add(orderProduct);
+//         }
+     }
+
+    public String getPageUrl() {
+        return "http://localhost:9091/orders/" + this.id;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Customer getCustomer() {
+        return this.customer;
+    }
+
+    public void setCheckedOutTrue() {
+        this.isCheckedOut = true;
+    }
+
+    public boolean isCheckedOut() {
+        return this.isCheckedOut;
+    }
+
     public double getTotalPrice() {
+        double totalPrice = 0;
+
+        for (OrderProduct orderProduct : orderProducts) {
+            totalPrice += orderProduct.getProduct().getPrice() * orderProduct.getAmount();
+        }
+
         return totalPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-//    public List<Product> getProducts() {
-//        return products;
-//    }
-//
-//    public void setProducts(List<Product> products) {
-//        this.products = products;
-//    }
-
-//    public void getCurrentOrderValue() {
-//        for (Product product : products) {
-//            totalPrice += product.getPrice();
-//        };
+//    public void addProduct(OrderProduct orderProduct){
+//        orderProducts.add(orderProduct);
 //    }
 }

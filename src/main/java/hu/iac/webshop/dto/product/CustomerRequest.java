@@ -1,8 +1,15 @@
 package hu.iac.webshop.dto.product;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+
 public class CustomerRequest {
+    @NotNull(message = "Please provide a name")
     private String name;
+    @NotNull(message = "Please provide a phone number")
     private String phone;
+    @NotNull(message = "Please provide a email")
+    @Email
     private String email;
 
     public CustomerRequest(){}

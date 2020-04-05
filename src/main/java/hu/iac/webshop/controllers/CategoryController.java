@@ -1,8 +1,10 @@
 package hu.iac.webshop.controllers;
 
 import hu.iac.webshop.domain.Category;
+import hu.iac.webshop.domain.Product;
 import hu.iac.webshop.dto.product.CategoryRequest;
 import hu.iac.webshop.services.CategoryService;
+import hu.iac.webshop.services.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +16,11 @@ import java.util.Optional;
 @RestController
 public class CategoryController {
     private final CategoryService categoryService;
+    private final ProductService productService;
 
-    public CategoryController(CategoryService categoryService) {
+    public CategoryController(CategoryService categoryService, ProductService productService) {
         this.categoryService = categoryService;
+        this.productService = productService;
     }
 
     @GetMapping("/categories")
@@ -24,7 +28,12 @@ public class CategoryController {
         return this.categoryService.list();
     }
 
-    @PostMapping("/category")
+    @GetMapping("/categories/{name}")
+    public Category getCategoryByName(@PathVariable String name) {
+        return this.categoryService.findByName(name).get();
+    }
+
+    @PostMapping("/categories")
     public Category create(@Valid @RequestBody CategoryRequest categoryRequest) {
         Category category = new Category(
                 categoryRequest.getImage(),
@@ -35,7 +44,7 @@ public class CategoryController {
         return this.categoryService.create(category);
     }
 
-    @PutMapping("/category/{id}")
+    @PutMapping("/categories/{id}")
     public ResponseEntity<Category> update(@Valid @RequestBody CategoryRequest categoryRequest, @PathVariable Long id) {
         Optional<Category> optionalCategory = this.categoryService.find(id);
 
@@ -51,7 +60,41 @@ public class CategoryController {
         return new ResponseEntity<Category>(this.categoryService.update(category), HttpStatus.OK);
     }
 
-    @DeleteMapping("/category/{id}")
+    @PutMapping("/categories/product/add/{id}")
+    public ResponseEntity<Category> addProduct(@Valid @RequestBody CategoryRequest categoryRequest, @PathVariable Long id){
+        Optional<Product> optionalProduct = this.productService.find(categoryRequest.getProductId());
+        Optional<Category> optionalCategory = this.categoryService.find(id);
+
+        if(optionalCategory.isEmpty() || optionalProduct.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Category category = optionalCategory.get();
+        if (category.addProduct(optionalProduct.get()) == false) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<Category>(this.categoryService.update(category), HttpStatus.OK);
+    }
+
+    @PutMapping("/categories/product/remove/{id}")
+    public ResponseEntity<Category> removeProduct(@Valid @RequestBody CategoryRequest categoryRequest, @PathVariable Long id){
+        Optional<Product> optionalProduct = this.productService.find(categoryRequest.getProductId());
+        Optional<Category> optionalCategory = this.categoryService.find(id);
+
+        if(optionalCategory.isEmpty() || optionalProduct.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Category category = optionalCategory.get();
+        if (category.removeProduct(optionalProduct.get()) == false) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<Category>(this.categoryService.update(category), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/categories/{id}")
     public ResponseEntity<Long> delete(@PathVariable Long id) {
         boolean isRemoved = this.categoryService.delete(id);
 

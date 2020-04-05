@@ -1,5 +1,7 @@
 # iac webshop back-end
 
+![CI](https://github.com/noudadrichem/iac-webshop-backend/workflows/CI/badge.svg)
+
 Install packages
 ```bash
 mvn clean install
@@ -7,12 +9,11 @@ mvn clean install
 
 Run application
 ```bash
-mvn spring-boot:run
+mvn package && docker-compose up --build
 ```
 
 ## Postgres
-Start docker
-```docker-compose up```
+Runs on port 5432
 
 PGAdmin op localhost:80
 <br/>
@@ -29,6 +30,10 @@ We werken met feature branches.
 - feature/iets-dat-je-doet
 - fix/iets-dat-je-fixed
 - rebase/iets-dat-je-rebased
+- testing/iets-dat-je-test
 - etc.
 
-Via Github actions wordt `mvn test` gerunned en wordt `mvn package` gerunned om een artifact te genereren.
+Via Github actions wordt `mvn test` gerunned en wordt `mvn package` gerunned om een ~artifact te genereren~.
+
+### Postman Scripts
+In root :: 'iac-webshop-backend.postman_collection'

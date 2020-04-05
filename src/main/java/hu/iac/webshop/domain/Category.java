@@ -1,5 +1,7 @@
 package hu.iac.webshop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -17,9 +19,10 @@ public class Category {
     @ManyToMany
     @JoinTable(
         name = "product_category",
-        joinColumns = @JoinColumn(name = "product_id"),
-        inverseJoinColumns = @JoinColumn(name = "category_id")
+        joinColumns = @JoinColumn(name = "category_id"),
+        inverseJoinColumns = @JoinColumn(name = "product_id")
     )
+    @JsonIgnoreProperties("categories")
     private List<Product> products;
 
     public Category() {}
@@ -60,5 +63,35 @@ public class Category {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+    public boolean addProduct(Product product){
+        if(!products.contains(product)) {
+            this.products.add(product);
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean removeProduct(Product product) {
+        if (products.contains(product)) {
+            this.products.remove(product);
+            return true;
+        }
+
+        return false;
+    }
+
+    public String getPageUrl() {
+        return "http://localhost:9091/categories/" + this.id;
     }
 }

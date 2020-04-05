@@ -1,6 +1,13 @@
 package hu.iac.webshop.domain;
 
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name="Customer")
@@ -13,14 +20,18 @@ public class Customer {
     private String name;
     private String phone;
     private String email;
-    //private Address address;
-    //private List<Order> orders;
 
-    public Customer(){
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", targetEntity = Address.class, cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("customer")
+    private List<Address> addresses = new ArrayList<Address>();
 
-    }
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", targetEntity = Order.class, cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("customer")
+    private List<Order> orders = new ArrayList<Order>();
 
-    public Customer(String name, String phone, String email){
+    public Customer(){}
+
+    public Customer(String name, String phone, String email) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -58,11 +69,35 @@ public class Customer {
         this.email = email;
     }
 
-//    public Address getAddress() {
-//        return address;
-//    }
+    public List<Order> getOrders() {
+        return this.orders;
+    }
 
-//    public void setAddress(Address address) {
-//        this.address = address;
-//    }
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public void addOrder(Order order) {
+        if (!this.orders.contains(order)) {
+            this.orders.add(order);
+        }
+    }
+
+    public List<Address> getAddresses() {
+        return this.addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
+
+    public void addAddress(Address address) {
+        if (!this.addresses.contains(address)) {
+            this.addresses.add(address);
+        }
+    }
+
+    public String getPageUrl() {
+        return "http://localhost:9091/customers/" + this.id;
+    }
 }
