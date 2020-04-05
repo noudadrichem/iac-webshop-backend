@@ -65,12 +65,30 @@ public class Category {
         this.description = description;
     }
 
+    public List<Product> getProducts() {
+        return products;
+    }
+
     public void setProducts(List<Product> products) {
         this.products = products;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public boolean addProduct(Product product){
+        if(!products.contains(product)) {
+            this.products.add(product);
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean removeProduct(Product product) {
+        if (products.contains(product)) {
+            this.products.remove(product);
+            return true;
+        }
+
+        return false;
     }
 
     public String getPageUrl() {

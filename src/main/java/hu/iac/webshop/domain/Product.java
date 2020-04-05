@@ -23,15 +23,15 @@ public class Product {
 
     @ManyToMany(fetch=FetchType.LAZY, mappedBy="products")
     @JsonIgnoreProperties("products")
+    private List<Category> categories = new ArrayList<>();
+
+    @ManyToMany(fetch=FetchType.LAZY, mappedBy="products")
+    @JsonIgnoreProperties("products")
     private List<Discount> discounts = new ArrayList<>();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnoreProperties("product")
     private List<OrderProduct> orderProducts = new ArrayList<>();
-
-    @ManyToMany
-    @JsonIgnoreProperties("products")
-    private List<Category> categories;
 
     public Product() {}
 
@@ -109,5 +109,6 @@ public class Product {
             discounts.add(discount);
         }
     }
+
 
 }

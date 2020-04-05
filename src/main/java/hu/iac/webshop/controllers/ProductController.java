@@ -4,6 +4,8 @@ import java.util.*;
 
 import javax.validation.Valid;
 
+import hu.iac.webshop.domain.Category;
+import hu.iac.webshop.services.CategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +20,12 @@ import hu.iac.webshop.services.ProductService;
 public class ProductController {
     private final ProductService productService;
     private final DiscountService discountService;
+    private final CategoryService categoryService;
 
-    public ProductController(ProductService productService, DiscountService discountService) {
+    public ProductController(ProductService productService, DiscountService discountService, CategoryService categoryService) {
         this.productService = productService;
         this.discountService = discountService;
+        this.categoryService = categoryService;
     }
 
     @GetMapping("/products")
@@ -52,13 +56,27 @@ public class ProductController {
         );
 
         for (Long discountId : productRequest.getDiscountIds()) {
-            Optional<Discount> discount = discountService.findById(discountId);
+            Optional<Discount> discount = this.discountService.findById(discountId);
             if(discount.isPresent()) {
                 newProduct.addDiscount(discount.get());
             }
         }
 
-        return this.productService.createProduct(newProduct);
+        for (Long discountId : productRequest.getDiscountIds()) {
+            Optional<Discount> discount = this.discountService.findById(discountId);
+            if(discount.isPresent()) {
+                newProduct.addDiscount(discount.get());
+            }
+        }
+
+        Product persistedProduct = this.productService.createProduct(newProduct);
+        Optional<Category> optionalCategory = this.categoryService.findByName("nieuw");
+        if(optionalCategory.isPresent()) {
+            Category category = optionalCategory.get();
+            category.addProduct(persistedProduct);
+            this.categoryService.update(category);
+        }
+        return persistedProduct;
     }
 
 
@@ -79,7 +97,6 @@ public class ProductController {
         Product updatedProduct = this.productService.update(product);
         return new ResponseEntity<Product>(updatedProduct, HttpStatus.OK);
     }
-
 
     @DeleteMapping("/products/{id}")
     public ResponseEntity<Long> delete(@PathVariable Long id) {
