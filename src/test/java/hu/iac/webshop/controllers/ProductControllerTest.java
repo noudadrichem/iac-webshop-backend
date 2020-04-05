@@ -51,9 +51,9 @@ class ProductControllerTest {
     private final String PRODUCT_URL = "/products";
     private final String POST_REQ_BODY = "{\"name\": \"Komkommer\",\"price\": 10.0,\"stock\": 50, \"discountIds\": []}";
 
-    private final Product testProduct1 = new Product("Komkommer", 10.0, 50);
-    private final Product testProduct2 = new Product("Desktop", 1250.95, 120);
-    private final Product testProduct3 = new Product("Mobiel", 800.0, 420);
+    private final Product testProduct1 = new Product("Komkommer", 10.0, 50, "Dit is een komkommer");
+    private final Product testProduct2 = new Product("Desktop", 1250.95, 120, "Dit is een Desktop");
+    private final Product testProduct3 = new Product("Mobiel", 800.0, 420, "Dit is een Mobiel" );
 
     @Test
     @DisplayName("Get products")
