@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_id_generator")
     private Long id;
     private String name;
+    private String description;
     private double price;
     private int stock;
 
@@ -28,15 +30,20 @@ public class Product {
     private List<Discount> discounts = new ArrayList<>();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonBackReference
+    @JsonIgnoreProperties("product")
     private List<OrderProduct> orderProducts = new ArrayList<>();
+
+    @ManyToMany
+    @JsonIgnoreProperties("products")
+    private List<Category> categories;
 
     public Product() {}
 
-    public Product(String name, double price, int stock) {
+    public Product(String name, double price, int stock, String description) {
         this.name = name;
         this.price = price;
         this.stock = stock;
+        this.description = description;
     }
 
     public void setId(Long id) {
@@ -59,7 +66,21 @@ public class Product {
         this.price = price;
     }
 
+    public double getOriginalPrice() {
+        return price;
+    }
+
     public double getPrice() {
+        if (discounts.isEmpty()) {
+            return price;
+        } else {
+            for (Discount discount : discounts) {
+                Date curDate = new Date();
+                if (curDate.before(discount.getEndDate()) && curDate.after(discount.getStartDate())) {
+                    return discount.getDiscountedPrice();
+                }
+            }
+        }
         return price;
     }
 
@@ -71,15 +92,27 @@ public class Product {
         return this.stock;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getPageUrl() {
+        return "http://localhost:9091/products/" + this.id;
+    }
+
     public List<Discount> getDiscounts () {
             return this.discounts;
         }
 
-        public void addDiscount (Discount discount){
-            if (!discounts.contains(discount)) {
-                discounts.add(discount);
-            }
+    public void addDiscount (Discount discount){
+        if (!discounts.contains(discount)) {
+            discounts.add(discount);
         }
+    }
 
 
 }

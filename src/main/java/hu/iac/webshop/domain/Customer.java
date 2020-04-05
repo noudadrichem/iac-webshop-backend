@@ -21,24 +21,20 @@ public class Customer {
     private String phone;
     private String email;
 
-    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", targetEntity = Address.class, cascade = CascadeType.ALL)
     @JsonIgnoreProperties("customer")
     private List<Address> addresses = new ArrayList<Address>();
 
-    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", targetEntity = Order.class, cascade = CascadeType.ALL)
     @JsonIgnoreProperties("customer")
     private List<Order> orders = new ArrayList<Order>();
 
     public Customer(){}
 
-    public Customer(String name, String phone, String email){
+    public Customer(String name, String phone, String email) {
         this.name = name;
         this.phone = phone;
         this.email = email;
-        this.addresses = new ArrayList<Address>();
-        this.orders = new ArrayList<Order>();
     }
 
     public Long getId() {
@@ -73,14 +69,6 @@ public class Customer {
         this.email = email;
     }
 
-    public List<Address> getAddresses() {
-        return this.addresses;
-    }
-
-    public void setAddresses(List<Address> addresses) {
-        this.addresses = addresses;
-    }
-
     public List<Order> getOrders() {
         return this.orders;
     }
@@ -89,8 +77,18 @@ public class Customer {
         this.orders = orders;
     }
 
-    public List<Address> getAddress() {
-        return addresses;
+    public void addOrder(Order order) {
+        if (!this.orders.contains(order)) {
+            this.orders.add(order);
+        }
+    }
+
+    public List<Address> getAddresses() {
+        return this.addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
     }
 
     public void addAddress(Address address) {
@@ -99,4 +97,7 @@ public class Customer {
         }
     }
 
+    public String getPageUrl() {
+        return "http://localhost:9091/customers/" + this.id;
+    }
 }

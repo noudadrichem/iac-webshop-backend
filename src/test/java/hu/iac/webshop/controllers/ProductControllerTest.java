@@ -14,10 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import hu.iac.webshop.controllers.ProductController;
-import hu.iac.webshop.domain.Customer;
 import hu.iac.webshop.domain.Product;
-import hu.iac.webshop.services.CustomerService;
 import hu.iac.webshop.services.DiscountService;
 import hu.iac.webshop.services.ProductService;
 
@@ -51,9 +48,10 @@ class ProductControllerTest {
 
     private final String PRODUCT_URL = "/products";
     private final String POST_REQ_BODY = "{\"name\": \"Komkommer\",\"price\": 10.0,\"stock\": 50, \"discountIds\": []}";
-    private final Product testProduct1 = new Product("Komkommer", 10.0, 50);
-    private final Product testProduct2 = new Product("Desktop", 1250.95, 120);
-    private final Product testProduct3 = new Product("Mobiel", 800.0, 420);
+    private final Product testProduct1 = new Product("Komkommer", 10.0, 50, "Dit is een komkommer");
+    private final Product testProduct2 = new Product("Desktop", 1250.95, 120, "Dit is een Desktop");
+    private final Product testProduct3 = new Product("Mobiel", 800.0, 420, "Dit is een Mobiel" );
+
 
     @Test
     @DisplayName("Get products")
@@ -63,7 +61,7 @@ class ProductControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$[0].name", is(testProduct1.getName())))
-            .andExpect(jsonPath("$[0].price", is(testProduct1.getPrice())))
+            .andExpect(jsonPath("$[0].price", is(testProduct1.getOriginalPrice())))
             .andExpect(jsonPath("$[0].stock", is(testProduct1.getStock())));
     }
 
@@ -76,7 +74,7 @@ class ProductControllerTest {
         mvc.perform(get(PRODUCT_URL + "/1").content(objectMapper.writer().writeValueAsString(POST_REQ_BODY))
             .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
             .andExpect(jsonPath("$.name", is(testProduct1.getName())))
-            .andExpect(jsonPath("$.price", is(testProduct1.getPrice())))
+            .andExpect(jsonPath("$.price", is(testProduct1.getOriginalPrice())))
             .andExpect(jsonPath("$.stock", is(testProduct1.getStock())));
     }
 

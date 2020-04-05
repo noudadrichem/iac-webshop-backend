@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name="Discount")
@@ -25,15 +26,16 @@ public class Discount {
         inverseJoinColumns = @JoinColumn(name = "discount_id")
     )
     @JsonIgnoreProperties("discounts")
-    private List<Product> products;
+    private List<Product> products = new ArrayList<>();
 
     public Discount() {}
 
-    public Discount(Date startDate, Date endDate, double discountedPrice, String adText) {
+    public Discount(Date startDate, Date endDate, double discountedPrice, String adText, List<Product> products) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.discountedPrice = discountedPrice;
         this.adText = adText;
+        this.products = products;
     }
 
     public Long getId() {
@@ -74,5 +76,23 @@ public class Discount {
 
     public void setAdText(String adText) {
         this.adText = adText;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+    public void addProduct(Product product) {
+        if (!this.products.contains(product)) {
+            this.products.add(product);
+        }
+    }
+
+    public String getPageUrl() {
+        return "http://localhost:9091/discounts/" + this.id;
     }
 }
