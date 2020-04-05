@@ -45,8 +45,14 @@ public class OrderController {
     }
 
     @GetMapping("/orders/{id}")
-    public Order getOrderById(@PathVariable Long id){
-        return this.orderService.find(id).get();
+    public ResponseEntity getOrderById(@PathVariable Long id){
+         Optional<Order> optionalOrder = this.orderService.find(id);
+
+        if (optionalOrder.isEmpty()) {
+            return new ResponseEntity<>("Order bestaat niet", HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(optionalOrder.get(), HttpStatus.OK);
     }
 
     @PostMapping("/orders")
@@ -60,7 +66,6 @@ public class OrderController {
             String strDate = formatter.format(orderRequest.getDate());
 
             orderMap.put("date", strDate);
-            orderMap.put("totalPrice", orderRequest.getTotalPrice());
             orderMap.put("customer_id", orderRequest.getCustomerId());
 
             jmsTemplate.convertAndSend(orderQueue, orderMap);
@@ -90,7 +95,6 @@ public class OrderController {
 
         orderMap.put("id", id);
         orderMap.put("date", strDate);
-        orderMap.put("totalPrice", orderRequest.getTotalPrice());
         orderMap.put("customer_id", orderRequest.getCustomerId());
 
         jmsTemplate.convertAndSend(orderQueue, orderMap);

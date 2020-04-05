@@ -13,9 +13,9 @@ public class OrderTest {
     void verifyOrderValue() {
         /*arrange*/
         Customer customer = new Customer("Test", "06-12345678", "Test@Test.nl");
-        Order order = new Order(new Date(), 0.0, customer);
-        Product product1 = new Product("Komkommer", 10.0, 50);
-        Product product2 = new Product("Telefoon", 500.0, 20);
+        Order order = new Order(new Date(), customer);
+        Product product1 = new Product("Komkommer", 10.0, 50, "Dit is een komkommer");
+        Product product2 = new Product("Telefoon", 500.0, 20, "Dit is een telefoon");
         OrderProduct orderProduct1 = new OrderProduct(order, product1, 5);
         OrderProduct orderProduct2 = new OrderProduct(order, product2, 1);
         OrderProduct orderProduct3 = new OrderProduct(order, product1, 2);
@@ -24,7 +24,6 @@ public class OrderTest {
         order.addProduct(orderProduct3);
 
         /*act*/
-        order.getCurrentOrderValue();
         double actualTotal = order.getTotalPrice();
 
         /*assert*/

@@ -1,6 +1,7 @@
 package hu.iac.webshop.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -14,12 +15,12 @@ public class OrderProduct {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("orderId")
-    @JsonBackReference
+    @JsonIgnoreProperties("orderProducts")
     private Order order;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @MapsId("productId")
-    @JsonManagedReference
+    @JsonIgnoreProperties("orderProducts")
     private Product product;
 
     @Column(name = "amount")

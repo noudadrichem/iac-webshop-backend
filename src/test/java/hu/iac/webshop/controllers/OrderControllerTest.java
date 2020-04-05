@@ -62,7 +62,7 @@ class OrderControllerTest {
     private final String POST_REQ_BODY = "{\"date\": \"2020-03-23\",\"totalPrice\": 44.5,\"customerId\": 1}";
 
     private final Customer customer = new Customer("Test", "06-12345678", "Test@Test.nl");
-    private final Order order = new Order(new Date(), 50.55, customer);
+    private final Order order = new Order(new Date(), customer);
 
     @Test
     @DisplayName("get orders")
