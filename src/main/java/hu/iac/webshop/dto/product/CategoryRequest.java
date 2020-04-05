@@ -15,6 +15,8 @@ public class CategoryRequest {
     @NotNull(message = "Please provide a description")
     private String description;
 
+    private Long productId;
+
     public CategoryRequest() {}
 
     public String getImage() {
@@ -39,5 +41,13 @@ public class CategoryRequest {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 }

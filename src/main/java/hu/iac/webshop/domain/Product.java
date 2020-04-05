@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
@@ -22,15 +23,15 @@ public class Product {
 
     @ManyToMany(fetch=FetchType.LAZY, mappedBy="products")
     @JsonIgnoreProperties("products")
+    private List<Category> categories = new ArrayList<>();
+
+    @ManyToMany(fetch=FetchType.LAZY, mappedBy="products")
+    @JsonIgnoreProperties("products")
     private List<Discount> discounts = new ArrayList<>();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnoreProperties("product")
     private List<OrderProduct> orderProducts = new ArrayList<>();
-
-    @ManyToMany
-    @JsonIgnoreProperties("products")
-    private List<Category> categories;
 
     public Product() {}
 
@@ -61,7 +62,21 @@ public class Product {
         this.price = price;
     }
 
+    public double getOriginalPrice() {
+        return price;
+    }
+
     public double getPrice() {
+        if (discounts.isEmpty()) {
+            return price;
+        } else {
+            for (Discount discount : discounts) {
+                Date curDate = new Date();
+                if (curDate.before(discount.getEndDate()) && curDate.after(discount.getStartDate())) {
+                    return discount.getDiscountedPrice();
+                }
+            }
+        }
         return price;
     }
 
@@ -94,5 +109,6 @@ public class Product {
             discounts.add(discount);
         }
     }
+
 
 }
