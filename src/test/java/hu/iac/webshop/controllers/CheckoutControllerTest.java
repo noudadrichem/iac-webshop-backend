@@ -39,8 +39,10 @@ public class CheckoutControllerTest {
     private AddressService addressService;
     @MockBean
     private ProductService productService;
-    @Autowired
+    @MockBean
     private JwtSecurityConfig jwtSecurityConfig;
+    @MockBean
+    private JwtAuthenticationProvider jwtAuthenticationProvider;
 
     /* Setting the request parameters */
     private final String CHECKOUT_URL = "/authed/checkout";

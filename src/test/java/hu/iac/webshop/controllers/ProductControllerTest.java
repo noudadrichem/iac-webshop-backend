@@ -14,6 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import hu.iac.webshop.auth.JwtAuthenticationProvider;
+import hu.iac.webshop.config.JwtSecurityConfig;
 import hu.iac.webshop.domain.Product;
 import hu.iac.webshop.services.DiscountService;
 import hu.iac.webshop.services.ProductService;
@@ -39,13 +40,15 @@ class ProductControllerTest {
     private MockMvc mvc;
     @Autowired
     private ObjectMapper objectMapper;
-    @Autowired
-    private JwtAuthenticationProvider jwtAuthenticationProvider;
 
     @MockBean
     private ProductService productService;
     @MockBean
     private DiscountService discountService;
+    @MockBean
+    private JwtSecurityConfig jwtSecurityConfig;
+    @MockBean
+    private JwtAuthenticationProvider jwtAuthenticationProvider;
 
     private final String PRODUCT_URL = "/authed/products";
     private final String POST_REQ_BODY = "{\"name\": \"Komkommer\",\"price\": 10.0,\"stock\": 50, \"discountIds\": []}";
@@ -54,11 +57,14 @@ class ProductControllerTest {
     private final Product testProduct2 = new Product("Desktop", 1250.95, 120);
     private final Product testProduct3 = new Product("Mobiel", 800.0, 420);
 
+    private final String TOKEN = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJUZXN0IiwiaWQiOjEsInJvbGUiOiJhZG1pbiIsImlhdCI6MTU4NjAyNjgyMiwiZXhwIjoxNTg2MDQ0ODIyfQ.jUsssDwD3agJriXKkB5nn6yVu6uC60s6qOzxf1e7vPM";
+
     @Test
     @DisplayName("Get products")
     public void shouldFetchProduct() throws Exception {
         given(productService.list()).willReturn(Arrays.asList(testProduct1, testProduct2, testProduct3));
         mvc.perform(get(PRODUCT_URL)
+            .header("Authorization", TOKEN)
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$[0].name", is(testProduct1.getName())))
@@ -72,7 +78,9 @@ class ProductControllerTest {
         Optional<Product> optProduct = Optional.of(testProduct1);
         given(productService.find(1L)).willReturn(optProduct);
 
-        mvc.perform(get(PRODUCT_URL + "/1").content(objectMapper.writer().writeValueAsString(POST_REQ_BODY))
+        mvc.perform(get(PRODUCT_URL + "/1")
+            .header("Authorization", TOKEN)
+            .content(objectMapper.writer().writeValueAsString(POST_REQ_BODY))
             .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
             .andExpect(jsonPath("$.name", is(testProduct1.getName())))
             .andExpect(jsonPath("$.price", is(testProduct1.getPrice())))
@@ -82,7 +90,7 @@ class ProductControllerTest {
     @Test
     @DisplayName("Create product")
     public void shouldCreateProduct() throws Exception {
-        mvc.perform(post(PRODUCT_URL).contentType(MediaType.APPLICATION_JSON).content(POST_REQ_BODY).characterEncoding("utf-8"))
+        mvc.perform(post(PRODUCT_URL).header("Authorization", TOKEN).contentType(MediaType.APPLICATION_JSON).content(POST_REQ_BODY).characterEncoding("utf-8"))
             .andExpect(status().isOk());
     }
 }

@@ -1,6 +1,7 @@
 package hu.iac.webshop.controllers;
 
 import hu.iac.webshop.auth.JwtAuthenticationProvider;
+import hu.iac.webshop.config.JwtSecurityConfig;
 import hu.iac.webshop.domain.*;
 import hu.iac.webshop.services.*;
 import org.junit.jupiter.api.DisplayName;
@@ -29,8 +30,6 @@ public class OrderProductControllerTest {
 
     @Autowired
     private MockMvc mvc;
-    @Autowired
-    private JwtAuthenticationProvider jwtAuthenticationProvider;
 
     /* Mocking the services used by the controller */
     @MockBean
@@ -39,6 +38,10 @@ public class OrderProductControllerTest {
     private OrderService orderService;
     @MockBean
     private ProductService productService;
+    @MockBean
+    private JwtSecurityConfig jwtSecurityConfig;
+    @MockBean
+    private JwtAuthenticationProvider jwtAuthenticationProvider;
 
     /* Setting the request parameters */
     private final String PRODUCT_URL = "/authed/orderproducts";

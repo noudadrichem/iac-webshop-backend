@@ -15,6 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import hu.iac.webshop.auth.JwtAuthenticationProvider;
+import hu.iac.webshop.config.JwtSecurityConfig;
 import hu.iac.webshop.domain.Customer;
 import hu.iac.webshop.domain.Order;
 import hu.iac.webshop.services.CustomerService;
@@ -57,7 +58,9 @@ class OrderControllerTest {
     private CustomerService customerService;
     @MockBean
     private ProductService productService;
-    @Autowired
+    @MockBean
+    private JwtSecurityConfig jwtSecurityConfig;
+    @MockBean
     private JwtAuthenticationProvider jwtAuthenticationProvider;
 
     private final String PRODUCT_URL = "/authed/orders";
